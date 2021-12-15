@@ -19,8 +19,6 @@ export default function SigninPage() {
     e.preventDefault();
     let errors = validate(formValues);
     setFormErrors(errors);
-    console.log(Object.keys(formErrors));
-    console.log(formErrors);
 
     if (Object.keys(errors).length !== 0) {
       return;
