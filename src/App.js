@@ -6,7 +6,6 @@ import AddService from "./components/addService/AddService";
 import VendorSignup from "./components/vendorSignup/VendorSignup";
 import ProfileDetail from "./components/profileDetail/ProfileDetail";
 
-
 import SigninPage from "./components/signinPage/SigninPage";
 import Header from "./components/Header/Header.js";
 
@@ -14,8 +13,8 @@ function App() {
   return (
     <>
       <Header />
-      <ProfileDetail/>
-      <Footer/>
+      <AddService />
+      <Footer />
     </>
   );
 }
