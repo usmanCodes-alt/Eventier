@@ -101,6 +101,7 @@ export default function SigninPage() {
               >
                 Sign In
               </button>
+              <pre>Forgot Password?</pre>
             </div>
           </div>
         </div>
