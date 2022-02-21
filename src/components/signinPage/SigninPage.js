@@ -2,8 +2,10 @@ import styles from "./signin.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import logo from "./logo.png";
+import { useNavigate } from "react-router-dom";
 
 export default function SigninPage() {
+  let navigate = useNavigate();
   const initialValues = { userEmail: "", userPassword: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState("");
@@ -22,6 +24,8 @@ export default function SigninPage() {
 
     if (Object.keys(errors).length !== 0) {
       return;
+    }else{
+      navigate("/profileDetail")
     }
     axios
       .post("http://localhost:3000/eventier/login", {
@@ -55,6 +59,7 @@ export default function SigninPage() {
   };
 
   return (
+   
     <div className="container-fluid Signin">
       <div className="row">
         <div className=" col-lg-6 col-md-6 col-sm-6 logo ">
@@ -101,8 +106,14 @@ export default function SigninPage() {
               >
                 Sign In
               </button>
-              <pre>Forgot Password?</pre>
+             
             </div>
+            <button 
+            type="button"
+              className="btn "
+              onClick={()=>{navigate("/signupPage")}}>
+                Already Have an Account ?
+            </button>
           </div>
         </div>
       </div>

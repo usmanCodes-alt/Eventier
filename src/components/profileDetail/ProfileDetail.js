@@ -104,11 +104,7 @@ return (
                                     <div className="col-sm-6">
                                         <p className="m-b-10 f-w-600">Phone</p>
                                         
-                                        <h6 className="text-muted f-w-400">{formValues.phoneNumber}</h6>
-                                    
-                                            
-                                        
-                                        
+                                        <h6 className="text-muted f-w-400">{formValues.phoneNumber}</h6>   
                                     </div>
                                 </div>
                                 <h6 className="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Address</h6>
