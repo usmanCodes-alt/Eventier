@@ -1,0 +1,46 @@
+.TotalOrders {
+    
+    background-color: #E1E7FF;
+    position: relative;
+ 
+    
+}
+
+.maincard{
+    
+    
+    background-color: #c0caca;
+    border-radius: 25px;
+    
+}
+.bar{
+    margin: 10px;
+    border-radius: 25px;
+    background-color: white;
+    
+}
+.cardsOrders{
+    background-color: white;
+}
+.buttonorders{
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #c0caca;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin: 5px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 130%;
+    
+    
+}
+.titleorders{
+    background-color: #c0caca;
+    border-radius: 10px;
+    
+    margin: 10px;
+}

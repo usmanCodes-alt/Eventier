@@ -9,6 +9,7 @@ import VendorSignup from "./components/vendorSignup/VendorSignup";
 import ProfileDetail from "./components/profileDetail/ProfileDetail";
 import SigninPage from "./components/signinPage/SigninPage";
 import Header from "./components/Header/Header.js";
+import TotalOrders from "./components/totalOrders/TotalOrders";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Header/>
       
       <Routes>
-        <Route path="/" element={<SigninPage />} />
+        <Route path="/" element={<TotalOrders />} />
         <Route path="signupPage" element={<Signup />} />
         <Route path="profileDetail" element={<ProfileDetail />} />
         <Route path="addService" element={<AddService />} />
