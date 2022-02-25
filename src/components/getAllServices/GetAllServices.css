@@ -1,4 +1,4 @@
-.TotalOrders {
+.GelAllServices {
     
     background-color: #E1E7FF;
     position: relative;
@@ -6,22 +6,22 @@
     
 }
 
-.maincard{
+.maincardServices{
     padding: 5px;
     background-color: #c0caca;
     border-radius: 25px;
     
 }
-.bar{
+.barServices{
     margin: 10px;
     border-radius: 25px;
     background-color: white;
     
 }
-.cardsOrders{
+.cardServices{
     background-color: white;
 }
-.buttonorders{
+.buttonservices{
     display: block;
     width: 100%;
     border: none;
@@ -37,7 +37,7 @@
     
     
 }
-.titleorders{
+.titleServices{
     background-color: #c0caca;
     border-radius: 10px;
     

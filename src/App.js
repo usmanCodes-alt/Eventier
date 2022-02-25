@@ -10,6 +10,7 @@ import ProfileDetail from "./components/profileDetail/ProfileDetail";
 import SigninPage from "./components/signinPage/SigninPage";
 import Header from "./components/Header/Header.js";
 import TotalOrders from "./components/totalOrders/TotalOrders";
+import GetAllServices from "./components/getAllServices/GetAllServices";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Header/>
       
       <Routes>
-        <Route path="/" element={<TotalOrders />} />
+        <Route path="/" element={<GetAllServices />} />
         <Route path="signupPage" element={<Signup />} />
         <Route path="profileDetail" element={<ProfileDetail />} />
         <Route path="addService" element={<AddService />} />
