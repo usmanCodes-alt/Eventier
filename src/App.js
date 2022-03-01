@@ -14,20 +14,18 @@ import GetAllServices from "./components/getAllServices/GetAllServices";
 
 function App() {
   return (
-    
     <BrowserRouter>
-      <Header/>
-      
+      <Header />
       <Routes>
         <Route path="/" element={<GetAllServices />} />
         <Route path="signupPage" element={<Signup />} />
         <Route path="profileDetail" element={<ProfileDetail />} />
         <Route path="addService" element={<AddService />} />
         <Route path="vendorSignup" element={<VendorSignup />} />
+        <Route path="all-orders" element={<TotalOrders />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
-    
   );
 }
 
