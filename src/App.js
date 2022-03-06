@@ -26,7 +26,6 @@ function App() {
     this.setState({ token: null});
   };
   return (
-    
     <BrowserRouter>
      <AuthContext.Provider>
             
@@ -44,7 +43,6 @@ function App() {
         <Footer/>
       </AuthContext.Provider>
     </BrowserRouter>
-    
   );
 }
 
