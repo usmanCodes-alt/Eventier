@@ -34,6 +34,8 @@ export default function SigninPage() {
         if (response.status !== 200) {
           return;
         }
+        localStorage.setItem("jwt", response.data.token);
+        navigate("vendordashboard");
       })
       .catch((err) => {
         console.log(err);

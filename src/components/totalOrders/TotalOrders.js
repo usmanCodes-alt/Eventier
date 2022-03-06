@@ -20,8 +20,7 @@ export default function TotalOrders() {
   };
 
   useEffect(() => {
-    const bearerToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudGllclVzZXJFbWFpbCI6IkV4cG8xMjNjZW50ZXJAbWFpbC5jb20iLCJ1c2VyUm9sZXMiOlsic2VydmljZV9wcm92aWRlciJdLCJpYXQiOjE2NDYxNTU1NDYsImV4cCI6MTY0NjE1OTE0Nn0.a2Q_2o6Q5O5-72RPM0crTYLhrFDX4G70nbLiB5psnfc";
+    const bearerToken = localStorage.getItem("jwt");
     axios
       .get("http://localhost:3000/service-providers/get-orders", {
         headers: {

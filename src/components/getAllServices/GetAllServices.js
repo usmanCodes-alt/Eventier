@@ -16,8 +16,7 @@ export default function TotalOrders() {
 
   useEffect(() => {
     console.log("sending api request");
-    const bearerToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudGllclVzZXJFbWFpbCI6InRlc3RpbmdAbWFpbC5jb20iLCJ1c2VyUm9sZXMiOlsic2VydmljZV9wcm92aWRlciJdLCJpYXQiOjE2NDYxNDQ1MDYsImV4cCI6MTY0NjE0ODEwNn0.Ir-UeoDydSZjwvdU1SBtNYCh4yfSIDvXkOawrmYgjt4";
+    const bearerToken = localStorage.getItem("jwt");
     axios
       .get("http://localhost:3000/service-providers/get-services", {
         headers: {
