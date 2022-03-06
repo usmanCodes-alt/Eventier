@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from './logo.png'
+import { Link } from 'react-router-dom';
 
 export default function Header() {
 return (
@@ -9,26 +10,27 @@ return (
 
         <div class="container-fluid">
 
-            
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <a class="navbar-brand mt-2 mt-lg-0" href="#">
-                    <img src={logo}  height="30" alt="MDB Logo"loading="lazy" />
+                    <img src={logo} height="30" alt="MDB Logo" loading="lazy" />
                 </a>
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <Link className='nav-link' to='vendordashboard'>Home </Link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Trending</a>
+                    <Link className='nav-link' to='totalOrders'>MyOrders </Link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">New!</a>
+                    <Link className='nav-link' to='getAllServices'>Services </Link>
                     </li>
+                    
                 </ul>
                 <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                    aria-describedby="search-addon" width ="70dp" />
+                    aria-describedby="search-addon" width="70dp" />
 
             </div>
 
@@ -36,12 +38,10 @@ return (
 
             <div class="d-flex align-items-center">
 
-                <a class="text-reset me-3" href="#">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
+              
 
-                
-                <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
+
+                <Link className='btn' to='profileDetail'>My Profile</Link>
             </div>
 
         </div>

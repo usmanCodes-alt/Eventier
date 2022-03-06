@@ -1,0 +1,47 @@
+.MainCardDashboard {
+   padding: 10px;
+    background-color: #E1E7FF;
+    position: relative;
+ 
+    
+}
+
+.maincardDashBoard{
+    
+    background-color: #c0caca;
+    border-radius: 25px;
+    
+}
+.carddatsboard1{
+    
+    margin-left: 50px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 25px;
+    
+}
+.piecharts{
+    margin: 10px;
+}
+.pie{
+    margin: 10px;
+}
+.titlepie{
+    margin: 5px;
+}
+.latestOrdersDashBoard{
+    
+    margin: 10px;
+    background-color: white;
+    border-radius: 25px;
+}
+.ratingsDashboard{
+    margin: 10px;
+    background-color: white;
+    border-radius: 25px;
+}
+.addserviceDashBoard{
+    margin: 10px;
+    background-color: white;
+    border-radius: 25px;
+}
