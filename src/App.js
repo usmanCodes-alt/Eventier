@@ -1,6 +1,5 @@
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
-import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Signup from "./components/signupmainpage/Signup.js";
 import Footer from "./components/footer/Footer";
@@ -12,22 +11,13 @@ import Header from "./components/Header/Header.js";
 import TotalOrders from "./components/totalOrders/TotalOrders";
 import GetAllServices from "./components/getAllServices/GetAllServices";
 import DashBoard from "./components/dashBoard/DashBoard";
-import AuthContext from "./context/auth-context";
+import UserContext from "./context/auth-context";
 
 function App() {
-  const state = {
-    token: null,
-    userId: null,
-  };
-  const authentication = (token) => {
-    this.setState({ token: token });
-  };
-  const cancelAuth = (token) => {
-    this.setState({ token: null });
-  };
+  const [user, setUser] = useState(null);
   return (
     <BrowserRouter>
-      <AuthContext.Provider>
+      <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Routes>
           <Route path="/" element={<SigninPage />} />
@@ -40,7 +30,7 @@ function App() {
           <Route path="vendorSignup" element={<VendorSignup />} />
         </Routes>
         <Footer />
-      </AuthContext.Provider>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 }

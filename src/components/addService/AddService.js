@@ -1,5 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../../context/auth-context";
 import styles from "./addservice.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -8,7 +9,18 @@ import "react-dropdown/style.css";
 
 export default function SigninPage() {
   // store this token in context api
-  const token = localStorage.getItem("jwt");
+  const token = localStorage.getItem("auth_token");
+  const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token") && !user) {
+      console.log("page refreshed while user was logged in");
+      setUser({
+        email: localStorage.getItem("email"),
+        roles: JSON.parse(localStorage.getItem("roles")),
+      });
+    }
+  }, []);
 
   const initialValues = {
     serviceName: "",
@@ -62,13 +74,20 @@ export default function SigninPage() {
       });
   };
 
+  const onImageSelectClicked = (e) => {
+    if (!formValues.serviceType) {
+      alert("Please select a service type first");
+      e.preventDefault();
+    }
+  };
+
   const handleImageUpload = (e) => {
     if (!e.target.files[0]) {
       return;
     }
     const formData = new FormData();
     formData.append("serviceType", "hall");
-    formData.append("eventierUserEmail", "khaadi123@mail.com");
+    formData.append("eventierUserEmail", user.email);
     formData.append("serviceImage", e.target.files[0]);
     console.log(formData);
     axios
@@ -84,7 +103,7 @@ export default function SigninPage() {
       .then((response) => {
         setServiceImages((oldServiceImagesArray) => [
           ...oldServiceImagesArray,
-          "http://localhost:3000/static/khaadi123@mail.com/" +
+          `http://localhost:3000/static/${user.email}/` +
             response.data.filename,
         ]);
       })
@@ -167,6 +186,7 @@ export default function SigninPage() {
               <p>{formErrors.price}</p>
               <h4>Add images</h4>
               <input
+                onClick={onImageSelectClicked}
                 type="file"
                 accept="image/png, image/jpg, image/jpeg"
                 onChange={handleImageUpload}

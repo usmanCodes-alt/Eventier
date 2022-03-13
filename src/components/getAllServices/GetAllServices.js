@@ -1,5 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../../context/auth-context.js";
 import styles from "./GetAllServices.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -9,14 +10,24 @@ import { Alert } from "bootstrap";
 
 export default function TotalOrders() {
   const [services, setServices] = useState([]);
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     console.log("Submit");
   };
 
   useEffect(() => {
-    console.log("sending api request");
-    const bearerToken = localStorage.getItem("jwt");
+    if (localStorage.getItem("auth_token") && !user) {
+      console.log("page refreshed while user was logged in");
+      setUser({
+        email: localStorage.getItem("email"),
+        roles: JSON.parse(localStorage.getItem("roles")),
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const bearerToken = localStorage.getItem("auth_token");
     axios
       .get("http://localhost:3000/service-providers/get-services", {
         headers: {

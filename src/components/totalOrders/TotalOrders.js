@@ -1,5 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../../context/auth-context";
 import styles from "./TotalOrders.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -8,9 +9,20 @@ import "react-dropdown/style.css";
 import { Alert } from "bootstrap";
 
 export default function TotalOrders() {
+  const { user, setUser } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [specificOrders, setSpecificOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState("Total Orders");
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token") && !user) {
+      console.log("page refreshed while user was logged in");
+      setUser({
+        email: localStorage.getItem("email"),
+        roles: JSON.parse(localStorage.getItem("roles")),
+      });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     setSpecificOrders(() => {
@@ -20,7 +32,7 @@ export default function TotalOrders() {
   };
 
   useEffect(() => {
-    const bearerToken = localStorage.getItem("jwt");
+    const bearerToken = localStorage.getItem("auth_token");
     axios
       .get("http://localhost:3000/service-providers/get-orders", {
         headers: {

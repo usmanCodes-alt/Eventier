@@ -1,11 +1,12 @@
-import styles from "./signin.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../../context/auth-context";
 import axios from "axios";
 import logo from "./logo.png";
 import { useNavigate } from "react-router-dom";
 
 export default function SigninPage() {
   let navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
   const initialValues = { userEmail: "", userPassword: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState("");
@@ -33,7 +34,14 @@ export default function SigninPage() {
         if (response.status !== 200) {
           return;
         }
+        const loggedInUser = {
+          email: formValues.userEmail.trim(),
+          roles: response.data.roles,
+        };
+        setUser(loggedInUser);
         localStorage.setItem("auth_token", response.data.token);
+        localStorage.setItem("email", formValues.userEmail.trim());
+        localStorage.setItem("roles", JSON.stringify(response.data.roles));
         navigate("vendordashboard");
       })
       .catch((err) => {
