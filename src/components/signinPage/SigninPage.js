@@ -1,5 +1,5 @@
 import styles from "./signin.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import logo from "./logo.png";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,10 @@ export default function SigninPage() {
   const initialValues = { userEmail: "", userPassword: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState("");
-  // const [isSubmit, setIsSubmit] = useState(false);
-  // const firstUpdate = useRef(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormValues({ ...formValues, [name]: value });
     // setFormErrors(validate(formValues));
   };
@@ -27,14 +26,14 @@ export default function SigninPage() {
     }
     axios
       .post("http://localhost:3000/eventier/login", {
-        email: formValues.userEmail,
-        password: formValues.userPassword,
+        email: formValues.userEmail.trim(),
+        password: formValues.userPassword.trim(),
       })
       .then((response) => {
         if (response.status !== 200) {
           return;
         }
-        localStorage.setItem("jwt", response.data.token);
+        localStorage.setItem("auth_token", response.data.token);
         navigate("vendordashboard");
       })
       .catch((err) => {
