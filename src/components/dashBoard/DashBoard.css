@@ -6,29 +6,24 @@
     
 }
 
-.maincardDashBoard{
+
+.carddatsboard1{
     
+   
     background-color: #c0caca;
     border-radius: 25px;
     
-}
-.carddatsboard1{
     
-    margin-left: 50px;
-    margin-bottom: 20px;
+}
+
+.cardsDashboard{
+    padding: 20px;
+    margin: 10px;
     background-color: white;
     border-radius: 25px;
-    
 }
-.piecharts{
-    margin: 10px;
-}
-.pie{
-    margin: 10px;
-}
-.titlepie{
-    margin: 5px;
-}
+
+
 .latestOrdersDashBoard{
     
     margin: 10px;
