@@ -86,7 +86,7 @@ export default function SigninPage() {
       return;
     }
     const formData = new FormData();
-    formData.append("serviceType", "hall");
+    formData.append("serviceType", formValues.serviceType);
     formData.append("eventierUserEmail", user.email);
     formData.append("serviceImage", e.target.files[0]);
     console.log(formData);

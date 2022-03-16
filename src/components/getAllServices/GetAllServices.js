@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../context/auth-context.js";
+import Card from "../card/Card.js";
 import styles from "./GetAllServices.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -35,6 +36,7 @@ export default function TotalOrders() {
         },
       })
       .then((response) => {
+        console.log(response.data.servicesRows);
         setServices(response.data.servicesRows);
       })
       .catch((err) => {
@@ -42,70 +44,21 @@ export default function TotalOrders() {
       });
   }, []);
 
-  return (
-    <div className="container-fluid GelAllServices ">
-      <div className="maincardServices">
-        <h1>Services</h1>
-
-        <div className="row ">
-          {/* <div className=" col-lg-1 col-md-1 col-sm-1"></div> */}
-
-          <div className=" col-lg-4 col-md-4 col-sm-4 cardServices ">
-            <div
-              className="btn-toolbar justify-content-between titleServices"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Name</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {services.map((service) => {
-                return (
-                  <li className="list-group-item">{service.service_name}</li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className=" col-lg-4 col-md-4 col-sm-4 cardServices   ">
-            <div
-              className="btn-toolbar justify-content-between titleServices"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Service Type</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {services.map((service) => {
-                return (
-                  <li className="list-group-item">{service.service_type}</li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className=" col-lg-4 col-md-4 col-sm-4 cardServices   ">
-            <div
-              className="btn-toolbar justify-content-between titleServices"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Price</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {services.map((service) => {
-                return (
-                  <li className="list-group-item">{service.unit_price}</li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
+  if (services.length === 0) {
+    return <h1>You don't have any services</h1>;
+  } else {
+    return (
+      <div className="all_services__wrapper">
+        {services.map((service) => {
+          return (
+            <Card
+              url={service.static_url}
+              serviceName={service.service_name}
+              description={service.description}
+            />
+          );
+        })}
       </div>
-    </div>
-  );
+    );
+  }
 }
