@@ -51,6 +51,14 @@ export default function SigninPage() {
         }
         const { eventierUserInformation } = response.data;
         console.log(eventierUserInformation);
+        if (eventierUserInformation.profile_picture_static_url) {
+          setStaticProfilePictureUrl(
+            "http://localhost:3000/profile-pictures/" +
+              eventierUserInformation.email +
+              "/" +
+              eventierUserInformation.profile_picture_static_url
+          );
+        }
         setUserInformation({
           firstName: eventierUserInformation.first_name,
           lastName: eventierUserInformation.last_name,
