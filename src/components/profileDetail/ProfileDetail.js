@@ -1,33 +1,30 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import UserContext from "../../context/auth-context";
 import styles from "./ProfileDetail.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import profilePicturePlaceHolder from "../../profile_pic_avatar.png";
 import { Alert } from "bootstrap";
 
 export default function SigninPage() {
-  // const initialValues = {
-  //   firstName: "Faizan Ali",
-  //   lastName: "Younas",
-  //   phoneNumber: "+923136113319",
-  //   street: "Street No 5",
-  //   city: "Lahore",
-  //   country: "Pakistan",
-  //   province: "Punjab",
-  // };
-  const passwordvalues = {
-    oldpass: "",
-    newpass: "",
-    cnfrmpass: "",
+  const passwordValues = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   };
+  const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);
   const [userInformation, setUserInformation] = useState({});
+  const [staticProfilePictureUrl, setStaticProfilePictureUrl] = useState(
+    profilePicturePlaceHolder
+  );
   // const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
-  const [password, setpassword] = useState(passwordvalues);
+  const [password, setPassword] = useState(passwordValues);
+  const profilePictureInputRef = useRef(null);
 
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
@@ -76,10 +73,41 @@ export default function SigninPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setpassword({ ...password, [name]: value });
+    setPassword({ ...password, [name]: value });
   };
   const handleUpdate = (e) => {
     console.log("on click update");
+  };
+
+  const onProfilePictureSelect = (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("eventierUserEmail", userInformation.email);
+    formData.append("sp-profile-picture", e.target.files[0]);
+    axios
+      .post(
+        "http://localhost:3000/service-provider/profile-picture/add",
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setStaticProfilePictureUrl(
+          "http://localhost:3000/profile-pictures/" +
+            userInformation.email +
+            "/" +
+            response.data.filename
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -126,9 +154,21 @@ export default function SigninPage() {
                           <div className="m-b-25">
                             <h4>Profile Picture</h4>
                             <img
-                              src="https://img.icons8.com/bubbles/100/000000/user.png"
+                              src={staticProfilePictureUrl}
+                              width="100"
+                              height="100"
                               className="img-radius"
                               alt="User-Profile"
+                              onClick={() =>
+                                profilePictureInputRef.current.click()
+                              }
+                            />
+                            <input
+                              ref={profilePictureInputRef}
+                              type="file"
+                              style={{ display: "none" }}
+                              accept="image/png, image/jpeg"
+                              onChange={onProfilePictureSelect}
                             />
                           </div>
                           <h6 className="f-w-600">
@@ -212,7 +252,7 @@ export default function SigninPage() {
             className="form-control"
             name="oldpass"
             placeholder="Old Password"
-            value={password.oldpass}
+            value={password.oldPassword}
             onChange={handleChange}
           />
           <p>{formErrors.oldpass}</p>
@@ -223,7 +263,7 @@ export default function SigninPage() {
             className="form-control"
             name="newpass"
             placeholder="New Password"
-            value={password.newpass}
+            value={password.newPassword}
             onChange={handleChange}
           />
           <p>{formErrors.newpass}</p>
@@ -234,7 +274,7 @@ export default function SigninPage() {
             className="form-control"
             name="cnfrmpass"
             placeholder="Confirm New Password"
-            value={password.cnfrmpass}
+            value={password.confirmPassword}
             onChange={handleChange}
           />
           <p>{formErrors.cnfrmpass}</p>
