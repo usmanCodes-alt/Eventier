@@ -26,7 +26,7 @@ export default function SigninPage() {
     serviceName: "",
     serviceType: "",
     price: "",
-    status: "Active",
+    status: "active",
     description: "",
     discount: "",
   };
@@ -37,6 +37,7 @@ export default function SigninPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setFormValues({ ...formValues, [name]: value });
   };
 
@@ -205,8 +206,8 @@ export default function SigninPage() {
                 value={formValues.status}
                 onChange={handleChange}
               >
-                <option value="Enable">Active</option>
-                <option value="Disable">In-Active</option>
+                <option value="active">Active</option>
+                <option value="in-active">In-Active</option>
               </select>
               <label>Description</label>
               <input

@@ -1,13 +1,11 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import UserContext from "../../context/auth-context";
-import styles from "./ProfileDetail.css";
 import axios from "axios";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+
+import "./ProfileDetail.css";
 import profilePicturePlaceHolder from "../../profile_pic_avatar.png";
-import { Alert } from "bootstrap";
 
 export default function SigninPage() {
   const passwordValues = {
@@ -15,29 +13,29 @@ export default function SigninPage() {
     newPassword: "",
     confirmPassword: "",
   };
+
   const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);
   const [userInformation, setUserInformation] = useState({});
   const [staticProfilePictureUrl, setStaticProfilePictureUrl] = useState(
     profilePicturePlaceHolder
   );
+  const [updateMode, setUpdateMode] = useState(false);
   // const [formValues, setFormValues] = useState(initialValues);
+  const [userFirstName, setUserFirstName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [storeName, setStoreName] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [province, setProvince] = useState("");
+  const [country, setCountry] = useState("");
+
   const [formErrors, setFormErrors] = useState({});
   const [password, setPassword] = useState(passwordValues);
   const profilePictureInputRef = useRef(null);
 
-  useEffect(() => {
-    if (localStorage.getItem("auth_token") && !user) {
-      console.log("page refreshed while user was logged in");
-      setUser({
-        email: localStorage.getItem("email"),
-        roles: JSON.parse(localStorage.getItem("roles")),
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log("running");
+  const getUserInformationByEmail = () => {
     const userEmail = user?.email || localStorage.getItem("email");
     axios
       .get("http://localhost:3000/service-provider/get-by-email/" + userEmail, {
@@ -63,6 +61,7 @@ export default function SigninPage() {
           firstName: eventierUserInformation.first_name,
           lastName: eventierUserInformation.last_name,
           phoneNumber: eventierUserInformation.phone_number,
+          storeName: eventierUserInformation.store_name,
           street: eventierUserInformation.street,
           city: eventierUserInformation.city,
           province: eventierUserInformation.province,
@@ -73,18 +72,88 @@ export default function SigninPage() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token") && !user) {
+      console.log("page refreshed while user was logged in");
+      setUser({
+        email: localStorage.getItem("email"),
+        roles: JSON.parse(localStorage.getItem("roles")),
+      });
+    }
   }, []);
 
   useEffect(() => {
-    console.log("userInformation\n", userInformation);
+    console.log("running");
+    getUserInformationByEmail();
+  }, []);
+
+  useEffect(() => {
+    setUserFirstName(userInformation.firstName);
+    setUserLastName(userInformation.lastName);
+    setPhoneNumber(userInformation.phoneNumber);
+    setStoreName(userInformation.storeName);
+    setStreet(userInformation.street);
+    setCity(userInformation.city);
+    setProvince(userInformation.province);
+    setCountry(userInformation.country);
   }, [userInformation]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPassword({ ...password, [name]: value });
   };
+
   const handleUpdate = (e) => {
-    console.log("on click update");
+    setUpdateMode(true);
+  };
+
+  const handleCancelUpdate = (e) => {
+    setUpdateMode(false);
+  };
+
+  const sendUpdateApiCall = (e) => {
+    e.preventDefault();
+    if (
+      !userFirstName ||
+      !userLastName ||
+      !phoneNumber ||
+      !street ||
+      !city ||
+      !province ||
+      !country
+    ) {
+      return;
+    }
+
+    axios
+      .patch(
+        "http://localhost:3000/service-providers/update-profile",
+        {
+          firstName: userFirstName,
+          lastName: userLastName,
+          phoneNumber: phoneNumber,
+          addressStreet: street,
+          addressCity: city,
+          addressProvince: province,
+          addressCountry: country,
+          storeName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        getUserInformationByEmail();
+        setUpdateMode(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onProfilePictureSelect = (e) => {
@@ -179,10 +248,28 @@ export default function SigninPage() {
                               onChange={onProfilePictureSelect}
                             />
                           </div>
-                          <h6 className="f-w-600">
-                            {userInformation.firstName}{" "}
-                            {userInformation.lastName}
-                          </h6>
+
+                          {updateMode ? (
+                            <React.Fragment>
+                              <input
+                                value={userFirstName}
+                                onChange={(e) =>
+                                  setUserFirstName(e.target.value)
+                                }
+                              />
+                              <input
+                                value={userLastName}
+                                onChange={(e) =>
+                                  setUserLastName(e.target.value)
+                                }
+                              />
+                            </React.Fragment>
+                          ) : (
+                            <h6 className="f-w-600">
+                              {userInformation.firstName}{" "}
+                              {userInformation.lastName}
+                            </h6>
+                          )}
                         </div>
                       </div>
                       <div className="col-sm-8">
@@ -199,10 +286,33 @@ export default function SigninPage() {
                             </div>
                             <div className="col-sm-6">
                               <p className="m-b-10 f-w-600">Phone</p>
-
-                              <h6 className="text-muted f-w-400">
-                                {userInformation.phoneNumber}
-                              </h6>
+                              {updateMode ? (
+                                <input
+                                  value={phoneNumber}
+                                  onChange={(e) =>
+                                    setPhoneNumber(e.target.value)
+                                  }
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.phoneNumber}
+                                </h6>
+                              )}
+                            </div>
+                            <div className="col-sm-6">
+                              <p className="m-b-10 f-w-600">Store Name</p>
+                              {updateMode ? (
+                                <input
+                                  value={storeName}
+                                  onChange={(e) => setStoreName(e.target.value)}
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.storeName}
+                                </h6>
+                              )}
                             </div>
                           </div>
                           <h6 className="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
@@ -211,35 +321,89 @@ export default function SigninPage() {
                           <div className="row">
                             <div className="col-sm-6">
                               <p className="m-b-10 f-w-600">Street</p>
-                              <h6 className="text-muted f-w-400">
-                                {userInformation.street}
-                              </h6>
+                              {updateMode ? (
+                                <input
+                                  value={street}
+                                  onChange={(e) => setStreet(e.target.value)}
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.street}
+                                </h6>
+                              )}
                             </div>
                             <div className="col-sm-6">
                               <p className="m-b-10 f-w-600">City</p>
-                              <h6 className="text-muted f-w-400">
-                                {userInformation.city}
-                              </h6>
+
+                              {updateMode ? (
+                                <input
+                                  value={city}
+                                  onChange={(e) => setCity(e.target.value)}
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.city}
+                                </h6>
+                              )}
                             </div>
                             <div className="col-sm-6">
                               <p className="m-b-10 f-w-600">Country</p>
-                              <h6 className="text-muted f-w-400">
-                                {userInformation.country}
-                              </h6>
+
+                              {updateMode ? (
+                                <input
+                                  value={country}
+                                  onChange={(e) => setCountry(e.target.value)}
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.country}
+                                </h6>
+                              )}
                             </div>
                             <div className="col-sm-6">
                               <p className="m-b-10 f-w-600">Province</p>
-                              <h6 className="text-muted f-w-400">
-                                {userInformation.province}
-                              </h6>
+                              {updateMode ? (
+                                <input
+                                  value={province}
+                                  onChange={(e) => setProvince(e.target.value)}
+                                  required
+                                />
+                              ) : (
+                                <h6 className="text-muted f-w-400">
+                                  {userInformation.province}
+                                </h6>
+                              )}
                             </div>
-                            <button
-                              type="button"
-                              className="btn btn-dark btndetail"
-                              onClick={handleUpdate}
-                            >
-                              Update
-                            </button>
+                            {!updateMode && (
+                              <button
+                                type="button"
+                                className="btn btn-dark btndetail"
+                                onClick={handleUpdate}
+                              >
+                                Update
+                              </button>
+                            )}
+                            {updateMode && (
+                              <React.Fragment>
+                                <button
+                                  type="button"
+                                  className="btn btn-dark btndetail"
+                                  onClick={sendUpdateApiCall}
+                                >
+                                  Update
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-dark btndetail"
+                                  onClick={handleCancelUpdate}
+                                >
+                                  Cancel
+                                </button>
+                              </React.Fragment>
+                            )}
                           </div>
                         </div>
                       </div>
