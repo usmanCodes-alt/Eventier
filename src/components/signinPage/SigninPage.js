@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import UserContext from "../../context/auth-context";
 import axios from "axios";
-import logo from "./logo.png";
+import logo from "../../logo.png";
 import { useNavigate } from "react-router-dom";
 
 export default function SigninPage() {

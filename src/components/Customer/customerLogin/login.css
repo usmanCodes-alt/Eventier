@@ -1,0 +1,79 @@
+.customerLogin__container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.customerLogin__logo {
+  align-self: center;
+  width: auto;
+  height: 10%;
+}
+
+.customerLogin__form-container {
+  height: auto;
+  width: 65vh;
+  margin: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+}
+
+.customerLogin__buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  margin-top: 10px;
+  padding-left: 10px;
+  width: 75%;
+}
+
+.customerLogin__btn {
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
+
+.customerLogin__input-field {
+  padding: 10px;
+  /* outline: 0px solid rgb(136, 134, 134); */
+  box-shadow: 0 0 0 0.5pt grey;
+  border-radius: 5px;
+  border-style: none;
+  transition: outline-width 0.2s ease-in;
+}
+
+.customerLogin__input-field:focus {
+  /* outline-width: 5px; */
+  box-shadow: 0 0 3pt 2pt cornflowerblue;
+  outline: none;
+}
+
+.customerLogin__input-container {
+  padding: 10px;
+}
+
+.customerLogin__error-container {
+  margin: 10px;
+  background-color: rgb(223, 130, 130);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.customerLogin__login-as-sp {
+  text-decoration: none;
+  color: black;
+}
+
+.customerLogin__login-as-sp:hover {
+  color: black;
+}
