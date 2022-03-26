@@ -11,6 +11,7 @@ import "./home.css";
 export default function Home() {
   const { user, setUser } = useContext(UserContext);
   const [services, setServices] = useState([]);
+  const [showSelectedServices, setShowSelectedServices] = useState();
 
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
@@ -33,6 +34,7 @@ export default function Home() {
       })
       .then((response) => {
         const { services } = response.data;
+        console.log(services);
         setServices(services);
       })
       .catch((err) => {
@@ -40,23 +42,35 @@ export default function Home() {
       });
   }, []);
 
+  const onSearchSelected = (value) => {
+    console.log(value);
+    setShowSelectedServices(value);
+  };
+
+  const mapServicesOnHome = (services) =>
+    services.map((service) => (
+      <Card
+        url={service.static_url}
+        serviceName={service.service_name}
+        description={service.description}
+      />
+    ));
+
   if (services.length === 0) {
     return <h1>NO Service providers active at the moment!</h1>;
   } else {
     return (
       <React.Fragment>
         <Header />
-        <Search />
+        <Search showSelectedServicesOnHome={onSearchSelected} />
         <div className="home__services-wrapper">
-          {services.map((service) => {
-            return (
-              <Card
-                url={service.static_url}
-                serviceName={service.service_name}
-                description={service.description}
-              />
-            );
-          })}
+          {showSelectedServices
+            ? mapServicesOnHome(
+                services.filter(
+                  (service) => service.service_type === showSelectedServices
+                )
+              )
+            : mapServicesOnHome(services)}
         </div>
       </React.Fragment>
     );

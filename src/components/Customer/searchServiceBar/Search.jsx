@@ -3,14 +3,15 @@
 import React, { useState } from "react";
 import Select from "react-select";
 
-export default function Search() {
+export default function Search({ showSelectedServicesOnHome }) {
   const OPTIONS = [
     { value: null, label: "All" },
     { value: "Catering", label: "Catering" },
-    { value: "Hall Providers", label: "Hall Providers" },
+    { value: "Hall", label: "Hall Providers" },
     { value: "Rent a Car", label: "Rent a Car" },
     { value: "Decoration", label: "Decoration" },
     { value: "Foods", label: "Foods" },
+    { value: "Clothing", label: "Clothes" },
   ];
 
   const selectCustomStyles = {
@@ -41,12 +42,18 @@ export default function Search() {
 
   const [selectedOption, setSelectedOption] = useState("");
 
+  const onSelection = (value) => {
+    console.log(value);
+    setSelectedOption(value);
+    showSelectedServicesOnHome(value.value);
+  };
+
   return (
     <div className="search__wrapper">
       <h6>Service Type</h6>
       <Select
         value={selectedOption}
-        onChange={setSelectedOption}
+        onChange={onSelection}
         options={OPTIONS}
         styles={selectCustomStyles}
         placeholder="Search Services by type"
