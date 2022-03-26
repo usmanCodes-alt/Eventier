@@ -42,9 +42,11 @@ export default function Login() {
           roles: response.data.roles,
         };
         setUser(user);
+        console.log(response.data);
         localStorage.setItem("auth_token", response.data.token);
         localStorage.setItem("email", email.trim());
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
+        navigate("/customer-home");
       })
       .catch((error) => {
         if (error.response.status === 401) {

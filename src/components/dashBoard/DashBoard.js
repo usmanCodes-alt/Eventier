@@ -108,7 +108,7 @@ export default function DashBoard() {
             <h1>Rating and Review</h1>
           </div>
           <div className=" col-lg-2 col-md-2 col-sm-2 addserviceDashBoard">
-            <Link className="btn" to="addService">
+            <Link className="btn" to="/addService">
               Add Service
             </Link>
           </div>
