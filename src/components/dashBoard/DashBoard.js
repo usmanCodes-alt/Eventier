@@ -48,7 +48,6 @@ return (
                 <div className='  col-lg-2 col-md-2 col-sm-2'>
                     <h3>Total Orders</h3>
                 </div>
-<<<<<<< HEAD
                 <div className='  col-lg-2 col-md-2 col-sm-2'>
                     <h3>Pending Orders</h3>
                 </div>
@@ -69,7 +68,7 @@ return (
             
         
 
-        <div className='row'>
+        {/*<div className='row'>
             
             <div className=' col-lg-6 col-md-6 col-sm-6 latestOrdersDashBoard'>
                 <div >
@@ -103,7 +102,6 @@ return (
                <Link className='btn' to='addService'>Add Service</Link>
             </div>
             
-=======
             </div> */}
 
         <div className="row">
@@ -118,7 +116,6 @@ return (
               Add Service
             </Link>
           </div>
->>>>>>> 9796fac9e36467757b8f86db5ec61910b37dba94
         </div>
     </div>
     
