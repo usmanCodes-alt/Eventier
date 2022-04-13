@@ -1,0 +1,39 @@
+.Orderdetail {
+    width: auto;
+    height: auto;
+    background-color: #E1E7FF;
+    position: relative;
+ 
+    
+}
+.orderdetailcard {
+    margin: 30px;
+    width: 90%;
+   
+    padding: 10px;
+    background-color: #F2F2F2;
+    border-radius: 25px;
+    
+}
+.orderdetailcardLeft{
+    background-color: #F2F2F2;
+    padding: 20px;
+    margin: 30px;
+    border-radius: 25px;
+ }
+ .orderdetailcardRight{
+    padding: 20px;
+    margin: 30px;
+    background-color: #F2F2F2;
+    border-radius: 25px;
+ }
+ .detail_order{
+     padding-top: 15px;
+     font-size: larger;
+ }
+ .status_order{
+     padding-top: 15px;
+ }
+ .label_order_information{
+    font-weight: bold;
+ }
