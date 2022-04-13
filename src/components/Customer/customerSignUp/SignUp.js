@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import Header from "../customerHeader/Header";
+
 import logo from "../../../logo.png";
 import "./signup.css";
 
@@ -75,6 +77,7 @@ export default function SignUp() {
         }
 
         // goto customer dashboard
+        navigate("/customer-home");
         alert("Account created");
       })
       .catch((err) => {
@@ -87,125 +90,131 @@ export default function SignUp() {
   };
 
   return (
-    <div className="customerLogin__container">
-      <img className="customerLogin__logo" src={logo} alt="logo" />
-      <div className="customerLogin__form-container">
-        <form>
-          {requiredFieldsError && (
-            <div>
-              <div className="customerLogin__error-container">
-                <div>Please provide all fields.</div>
+    <React.Fragment>
+      <div className="customerLogin__container">
+        <img className="customerLogin__logo" src={logo} alt="logo" />
+        <div className="customerLogin__form-container">
+          <form>
+            {requiredFieldsError && (
+              <div>
+                <div className="customerLogin__error-container">
+                  <div>Please provide all fields.</div>
+                </div>
+              </div>
+            )}
+            {passwordMatchError && (
+              <div>
+                <div className="customerLogin__error-container">
+                  <div>Passwords don't match.</div>
+                </div>
+              </div>
+            )}
+            <div className="sub-entry">
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-first-name">
+                  First Name
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-first-name"
+                  type="text"
+                  value={firstName}
+                  onChange={onFirstNameChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-last-name">
+                  Last Name
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-last-name"
+                  type="text"
+                  value={lastName}
+                  onChange={onLastNameChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-phone">
+                  Phone Number
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-phone"
+                  type="number"
+                  value={phoneNumber}
+                  onChange={onPhoneNumberChanged}
+                  autoComplete="off"
+                  required
+                />
               </div>
             </div>
-          )}
-          {passwordMatchError && (
-            <div>
-              <div className="customerLogin__error-container">
-                <div>Passwords don't match.</div>
+
+            <div className="sub-entry">
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-email">
+                  Email
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-email"
+                  type="email"
+                  value={email}
+                  onChange={onEmailChange}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-password">
+                  Password
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-password"
+                  type="password"
+                  value={password}
+                  onChange={onPasswordChange}
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <label className="label" htmlFor="customer-confirm-password">
+                  Password
+                </label>
+                <input
+                  className="customerLogin__input-field"
+                  id="customer-confirm-password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={onConfirmPasswordChange}
+                  required
+                />
               </div>
             </div>
-          )}
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-first-name">
-              First Name
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-first-name"
-              type="text"
-              value={firstName}
-              onChange={onFirstNameChanged}
-              autoComplete="off"
-              required
-            />
-          </div>
+          </form>
 
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-last-name">
-              Last Name
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-last-name"
-              type="text"
-              value={lastName}
-              onChange={onLastNameChanged}
-              autoComplete="off"
-              required
-            />
+          <div className="customerLogin__buttons-container">
+            <button className="customerLogin__btn" onClick={onRegisterClicked}>
+              Register
+            </button>
+            <button
+              className="customerLogin__btn"
+              onClick={redirectToCustomerLogin}
+            >
+              Login
+            </button>
           </div>
-
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-phone">
-              Phone Number
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-phone"
-              type="number"
-              value={phoneNumber}
-              onChange={onPhoneNumberChanged}
-              autoComplete="off"
-              required
-            />
-          </div>
-
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-email">
-              Email
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-email"
-              type="email"
-              value={email}
-              onChange={onEmailChange}
-              autoComplete="off"
-              required
-            />
-          </div>
-
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-password">
-              Password
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-password"
-              type="password"
-              value={password}
-              onChange={onPasswordChange}
-              required
-            />
-          </div>
-
-          <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-confirm-password">
-              Password
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={onConfirmPasswordChange}
-              required
-            />
-          </div>
-        </form>
-
-        <div className="customerLogin__buttons-container">
-          <button className="customerLogin__btn" onClick={onRegisterClicked}>
-            Register
-          </button>
-          <button
-            className="customerLogin__btn"
-            onClick={redirectToCustomerLogin}
-          >
-            Login
-          </button>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }

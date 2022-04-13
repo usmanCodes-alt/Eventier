@@ -13,8 +13,13 @@ import GetAllServices from "./components/getAllServices/GetAllServices";
 import DashBoard from "./components/dashBoard/DashBoard";
 import UserContext from "./context/auth-context";
 import Login from "./components/Customer/customerLogin/Login";
+<<<<<<< HEAD
 import OrderDetail from "./components/OrderDetail/OrderDetail";
 import ServiceDetail from "./components/ServiceDetail/ServiceDetail";
+=======
+import { default as CustomerSignUp } from "./components/Customer/customerSignUp/SignUp";
+import { default as CustomerHome } from "./components/Customer/customerHome/Home";
+>>>>>>> 9796fac9e36467757b8f86db5ec61910b37dba94
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,7 +28,15 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Routes>
+<<<<<<< HEAD
           <Route path="/" element={<ServiceDetail />} />
+=======
+          <Route path="/customer-login" element={<Login />} />
+          <Route path="/customer-signup" element={<CustomerSignUp />} />
+          <Route path="/customer-home" element={<CustomerHome />} />
+
+          <Route path="/" element={<SigninPage />} />
+>>>>>>> 9796fac9e36467757b8f86db5ec61910b37dba94
           <Route path="vendordashboard" element={<DashBoard />} />
           <Route path="signupPage" element={<Signup />} />
           <Route path="getAllServices" element={<GetAllServices />} />
