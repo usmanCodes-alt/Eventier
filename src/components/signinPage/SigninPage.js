@@ -100,7 +100,7 @@ export default function SigninPage() {
                 type="password"
                 className="form-control"
                 name="userPassword"
-                placeholder="Passowrd"
+                placeholder="Password"
                 value={formValues.password}
                 onChange={handleChange}
               />
