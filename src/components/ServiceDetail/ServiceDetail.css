@@ -1,0 +1,31 @@
+.Servicedetail {
+    width: auto;
+    height: auto;
+    background-color: #E1E7FF;
+    position: relative;
+ 
+    
+}
+
+.servicedetailcardLeft{
+    background-color: #F2F2F2;
+    padding: 20px;
+    margin: 30px;
+    border-radius: 25px;
+ }
+ .servicedetailcardRight{
+    padding: 20px;
+    margin: 30px;
+    background-color: #F2F2F2;
+    border-radius: 25px;
+ }
+ .detail_service{
+     padding-top: 15px;
+     font-size: larger;
+ }
+ .status_service{
+     padding-top: 15px;
+ }
+ .label_service_information{
+    font-weight: bold;
+ }

@@ -40,3 +40,6 @@
     background-color: white;
     border-radius: 25px;
 }
+.checked {
+    color: orange;
+  }
