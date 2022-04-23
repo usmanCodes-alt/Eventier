@@ -14,17 +14,17 @@ export default function Header() {
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <Link className="nav-link" to="vendordashboard">
+                <Link className="nav-link" to="/vendordashboard">
                   Home{" "}
                 </Link>
               </li>
               <li class="nav-item">
-                <Link className="nav-link" to="totalOrders">
+                <Link className="nav-link" to="/totalOrders">
                   MyOrders{" "}
                 </Link>
               </li>
               <li class="nav-item">
-                <Link className="nav-link" to="getAllServices">
+                <Link className="nav-link" to="/getAllServices">
                   Services{" "}
                 </Link>
               </li>
@@ -40,7 +40,7 @@ export default function Header() {
           </div>
 
           <div class="d-flex align-items-center">
-            <Link className="btn" to="profileDetail">
+            <Link className="btn" to="/profileDetail">
               My Profile
             </Link>
           </div>

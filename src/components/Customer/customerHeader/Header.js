@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import logo from "../../../logo.png";
 import "./header.css";
@@ -7,7 +7,9 @@ import "./header.css";
 export default function Header() {
   return (
     <div className="customer-header__container">
-      <img className="customer-header__logo" src={logo} alt="logo" />
+      <Link className="customer-header__logo-link" to="/customer-home">
+        <img className="customer-header__logo" src={logo} alt="logo" />
+      </Link>
       <nav>
         <ul className="customer-header__nav-links">
           <li>
@@ -15,7 +17,7 @@ export default function Header() {
               Orders
             </NavLink>
           </li>
-          <NavLink className="customer-header__link" to="#">
+          <NavLink className="customer-header__link" to="/chat">
             Messages
           </NavLink>
           <NavLink to="#" className="customer-header__link">

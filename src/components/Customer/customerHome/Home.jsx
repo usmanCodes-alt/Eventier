@@ -34,7 +34,7 @@ export default function Home() {
       })
       .then((response) => {
         const { services } = response.data;
-        console.log(services);
+        // console.log(services);
         setServices(services);
       })
       .catch((err) => {
@@ -53,6 +53,7 @@ export default function Home() {
         url={service.static_url}
         serviceName={service.service_name}
         description={service.description}
+        serviceId={service.service_database_id}
       />
     ));
 

@@ -8,6 +8,9 @@
   align-items: center;
   padding: 10px;
 }
+.customer-header__logo-link {
+  height: 100%;
+}
 
 .customer-header__logo {
   cursor: pointer;
