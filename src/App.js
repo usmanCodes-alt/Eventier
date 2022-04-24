@@ -17,6 +17,9 @@ import OrderDetail from "./components/OrderDetail/OrderDetail";
 import ServiceDetail from "./components/ServiceDetail/ServiceDetail";
 import { default as CustomerSignUp } from "./components/Customer/customerSignUp/SignUp";
 import { default as CustomerHome } from "./components/Customer/customerHome/Home";
+import ProfileDetailCustomer from "./components/Customer/profileDetailCustomer/ProfileDetailCustomer";
+import OrderDetailCustomer from "./components/Customer/OrderDetailCustomer/OrderDetailCustomer";
+import TotalOrdersCustomer from "./components/Customer/TotalOrdersCustomers/TotalOrdersCustomer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,11 +28,12 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Routes>
+          
+
+          <Route path="/" element={<TotalOrdersCustomer />} />
           <Route path="/customer-login" element={<Login />} />
           <Route path="/customer-signup" element={<CustomerSignUp />} />
           <Route path="/customer-home" element={<CustomerHome />} />
-
-          <Route path="/" element={<SigninPage />} />
           <Route path="vendordashboard" element={<DashBoard />} />
           <Route path="signupPage" element={<Signup />} />
           <Route path="getAllServices" element={<GetAllServices />} />

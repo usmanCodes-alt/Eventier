@@ -26,3 +26,7 @@ export default function Header() {
     </div>
   );
 }
+
+// TODO:
+// Customers Orders
+// Customer place new order

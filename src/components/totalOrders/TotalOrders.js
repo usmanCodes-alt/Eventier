@@ -3,10 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../../context/auth-context";
 import styles from "./TotalOrders.css";
 import axios from "axios";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-dropdown";
+
 import "react-dropdown/style.css";
-import { Alert } from "bootstrap";
+
 
 export default function TotalOrders() {
   const { user, setUser } = useContext(UserContext);

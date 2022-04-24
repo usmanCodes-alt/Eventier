@@ -1,0 +1,30 @@
+.TotalOrdersCustomer {
+    
+    background-color: #E1E7FF;
+    position: relative;
+ 
+    
+}
+
+.maincardCustomer{
+    padding: 5px;
+    background-color: #c0caca;
+    border-radius: 25px;
+    
+}
+.bar{
+    margin: 10px;
+    border-radius: 25px;
+    background-color: white;
+    
+}
+.cardsOrdersCustomer{
+    background-color: white;
+}
+
+.titleordersCustomer{
+    background-color: #c0caca;
+    border-radius: 10px;
+    
+    margin: 10px;
+}
