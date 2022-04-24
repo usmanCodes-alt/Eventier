@@ -32,6 +32,16 @@ export default function Search({ showSelectedServicesOnHome }) {
       padding: 10,
     }),
 
+    menu: (provided, state) => ({
+      ...provided,
+      width: "50%",
+      "margin-left": "auto",
+      display: "absolute",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, 8%)",
+    }),
+
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1;
       const transition = "opacity 300ms";
@@ -50,13 +60,13 @@ export default function Search({ showSelectedServicesOnHome }) {
 
   return (
     <div className="search__wrapper">
-      <h6>Service Type</h6>
       <Select
         value={selectedOption}
         onChange={onSelection}
         options={OPTIONS}
         styles={selectCustomStyles}
         placeholder="Search Services by type"
+        // width="200px"
       />
     </div>
   );

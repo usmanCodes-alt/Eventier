@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../../context/auth-context";
 
 import Header from "../customerHeader/Header";
 
@@ -9,6 +10,7 @@ import "./signup.css";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -70,14 +72,23 @@ export default function SignUp() {
         confirmPassword,
         phoneNumber,
       })
-      .then((res) => {
-        console.log(res);
-        if (res.status !== 201) {
+      .then((response) => {
+        if (response.status !== 201) {
           return;
         }
 
+        const user = {
+          email,
+          roles: response.data.roles,
+        };
+        // setUser(user);
+        // console.log(response.data);
+        // localStorage.setItem("auth_token", response.data.token);
+        // localStorage.setItem("email", email.trim());
+        // localStorage.setItem("roles", JSON.stringify(response.data.roles));
+
         // goto customer dashboard
-        navigate("/customer-home");
+        navigate("/customer-login");
         alert("Account created");
       })
       .catch((err) => {
