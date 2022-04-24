@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { IoArrowForwardOutline, IoArrowBackOutline } from "react-icons/io5";
+import { Icon } from "@iconify/react";
 import "./serviceImageCarousel.css";
 
 const ServiceImageCarousel = ({ staticURLs }) => {
@@ -22,9 +22,14 @@ const ServiceImageCarousel = ({ staticURLs }) => {
 
   return (
     <section className="carousel__container">
-      <IoArrowBackOutline
+      {/*<IoArrowBackOutline
         className="carousel__left-arrow"
         onClick={previousSlide}
+      />*/}
+      <Icon
+        icon="ic:baseline-arrow-left"
+        className="carousel__left-arrow"
+        onClick={nextSlide}
       />
       {staticURLs.map((url, index) => (
         <div
@@ -36,7 +41,12 @@ const ServiceImageCarousel = ({ staticURLs }) => {
           )}
         </div>
       ))}
-      <IoArrowForwardOutline
+      {/*<IoArrowForwardOutline
+        className="carousel__right-arrow"
+        onClick={nextSlide}
+          />*/}
+      <Icon
+        icon="ic:baseline-arrow-right"
         className="carousel__right-arrow"
         onClick={nextSlide}
       />

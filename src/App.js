@@ -32,12 +32,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         {/*<Header />*/}
         <Routes>
-          
-
           <Route path="/" element={<TotalOrdersCustomer />} />
-          <Route path="/customer-login" element={<Login />} />
-          <Route path="/customer-signup" element={<CustomerSignUp />} />
-          <Route path="/customer-home" element={<CustomerHome />} />
           {/** Customer endpoints */}
           <Route path="/customer-login" element={<Login />} />
           <Route path="/customer-signup" element={<CustomerSignUp />} />
@@ -49,13 +44,13 @@ function App() {
 
           {/** SP endpoints */}
           <Route path="/" element={<SigninPage />} />
-          <Route path="vendordashboard" element={<DashBoard />} />
-          <Route path="signupPage" element={<Signup />} />
-          <Route path="getAllServices" element={<GetAllServices />} />
-          <Route path="totalOrders" element={<TotalOrders />} />
-          <Route path="profileDetail" element={<ProfileDetail />} />
-          <Route path="addService" element={<AddService />} />
-          <Route path="vendorSignup" element={<VendorSignup />} />
+          <Route path="/vendordashboard" element={<DashBoard />} />
+          <Route path="/signupPage" element={<Signup />} />
+          <Route path="/getAllServices" element={<GetAllServices />} />
+          <Route path="/totalOrders" element={<TotalOrders />} />
+          <Route path="/profileDetail" element={<ProfileDetail />} />
+          <Route path="/addService" element={<AddService />} />
+          <Route path="/vendorSignup" element={<VendorSignup />} />
 
           <Route path="/chat" element={<Chat />} />
         </Routes>
