@@ -2,10 +2,10 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../context/auth-context";
 import styles from "./TotalOrders.css";
+import Header from "../Header/Header";
 import axios from "axios";
 
 import "react-dropdown/style.css";
-
 
 export default function TotalOrders() {
   const { user, setUser } = useContext(UserContext);
@@ -49,6 +49,7 @@ export default function TotalOrders() {
 
   return (
     <div className="container-fluid TotalOrders ">
+      <Header />
       <div className="maincard">
         <h1>Orders</h1>
         <div className="row bar">

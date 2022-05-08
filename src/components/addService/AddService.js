@@ -5,6 +5,7 @@ import styles from "./addservice.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-dropdown";
+import Header from "../Header/Header.js";
 import "react-dropdown/style.css";
 
 export default function SigninPage() {
@@ -138,6 +139,7 @@ export default function SigninPage() {
 
   return (
     <div className="container-fluid addService">
+      <Header />
       <div className="row">
         <div className=" col-lg-10 col-md-10 col-sm-10 addcard   ">
           <h1>Add Service</h1>

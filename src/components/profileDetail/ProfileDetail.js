@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import UserContext from "../../context/auth-context";
 import axios from "axios";
+import Header from "../Header/Header";
 import "react-dropdown/style.css";
 
 import "./ProfileDetail.css";
@@ -218,6 +219,7 @@ export default function SigninPage() {
 
   return (
     <div className="container-fluid profileDetail">
+      <Header />
       <div className="row">
         <div className=" col-lg-7 col-md-7 col-sm-7 addcardDetail   ">
           <div className="page-content page-container" id="page-content">

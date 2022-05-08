@@ -4,6 +4,7 @@ import UserContext from "../../context/auth-context.js";
 import Card from "../card/Card.js";
 import styles from "./GetAllServices.css";
 import axios from "axios";
+import Header from "../Header/Header.js";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -45,20 +46,28 @@ export default function TotalOrders() {
   }, []);
 
   if (services.length === 0) {
-    return <h1>You don't have any services</h1>;
+    return (
+      <React.Fragment>
+        <Header />
+        <h1>You don't have any services</h1>
+      </React.Fragment>
+    );
   } else {
     return (
-      <div className="all_services__wrapper">
-        {services.map((service) => {
-          return (
-            <Card
-              url={service.static_url}
-              serviceName={service.service_name}
-              description={service.description}
-            />
-          );
-        })}
-      </div>
+      <React.Fragment>
+        <Header />
+        <div className="all_services__wrapper">
+          {services.map((service) => {
+            return (
+              <Card
+                url={service.static_url}
+                serviceName={service.service_name}
+                description={service.description}
+              />
+            );
+          })}
+        </div>
+      </React.Fragment>
     );
   }
 }
