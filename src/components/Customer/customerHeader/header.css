@@ -32,3 +32,8 @@
   margin: 20px;
   color: black;
 }
+
+.customer-header__cart-items-count {
+  display: inline;
+  color: tomato;
+}

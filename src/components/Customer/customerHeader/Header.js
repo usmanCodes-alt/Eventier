@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import CartContext from "../../../context/Cart/cartContext";
 
 import logo from "../../../logo.png";
 import "./header.css";
 
 export default function Header() {
-  const navigate = useNavigate();
+  const { cartItems } = useContext(CartContext);
 
   const logout = () => {
     localStorage.clear();
-    // navigate("/customer-login");
   };
 
   return (
@@ -20,6 +19,16 @@ export default function Header() {
       </Link>
       <nav>
         <ul className="customer-header__nav-links">
+          <li>
+            <NavLink className="customer-header__link" to="#">
+              Cart{" "}
+              {cartItems.length > 0 && (
+                <div className="customer-header__cart-items-count">
+                  <span>({cartItems.length})</span>
+                </div>
+              )}
+            </NavLink>
+          </li>
           <li>
             <NavLink className="customer-header__link" to="/customer-orders">
               Orders
@@ -40,7 +49,3 @@ export default function Header() {
     </div>
   );
 }
-
-// TODO:
-// Customers Orders
-// Customer place new order

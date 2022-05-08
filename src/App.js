@@ -33,7 +33,7 @@ function App() {
         {/*<Header />*/}
         <Routes>
           {/** Customer endpoints */}
-          <Route path="/customer-login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/customer-signup" element={<CustomerSignUp />} />
           <Route path="/customer-home" element={<CustomerHome />} />
           <Route
@@ -43,7 +43,7 @@ function App() {
           <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
 
           {/** SP endpoints */}
-          <Route path="/" element={<SigninPage />} />
+          <Route path="/service-provider-login" element={<SigninPage />} />
           <Route path="/vendordashboard" element={<DashBoard />} />
           <Route path="/signupPage" element={<Signup />} />
           <Route path="/getAllServices" element={<GetAllServices />} />
@@ -54,7 +54,7 @@ function App() {
 
           <Route path="/chat" element={<Chat />} />
         </Routes>
-        <Footer />
+        {/*<Footer />*/}
       </UserContext.Provider>
     </BrowserRouter>
   );

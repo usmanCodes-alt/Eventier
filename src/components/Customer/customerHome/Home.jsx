@@ -41,7 +41,7 @@ export default function Home() {
       })
       .then((response) => {
         const { services } = response.data;
-        // console.log(services);
+        console.log(services);
         setServices(services);
       })
       .catch((err) => {
