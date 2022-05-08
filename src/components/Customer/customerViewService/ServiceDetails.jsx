@@ -41,7 +41,7 @@ export default function ServiceDetails() {
       })
       .then((response) => {
         console.log({ ...response.data.service, serviceId });
-        setServiceDetails({ ...response.data.service, serviceId });
+        setServiceDetails({ ...response.data.service, serviceId, quantity: 1 });
       })
       .catch((err) => {
         console.log(err);

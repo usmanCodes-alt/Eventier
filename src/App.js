@@ -23,6 +23,7 @@ import ProfileDetailCustomer from "./components/Customer/profileDetailCustomer/P
 import OrderDetailCustomer from "./components/Customer/OrderDetailCustomer/OrderDetailCustomer";
 import TotalOrdersCustomer from "./components/Customer/TotalOrdersCustomers/TotalOrdersCustomer";
 import { default as CustomerServiceDetailsView } from "./components/Customer/customerViewService/ServiceDetails";
+import Cart from "./components/Customer/customerCart/Cart";
 import Chat from "./components/Customer/Chat/Chat";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             element={<CustomerServiceDetailsView />}
           />
           <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
+          <Route path="/customer/cart" element={<Cart />} />
 
           {/** SP endpoints */}
           <Route path="/service-provider-login" element={<SigninPage />} />

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../Types";
+import { RESET_CART, ADD_TO_CART, REMOVE_FROM_CART } from "../Types";
 
 const CartReducer = (state, action) => {
   console.log("Before operation", state);
@@ -19,6 +19,11 @@ const CartReducer = (state, action) => {
       cartItems: state.cartItem.filter(
         (item) => item.serviceId !== action.payload
       ),
+    };
+  } else if (RESET_CART) {
+    return {
+      ...state,
+      cartItems: [],
     };
   } else {
     return state;

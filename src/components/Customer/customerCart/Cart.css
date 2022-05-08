@@ -1,0 +1,33 @@
+.cart__container {
+  height: 100vh;
+}
+
+.cart__table {
+  margin: auto;
+  margin-top: 20px;
+}
+
+.cart__thead-cells {
+  margin: 10px;
+  background: darkgray;
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+
+.cart__tbody-cells {
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+tfoot {
+  margin-top: 10px;
+  transform: translateX(81%);
+}
+
+.cart__tfoot-cell {
+  padding: 10px;
+}
+
+.place-order-button-container {
+  padding-left: 25px;
+}

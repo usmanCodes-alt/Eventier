@@ -20,7 +20,7 @@ export default function Header() {
       <nav>
         <ul className="customer-header__nav-links">
           <li>
-            <NavLink className="customer-header__link" to="#">
+            <NavLink className="customer-header__link" to="/customer/cart">
               Cart{" "}
               {cartItems.length > 0 && (
                 <div className="customer-header__cart-items-count">
@@ -37,11 +37,7 @@ export default function Header() {
           <NavLink className="customer-header__link" to="/chat">
             Messages
           </NavLink>
-          <NavLink
-            to="/customer-login"
-            className="customer-header__link"
-            onClick={logout}
-          >
+          <NavLink to="/" className="customer-header__link" onClick={logout}>
             Logout
           </NavLink>
         </ul>
