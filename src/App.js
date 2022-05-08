@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Signup from "./components/signupmainpage/Signup.js";
 import Footer from "./components/footer/Footer";
 import AddService from "./components/addService/AddService";
-import VendorSignup from "./components/vendorSignup/VendorSignup";
+import VendorSignup from "./components/signupmainpage/Signup";
 import ProfileDetail from "./components/profileDetail/ProfileDetail";
 import SigninPage from "./components/signinPage/SigninPage";
 import Header from "./components/Header/Header.js";
@@ -32,7 +32,6 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         {/*<Header />*/}
         <Routes>
-          <Route path="/" element={<TotalOrdersCustomer />} />
           {/** Customer endpoints */}
           <Route path="/customer-login" element={<Login />} />
           <Route path="/customer-signup" element={<CustomerSignUp />} />
@@ -41,6 +40,7 @@ function App() {
             path="/customer/service-details"
             element={<CustomerServiceDetailsView />}
           />
+          <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
 
           {/** SP endpoints */}
           <Route path="/" element={<SigninPage />} />

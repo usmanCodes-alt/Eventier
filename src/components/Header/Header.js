@@ -1,8 +1,13 @@
 import React from "react";
 import logo from "./logo.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
+  const logout = () => {
+    localStorage.clear();
+    // navigate("/customer-login");
+  };
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,20 +34,15 @@ export default function Header() {
                 </Link>
               </li>
             </ul>
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="search-addon"
-              width="70dp"
-            />
           </div>
 
           <div class="d-flex align-items-center">
             <Link className="btn" to="/profileDetail">
               My Profile
             </Link>
+            <NavLink to="/" className="nav-link" onClick={logout}>
+              Logout
+            </NavLink>
           </div>
         </div>
       </nav>

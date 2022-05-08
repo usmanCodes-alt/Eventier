@@ -14,6 +14,11 @@ export default function ServiceDetails() {
   const [serviceDetails, setServiceDetails] = useState();
 
   useEffect(() => {
+    if (!localStorage.getItem("auth_token")) {
+      // user is not logged in.
+      navigate("/customer-login");
+    }
+
     if (localStorage.getItem("auth_token") && !user) {
       console.log("page refreshed while user was logged in");
       setUser({

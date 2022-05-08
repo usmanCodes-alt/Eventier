@@ -5,11 +5,14 @@ import axios from "axios";
 import { PieChart } from "react-minimal-pie-chart";
 import { Link } from "react-router-dom";
 
+import Header from "../Header/Header";
+
 import StarRatings from "react-star-ratings";
 
 export default function DashBoard() {
   return (
     <div className="container-fluid MainCardDashboard ">
+      <Header />
       <div className="row carddatsboard1 ">
         <div>
           <h1>DashBoard</h1>

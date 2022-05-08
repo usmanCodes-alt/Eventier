@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 
 import Search from "../searchServiceBar/Search";
@@ -9,11 +10,17 @@ import Header from "../customerHeader/Header";
 import "./home.css";
 
 export default function Home() {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [services, setServices] = useState([]);
   const [showSelectedServices, setShowSelectedServices] = useState();
 
   useEffect(() => {
+    if (!localStorage.getItem("auth_token")) {
+      // user is not logged in.
+      navigate("/customer-login");
+    }
+
     if (localStorage.getItem("auth_token") && !user) {
       console.log("page refreshed while user was logged in");
       setUser({

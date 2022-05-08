@@ -1,5 +1,3 @@
-// TODO: Search service by category only, no string input.
-
 import React, { useState } from "react";
 import Select from "react-select";
 
