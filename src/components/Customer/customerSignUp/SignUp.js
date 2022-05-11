@@ -88,7 +88,7 @@ export default function SignUp() {
         // localStorage.setItem("roles", JSON.stringify(response.data.roles));
 
         // goto customer dashboard
-        navigate("/customer-login");
+        navigate("/");
         alert("Account created");
       })
       .catch((err) => {
@@ -97,7 +97,7 @@ export default function SignUp() {
   };
 
   const redirectToCustomerLogin = (e) => {
-    navigate("/customer-login");
+    navigate("/");
   };
 
   return (

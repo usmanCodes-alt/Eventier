@@ -43,7 +43,7 @@ export default function SigninPage() {
         localStorage.setItem("auth_token", response.data.token);
         localStorage.setItem("email", formValues.userEmail.trim());
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
-        navigate("vendordashboard");
+        navigate("/vendordashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -122,6 +122,13 @@ export default function SigninPage() {
               }}
             >
               Don't Have an Account ?
+            </p>
+            <p
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Login as a Customer
             </p>
           </div>
         </div>

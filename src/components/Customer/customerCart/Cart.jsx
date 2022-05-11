@@ -30,7 +30,9 @@ function Cart() {
         if (res.status === 201) {
           // empty cart and redirect to home
           resetCart();
-          navigate("/customer-home");
+          //   navigate("/customer-home");
+          console.log(res);
+          window.location = res.data.STRIPE_URL;
         }
       })
       .catch((error) => console.log(error));

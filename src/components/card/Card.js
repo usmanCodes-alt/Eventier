@@ -4,13 +4,22 @@ import { useNavigate } from "react-router-dom";
 import placeHolderImage from "../../service_image_placeholder.jpg";
 import "./card.css";
 
-const Card = ({ url, serviceName, description, serviceId }) => {
+const Card = ({
+  url,
+  serviceName,
+  description,
+  serviceId,
+  forServiceProvider,
+}) => {
   // console.log(serviceId);
   const navigate = useNavigate();
 
   const onViewButtonClicked = (e) => {
     e.preventDefault();
-    navigate("/customer/service-details", {
+    const serviceDetailUrl = forServiceProvider
+      ? "/service-provider/service-details"
+      : "/customer/service-details";
+    navigate(serviceDetailUrl, {
       state: {
         serviceId,
       },

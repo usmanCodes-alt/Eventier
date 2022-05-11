@@ -111,7 +111,10 @@ export default function Login() {
           </button>
         </div>
 
-        <Link to="/" className="customerLogin__login-as-sp">
+        <Link
+          to="/service-provider-login"
+          className="customerLogin__login-as-sp"
+        >
           Login as a Business
         </Link>
       </div>

@@ -34,6 +34,21 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !firstName ||
+      !lastName ||
+      !storeName ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !street ||
+      !city ||
+      !province ||
+      !country ||
+      !phoneNumber
+    ) {
+      return alert("Please provide all fields");
+    }
     axios
       .post("http://localhost:3000/service-providers/create-new", {
         firstName,

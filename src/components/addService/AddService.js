@@ -8,7 +8,7 @@ import Dropdown from "react-dropdown";
 import Header from "../Header/Header.js";
 import "react-dropdown/style.css";
 
-export default function SigninPage() {
+export default function AddService() {
   // store this token in context api
   const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);

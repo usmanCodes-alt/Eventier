@@ -7,7 +7,6 @@ import AddService from "./components/addService/AddService";
 import VendorSignup from "./components/signupmainpage/Signup";
 import ProfileDetail from "./components/profileDetail/ProfileDetail";
 import SigninPage from "./components/signinPage/SigninPage";
-import Header from "./components/Header/Header.js";
 import TotalOrders from "./components/totalOrders/TotalOrders";
 import GetAllServices from "./components/getAllServices/GetAllServices";
 import DashBoard from "./components/dashBoard/DashBoard";
@@ -53,6 +52,10 @@ function App() {
           <Route path="/profileDetail" element={<ProfileDetail />} />
           <Route path="/addService" element={<AddService />} />
           <Route path="/vendorSignup" element={<VendorSignup />} />
+          <Route
+            path="/service-provider/service-details"
+            element={<ServiceDetail />}
+          />
 
           <Route path="/chat" element={<Chat />} />
         </Routes>

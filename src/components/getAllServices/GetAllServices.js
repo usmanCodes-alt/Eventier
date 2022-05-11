@@ -63,6 +63,8 @@ export default function TotalOrders() {
                 url={service.static_url}
                 serviceName={service.service_name}
                 description={service.description}
+                forServiceProvider={true}
+                serviceId={service.service_id}
               />
             );
           })}

@@ -75,7 +75,7 @@ export default function DashBoard() {
               <h3>Completed Orders</h3>
             </div>
             <div className=" titlepie col-lg-2 col-md-2 col-sm-2">
-              <h3>Dilivered Orders</h3>
+              <h3>Delivered Orders</h3>
             </div>
           </div>
         </div>
