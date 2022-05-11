@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../context/auth-context";
-import styles from "./TotalOrders.css";
+import "./TotalOrders.css";
 import Header from "../Header/Header";
 import axios from "axios";
 
@@ -46,6 +46,69 @@ export default function TotalOrders() {
         console.log(err);
       });
   }, []);
+
+  const changeOrderStatus = (statusValue, orderId) => {
+    if (statusValue === "--") {
+      console.log(statusValue);
+      return;
+    }
+    axios
+      .patch(
+        "http://localhost:3000/service-providers/update-order-status",
+        {
+          newStatus: statusValue,
+          orderId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("changing state");
+          setOrders((oldOrders) => {
+            // change status of order
+            return oldOrders.map((order) => {
+              if (order.order_id === orderId) {
+                order.status = statusValue;
+              }
+              return order;
+            });
+          });
+
+          setSpecificOrders((oldOrders) => {
+            // change status of order
+            return oldOrders.map((order) => {
+              if (order.order_id === orderId) {
+                order.status = statusValue;
+              }
+              return order;
+            });
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const renderSelectOptions = (order) => {
+    return (
+      <select
+        name="status"
+        onChange={(e) => changeOrderStatus(e.target.value, order.order_id)}
+        value={order.status}
+      >
+        <option>--</option>
+        <option value="accepted">Accept</option>
+        <option value="in-progress">In-Progress</option>
+        <option value="delivered">Delivered</option>
+        <option value="rejected">Reject</option>
+      </select>
+    );
+  };
 
   return (
     <div className="container-fluid TotalOrders ">
@@ -106,8 +169,6 @@ export default function TotalOrders() {
           </div>
         </div>
         <div className="row ">
-          
-
           <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders ">
             <div
               className="btn-toolbar justify-content-between titleorders"
@@ -248,18 +309,12 @@ export default function TotalOrders() {
               </div>
             </div>
             <ul className="list-group">
-              hello
               {orderStatus === "Total Orders"
                 ? orders.map((order) => {
-                    return (
-                      
-                      <li className="list-group-item">{order.customer_name}</li>
-                    );
+                    return renderSelectOptions(order);
                   })
                 : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.customer_name}</li>
-                    );
+                    return renderSelectOptions(order);
                   })}
             </ul>
           </div>

@@ -34,14 +34,12 @@ function App() {
         {/*<Header />*/}
         <Routes>
           {/** Customer endpoints */}
-          <Route path="/" element={<TotalOrders />} />
-          {/* <Route path="/" element={<Login />} /> */}
+          <Route path="/" element={<Login />} />
           <Route path="/customer-signup" element={<CustomerSignUp />} />
           <Route path="/customer-home" element={<CustomerHome />} />
           <Route
             path="/customer/service-details"
             element={<CustomerServiceDetailsView />}
-            
           />
           <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
           <Route path="/customer/cart" element={<Cart />} />

@@ -33,6 +33,16 @@ export default function Header() {
                   Services{" "}
                 </Link>
               </li>
+              <li>
+                <Link className="nav-link" to="/addService">
+                  Add Service
+                </Link>
+              </li>
+              <li>
+                <Link className="nav-link" to="/chat">
+                  Messages
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -40,7 +50,11 @@ export default function Header() {
             <Link className="btn" to="/profileDetail">
               My Profile
             </Link>
-            <NavLink to="/" className="nav-link" onClick={logout}>
+            <NavLink
+              to="/service-provider-login"
+              className="nav-link"
+              onClick={logout}
+            >
               Logout
             </NavLink>
           </div>

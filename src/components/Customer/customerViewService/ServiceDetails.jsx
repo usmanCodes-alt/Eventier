@@ -98,6 +98,8 @@ export default function ServiceDetails() {
       </p>
       <button onClick={onContactClicked}>Contact</button>
       <button onClick={addServiceToCart}>Add to Cart</button>
+
+      <textarea></textarea>
     </div>
   );
 }
