@@ -1,0 +1,26 @@
+.WishList{
+    width: auto;
+    height: auto;
+    background-color: #E1E7FF;
+    position: relative;
+}
+.WishListCard{
+    margin: 30px;
+    
+   
+   
+    background-color: #F2F2F2;
+    
+}
+.WishListTable{
+    border-style: solid;
+    padding-left: 10px;
+    padding: 10px;
+    
+}
+.wishListHeading{
+    font-weight: bold;
+}
+.buttonWsisList{
+    padding-right: 10px;
+}

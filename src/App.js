@@ -25,6 +25,7 @@ import TotalOrdersCustomer from "./components/Customer/TotalOrdersCustomers/Tota
 import { default as CustomerServiceDetailsView } from "./components/Customer/customerViewService/ServiceDetails";
 import Cart from "./components/Customer/customerCart/Cart";
 import Chat from "./components/Customer/Chat/Chat";
+import WishList from "./components/Customer/WishList/WishList";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,15 +35,18 @@ function App() {
         {/*<Header />*/}
         <Routes>
           {/** Customer endpoints */}
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<TotalOrders />} />
+          {/* <Route path="/" element={<Login />} /> */}
           <Route path="/customer-signup" element={<CustomerSignUp />} />
           <Route path="/customer-home" element={<CustomerHome />} />
           <Route
             path="/customer/service-details"
             element={<CustomerServiceDetailsView />}
+            
           />
           <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
           <Route path="/customer/cart" element={<Cart />} />
+          <Route path="/customer-signup" element={<WishList />} />
 
           {/** SP endpoints */}
           <Route path="/service-provider-login" element={<SigninPage />} />
