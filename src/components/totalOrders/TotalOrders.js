@@ -106,7 +106,7 @@ export default function TotalOrders() {
           </div>
         </div>
         <div className="row ">
-          <div className=" col-lg-1 col-md-1 col-sm-1"></div>
+          
 
           <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders ">
             <div
@@ -232,6 +232,33 @@ export default function TotalOrders() {
                 : specificOrders.map((order) => {
                     return (
                       <li className="list-group-item">{order.service_type}</li>
+                    );
+                  })}
+            </ul>
+          </div>
+
+          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
+            <div
+              className="btn-toolbar justify-content-between titleorders"
+              role="toolbar"
+              aria-label="Toolbar with button groups"
+            >
+              <div className="btn-group " role="group" aria-label="First group">
+                <h3>Change Status</h3>
+              </div>
+            </div>
+            <ul className="list-group">
+              hello
+              {orderStatus === "Total Orders"
+                ? orders.map((order) => {
+                    return (
+                      
+                      <li className="list-group-item">{order.customer_name}</li>
+                    );
+                  })
+                : specificOrders.map((order) => {
+                    return (
+                      <li className="list-group-item">{order.customer_name}</li>
                     );
                   })}
             </ul>

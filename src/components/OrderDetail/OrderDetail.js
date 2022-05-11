@@ -26,7 +26,7 @@ export default function OrderDetail() {
   return (
     <div className="container-fluid Orderdetail">
     <div className="row">
-      <div className=" col-lg-11 col-md-11 col-sm-1    ">
+      <div className=" col-lg-11 col-md-11 col-sm-11   ">
         <h1>Order Detail</h1>
         <div className="row">
           <div className=" col-lg-7 col-md-7 col-sm-7 orderdetailcardLeft  ">
