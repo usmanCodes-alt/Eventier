@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
+import axios from "axios";
 import CartContext from "../../../context/Cart/cartContext";
 
 import logo from "../../../logo.png";
@@ -9,7 +10,20 @@ export default function Header() {
   const { cartItems } = useContext(CartContext);
 
   const logout = () => {
-    localStorage.clear();
+    axios
+      .delete("http://localhost:3000/customers/logout", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.clear();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -19,6 +33,11 @@ export default function Header() {
       </Link>
       <nav>
         <ul className="customer-header__nav-links">
+          <li>
+            <NavLink className="customer-header__link" to="/customer/wish-list">
+              Wish List
+            </NavLink>
+          </li>
           <li>
             <NavLink className="customer-header__link" to="/customer/cart">
               Cart{" "}

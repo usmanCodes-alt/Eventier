@@ -9,10 +9,13 @@ import "./Cart.css";
 
 function Cart() {
   const { cartItems, resetCart } = useContext(CartContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onPlaceOrderClicked = (e) => {
     e.preventDefault();
+    if (cartItems.length === 0) {
+      return alert("Cart Empty!");
+    }
     axios
       .post(
         "http://localhost:3000/customers/place-order",
@@ -43,19 +46,19 @@ function Cart() {
       <Header />
       <table className="cart__table">
         <thead>
-          <tr>
-            <th className="cart__thead-cells">Service Name</th>
+          <tr className="totalOrders__thead">
+            <th className="cart__thead-cells first">Service Name</th>
             <th className="cart__thead-cells">Service Type</th>
             <th className="cart__thead-cells">Unit price</th>
             <th className="cart__thead-cells">Discount</th>
-            <th className="cart__thead-cells">Service Provider Email</th>
+            <th className="cart__thead-cells last">Service Provider Email</th>
           </tr>
         </thead>
 
         <tbody>
           {cartItems.map((item) => {
             return (
-              <tr>
+              <tr className="cart__tbodyRow">
                 <td className="cart__tbody-cells">{item.service_name}</td>
                 <td className="cart__tbody-cells">{item.service_type}</td>
                 <td className="cart__tbody-cells">{item.unit_price}</td>

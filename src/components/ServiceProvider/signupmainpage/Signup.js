@@ -201,7 +201,7 @@ export default function Signup() {
             <p>I agree with terms and conditions</p>
             <button onClick={handleSubmit}>Sign Up</button>
             <button>
-              <Link to="/">Login</Link>
+              <Link to="/service-provider-login">Login</Link>
             </button>
           </div>
         </div>

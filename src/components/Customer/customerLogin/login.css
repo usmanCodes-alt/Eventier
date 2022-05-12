@@ -1,6 +1,8 @@
 .customerLogin__container {
   display: flex;
   justify-content: space-evenly;
+  height: auto;
+  padding-bottom: 260px;
 }
 
 .customerLogin__logo {
@@ -10,7 +12,7 @@
 }
 
 .customerLogin__form-container {
-  height: auto;
+  height: 80vh;
   width: 90vh;
   margin: 10px;
   border-radius: 10px;
@@ -24,10 +26,10 @@
 .customerLogin__buttons-container {
   display: flex;
   justify-content: space-evenly;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 10px;
   padding-left: 10px;
-  width: 75%;
+  width: 20%;
 }
 
 .customerLogin__btn {
@@ -36,6 +38,7 @@
   padding: 10px;
   background-color: black;
   color: white;
+  margin: 5px;
 }
 
 .customerLogin__input-field {

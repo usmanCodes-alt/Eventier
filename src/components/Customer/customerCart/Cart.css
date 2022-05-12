@@ -1,5 +1,6 @@
 .cart__container {
-  height: 100vh;
+  height: auto;
+  padding-bottom: 260px;
 }
 
 .cart__table {
@@ -9,14 +10,17 @@
 
 .cart__thead-cells {
   margin: 10px;
-  background: darkgray;
+  background-color: #36304a;
   padding: 10px;
   border-bottom: 1px solid black;
+  color: white;
+  text-align: center;
 }
 
 .cart__tbody-cells {
   padding: 10px;
   border-bottom: 1px solid lightgray;
+  text-align: center;
 }
 
 tfoot {
@@ -30,4 +34,8 @@ tfoot {
 
 .place-order-button-container {
   padding-left: 25px;
+}
+
+.cart__tbodyRow:hover td {
+  background-color: #d1d1d1;
 }

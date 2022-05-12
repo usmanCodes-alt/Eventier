@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
-import UserContext from "../../context/auth-context";
+import UserContext from "../../../context/auth-context";
 import axios from "axios";
-import Header from "../Header/Header";
+import Header from "../../ServiceProvider/Header/Header";
 import "react-dropdown/style.css";
 
 import "./ProfileDetail.css";
-import profilePicturePlaceHolder from "../../profile_pic_avatar.png";
+import profilePicturePlaceHolder from "../../../profile_pic_avatar.png";
 
 export default function SigninPage() {
   const passwordValues = {

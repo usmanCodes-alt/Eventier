@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import "./App.css";
+// import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Signup from "./components/signupmainpage/Signup.js";
+import Signup from "./components/ServiceProvider/signupmainpage/Signup.js";
 import Footer from "./components/footer/Footer";
-import AddService from "./components/addService/AddService";
-import VendorSignup from "./components/signupmainpage/Signup";
-import ProfileDetail from "./components/profileDetail/ProfileDetail";
-import SigninPage from "./components/signinPage/SigninPage";
-import TotalOrders from "./components/totalOrders/TotalOrders";
-import GetAllServices from "./components/getAllServices/GetAllServices";
-import DashBoard from "./components/dashBoard/DashBoard";
+import AddService from "./components/ServiceProvider/addService/AddService";
+import VendorSignup from "./components/ServiceProvider/signupmainpage/Signup";
+import ProfileDetail from "./components/ServiceProvider/profileDetail/ProfileDetail";
+import SigninPage from "./components/ServiceProvider/signinPage/SigninPage";
+import TotalOrders from "./components/ServiceProvider/totalOrders/TotalOrders";
+import GetAllServices from "./components/ServiceProvider/getAllServices/GetAllServices";
+import DashBoard from "./components/ServiceProvider/dashBoard/DashBoard";
 import UserContext from "./context/auth-context";
-import OrderDetail from "./components/OrderDetail/OrderDetail";
-import ServiceDetail from "./components/ServiceDetail/ServiceDetail";
+import OrderDetail from "./components/ServiceProvider/OrderDetail/OrderDetail";
+import ServiceDetail from "./components/ServiceProvider/ServiceDetail/ServiceDetail";
 
 // customer components
 import Login from "./components/Customer/customerLogin/Login";
@@ -43,7 +43,7 @@ function App() {
           />
           <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
           <Route path="/customer/cart" element={<Cart />} />
-          <Route path="/customer-signup" element={<WishList />} />
+          <Route path="/customer/wish-list" element={<WishList />} />
 
           {/** SP endpoints */}
           <Route path="/service-provider-login" element={<SigninPage />} />
@@ -61,7 +61,7 @@ function App() {
 
           <Route path="/chat" element={<Chat />} />
         </Routes>
-        {/*<Footer />*/}
+        <Footer />
       </UserContext.Provider>
     </BrowserRouter>
   );

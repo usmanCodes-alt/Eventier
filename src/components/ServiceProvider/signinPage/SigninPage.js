@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import UserContext from "../../context/auth-context";
+import UserContext from "../../../context/auth-context";
 import axios from "axios";
-import logo from "../../logo.png";
+import logo from "../../../logo.png";
 import { useNavigate } from "react-router-dom";
-import styles from "./signin.css";
+import "./signin.css";
 
 export default function SigninPage() {
   let navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function SigninPage() {
       })
       .then((response) => {
         if (response.status !== 200) {
+          console.log(response);
           return;
         }
         const loggedInUser = {

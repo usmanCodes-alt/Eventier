@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../Header/Header";
+import Header from "../../ServiceProvider/Header/Header";
 import Image1 from "./image1.png";
 
 import "./ServiceDetail.css";

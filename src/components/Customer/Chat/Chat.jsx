@@ -9,7 +9,7 @@ import UserContext from "../../../context/auth-context";
 import Conversation from "./Conversations/Conversation";
 import Message from "./Message/Message";
 import Header from "../customerHeader/Header";
-import { default as ServiceProviderHeader } from "../../Header/Header";
+import { default as ServiceProviderHeader } from "../../ServiceProvider/Header/Header";
 import "./chat.css";
 
 export default function Chat() {

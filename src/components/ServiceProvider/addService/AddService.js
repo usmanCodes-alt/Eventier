@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
-import UserContext from "../../context/auth-context";
+import UserContext from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import "./addservice.css";
 import axios from "axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-dropdown";
-import Header from "../Header/Header.js";
+import Header from "../../ServiceProvider/Header/Header.js";
 import "react-dropdown/style.css";
 import logo from "./img.png";
 
@@ -17,10 +17,6 @@ export default function AddService() {
   const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);
   const hiddenFileInput = useRef();
-  const [urlsArrayTemp, setUrlsArrayTemp] = useState([
-    "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-    "https://static.vecteezy.com/packs/media/components/global/search-explore-nav/img/vectors/term-bg-1-666de2d941529c25aa511dc18d727160.jpg",
-  ]);
 
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {

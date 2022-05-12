@@ -1,0 +1,87 @@
+.serviceDetails__commentInput {
+  display: flex;
+  margin: auto;
+  width: 74vh;
+  justify-content: space-between;
+}
+
+.serviceDetails__wrapper {
+  height: auto;
+  padding-bottom: 260px;
+}
+
+.serviceDetails__button-actions-container {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.serviceDetails__information-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceDetails__information-heading {
+  margin: auto;
+}
+
+.serviceDetails__all-information {
+  width: 50%;
+  align-self: center;
+}
+
+.serviceDetails__comment-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceDetails__commentAreaAndButtonContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.serviceDetails__commentTextArea {
+  resize: none;
+  height: 100px;
+  width: 45vh;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.star-ratings {
+  margin: auto;
+}
+
+.serviceDetails__starRatingsContainer {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.serviceDetails__allReviewsContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 74vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.serviceDetails__reviewContainer {
+  margin-top: 10px;
+  border-top: 1px solid gainsboro;
+  padding: 10px;
+}
+
+.serviceDetails__userReview {
+  margin: 1px;
+}
+
+.serviceDetails__btnAndStarRating {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

@@ -4,7 +4,7 @@ import "./DashBoard.css";
 import axios from "axios";
 import { PieChart } from "react-minimal-pie-chart";
 import { Link } from "react-router-dom";
-import AddServiceImage from "../../add_service_button.png";
+import AddServiceImage from "../../../add_service_button.png";
 
 import Header from "../Header/Header";
 

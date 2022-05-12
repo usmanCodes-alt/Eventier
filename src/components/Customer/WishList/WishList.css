@@ -1,26 +1,26 @@
-.WishList{
-    width: auto;
-    height: auto;
-    background-color: #E1E7FF;
-    position: relative;
+.WishList {
+  width: auto;
+  height: auto;
+  background-color: #e1e7ff;
+  position: relative;
 }
-.WishListCard{
-    margin: 30px;
-    
-   
-   
-    background-color: #F2F2F2;
-    
+.WishListCard {
+  margin: 30px;
+
+  background-color: #f2f2f2;
 }
-.WishListTable{
-    border-style: solid;
-    padding-left: 10px;
-    padding: 10px;
-    
+.WishListTable {
+  border-style: solid;
+  padding-left: 10px;
+  padding: 10px;
 }
-.wishListHeading{
-    font-weight: bold;
+.wishListHeading {
+  font-weight: bold;
 }
-.buttonWsisList{
-    padding-right: 10px;
+.buttonWsisList {
+  padding-right: 10px;
+}
+
+.cart__tbodyRow:hover td {
+  background-color: #d1d1d1;
 }

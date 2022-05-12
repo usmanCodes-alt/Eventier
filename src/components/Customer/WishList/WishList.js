@@ -1,78 +1,90 @@
-import React from 'react'
-import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import React from "react";
+import { useState, useEffect } from "react";
+import Header from "../customerHeader/Header";
 import "./WishList.css";
 export default function WishList() {
-    const initialValues = {
-        ServiceName: "hall",//
-        ServiceType: "Rent a Car",//
-        UnitPrice: "ten thousand",//
-        ServiceProviderEmail: "mfaizanali@gmail.com",//
-        
-      };
-      const [formValues, setFormValues] = useState(initialValues);
-  return (
-    <div className='container-fluid WishList'>
-        <div className='row'>
-            <div className='col-lg-11 col-md-11 col-sm-11'>
-                <h1>WishList</h1>
-                <div className='col-lg-12 col-md-12 col-sm-12 WishListCard'>
-                    <div className='row'>
-                        <div className='col-lg-2 col-md-2 col-sm-2 WishListTable'>
-                        <div className='wishListHeading'>
-                            Service Name
-                            </div>
-                            <div >
-                                <li>
-                                    {formValues.ServiceName}
-                                </li>
-                            </div>
-                        </div>
-                        <div className='col-lg-2 col-md-2 col-sm-2 WishListTable'>
-                        <div className='wishListHeading'>
-                            Service Type
-                            </div>
-                            <div >
-                                
-                                    {formValues.ServiceType}
-                                
-                            </div>
-                        </div>
-                        <div className='col-lg-2 col-md-2 col-sm-2 WishListTable'>
-                            
-                            <div className='wishListHeading'>
-                            UnitPrice
-                            </div>
-                           
-                            <div >
-                                
-                                {formValues.UnitPrice}
-                                
-                            </div>
-                        </div>
-                        <div className='col-lg-3 col-md-3 col-sm-3 WishListTable'>
-                        <div className='wishListHeading'>
-                        Service Provider Email
-                            </div>
-                            <div >
-                               
-                                    {formValues.ServiceProviderEmail}
-                                
-                            </div>
-                        </div>
-                        <div className='col-lg-3 col-md-3 col-sm-3 WishListTable'>
-                        <div className='wishListHeading'>
-                       Action
-                            </div>
-                            <div>
-                            <button type="button " class="btn btn-danger buttonWishList">Delete</button>
-                            <button type="button" class="btn btn-success">Add to cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  const [wishList, setWishList] = useState([]);
 
-        </div>
+  const getItemsFromWishList = () => {
+    axios
+      .get("http://localhost:3000/customers/get-wish-list", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setWishList(res.data.wishList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getItemsFromWishList();
+  }, []);
+
+  const onRemoveButtonClicked = (wishListId) => {
+    axios
+      .delete(
+        "http://localhost:3000/customers/wish-list/remove/" + wishListId,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          getItemsFromWishList();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <div className="cart__container">
+      <Header />
+      <table className="cart__table">
+        <thead>
+          <tr>
+            <th className="cart__thead-cells first">Service Name</th>
+            <th className="cart__thead-cells">Service Type</th>
+            <th className="cart__thead-cells">Unit Price</th>
+            <th className="cart__thead-cells">Service Provider Email</th>
+            <th className="cart__thead-cells last">Remove from wish list</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {wishList.map((item) => {
+            return (
+              <tr className="cart__tbodyRow" key={item.wish_list_id}>
+                <td className="cart__tbody-cells">{item.service_name}</td>
+                <td className="cart__tbody-cells">{item.service_type}</td>
+                <td className="cart__tbody-cells">{item.unit_price}</td>
+                <td className="cart__tbody-cells">
+                  {item.service_provider_email}
+                </td>
+                <td className="cart__tbody-cells">
+                  <button
+                    onClick={onRemoveButtonClicked.bind(
+                      this,
+                      item.wish_list_id
+                    )}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
-  )
+  );
 }

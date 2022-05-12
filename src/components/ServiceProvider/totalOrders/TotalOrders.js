@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import UserContext from "../../context/auth-context";
+import UserContext from "../../../context/auth-context";
 import "./TotalOrders.css";
 import Header from "../Header/Header";
 import axios from "axios";
