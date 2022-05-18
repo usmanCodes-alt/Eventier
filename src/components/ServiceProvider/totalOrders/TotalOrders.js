@@ -3,6 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../../../context/auth-context";
 import "./TotalOrders.css";
 import Header from "../Header/Header";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 
 import "react-dropdown/style.css";
@@ -23,11 +27,11 @@ export default function TotalOrders() {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (status) => {
     setSpecificOrders(() => {
-      return orders.filter((order) => order.status === e.target.value);
+      return orders.filter((order) => order.status === status);
     });
-    setOrderStatus(e.target.value);
+    setOrderStatus(status);
   };
 
   useEffect(() => {
@@ -94,232 +98,127 @@ export default function TotalOrders() {
       });
   };
 
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   const renderSelectOptions = (order) => {
+    // return (
+    //   <select
+    //     name="status"
+    //     onChange={(e) => changeOrderStatus(e.target.value, order.order_id)}
+    //     value={order.status}
+    //   >
+    //     <option>--</option>
+    //     <option value="accepted">Accept</option>
+    //     <option value="in-progress">In-Progress</option>
+    //     <option value="delivered">Delivered</option>
+    //     <option value="rejected">Reject</option>
+    //   </select>
+    // );
     return (
-      <select
-        name="status"
-        onChange={(e) => changeOrderStatus(e.target.value, order.order_id)}
-        value={order.status}
-      >
-        <option>--</option>
-        <option value="accepted">Accept</option>
-        <option value="in-progress">In-Progress</option>
-        <option value="delivered">Delivered</option>
-        <option value="rejected">Reject</option>
-      </select>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel>Status</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={order.status}
+          label="Status"
+          onChange={(e) => changeOrderStatus(e.target.value, order.order_id)}
+        >
+          <MenuItem value="--">--</MenuItem>
+          <MenuItem value="accepted">Accept</MenuItem>
+          <MenuItem value="in-progress">In-Progress</MenuItem>
+          <MenuItem value="delivered">Delivered</MenuItem>
+          <MenuItem value="rejected">Reject</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  };
+
+  const renderRow = (order) => {
+    return (
+      <tr className="totalOrder_tbodyRow">
+        <td className="totalOrders__tbodyRowCell">{order.order_name}</td>
+        <td className="totalOrders__tbodyRowCell">{order.customer_name}</td>
+        <td className="totalOrders__tbodyRowCell">
+          {formatDate(order.order_date)}
+        </td>
+        <td className="totalOrders__tbodyRowCell">{order.service_type}</td>
+        <td className="totalOrders__tbodyRowCell">{order.payment_status}</td>
+        <td className="totalOrders__tbodyRowCell">
+          {renderSelectOptions(order)}
+        </td>
+      </tr>
     );
   };
 
   return (
-    <div className="container-fluid TotalOrders ">
+    <div className="totalOrders__wrapper">
       <Header />
-      <div className="maincard">
-        <h1>Orders</h1>
-        <div className="row bar">
-          <div className=" col-lg-1 col-md-1 col-sm-1"></div>
-          <div className=" col-lg-2 col-md-2 col-sm-2">
-            <button
-              type="button"
-              className=" buttonorders"
-              onClick={handleSubmit}
-              value="Total Orders"
-            >
-              Total Orders
-            </button>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2">
-            <button
-              type="button"
-              className=" buttonorders"
-              onClick={handleSubmit}
-              value="in-progress"
-            >
-              Inprogress
-            </button>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2">
-            <button
-              type="button"
-              className=" buttonorders"
-              onClick={handleSubmit}
-              value="delivered"
-            >
-              Delivered
-            </button>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2">
-            <button
-              type="button"
-              className=" buttonorders"
-              onClick={handleSubmit}
-              value="accepted"
-            >
-              Accepted
-            </button>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2">
-            <button
-              type="button"
-              className=" buttonorders"
-              onClick={handleSubmit}
-              value="rejected"
-            >
-              Rejected
-            </button>
-          </div>
+      <div className="totalOrders__filterOptionsContainer">
+        <div
+          className="totalOrders__filterOptions"
+          onClick={handleSubmit.bind(this, "Total Orders")}
+        >
+          All Orders
         </div>
-        <div className="row ">
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Name</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.order_name}</li>
-                    );
-                  })
-                : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.order_name}</li>
-                    );
-                  })}
-            </ul>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Payment Status</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return (
-                      <li className="list-group-item">
-                        {order.payment_status}
-                      </li>
-                    );
-                  })
-                : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">
-                        {order.payment_status}
-                      </li>
-                    );
-                  })}
-            </ul>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Order Date</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.order_date}</li>
-                    );
-                  })
-                : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.order_date}</li>
-                    );
-                  })}
-            </ul>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Customer Name</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.customer_name}</li>
-                    );
-                  })
-                : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.customer_name}</li>
-                    );
-                  })}
-            </ul>
-          </div>
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div
-                className="btn-group titlorders"
-                role="group"
-                aria-label="First group"
-              >
-                <h3>Service Type</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.service_type}</li>
-                    );
-                  })
-                : specificOrders.map((order) => {
-                    return (
-                      <li className="list-group-item">{order.service_type}</li>
-                    );
-                  })}
-            </ul>
-          </div>
-
-          <div className=" col-lg-2 col-md-2 col-sm-2 cardsOrders   ">
-            <div
-              className="btn-toolbar justify-content-between titleorders"
-              role="toolbar"
-              aria-label="Toolbar with button groups"
-            >
-              <div className="btn-group " role="group" aria-label="First group">
-                <h3>Change Status</h3>
-              </div>
-            </div>
-            <ul className="list-group">
-              {orderStatus === "Total Orders"
-                ? orders.map((order) => {
-                    return renderSelectOptions(order);
-                  })
-                : specificOrders.map((order) => {
-                    return renderSelectOptions(order);
-                  })}
-            </ul>
-          </div>
+        <div
+          className="totalOrders__filterOptions"
+          onClick={handleSubmit.bind(this, "in-progress")}
+        >
+          In-Progress
+        </div>
+        <div
+          className="totalOrders__filterOptions"
+          onClick={handleSubmit.bind(this, "delivered")}
+        >
+          Delivered
+        </div>
+        <div
+          className="totalOrders__filterOptions"
+          onClick={handleSubmit.bind(this, "accepted")}
+        >
+          Accepted
+        </div>
+        <div
+          className="totalOrders__filterOptions"
+          onClick={handleSubmit.bind(this, "rejected")}
+        >
+          Rejected
         </div>
       </div>
+
+      <table className="totalOrders__orderTable">
+        <thead className="totalOrders__thead">
+          <tr>
+            <th className="totalOrders__theadCells first">Order Name</th>
+            <th className="totalOrders__theadCells">Customer Name</th>
+            <th className="totalOrders__theadCells">Order Date</th>
+            <th className="totalOrders__theadCells">Service Type</th>
+            <th className="totalOrders__theadCells">Payment Status</th>
+            <th className="totalOrders__theadCells last">Order Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {orderStatus === "Total Orders"
+            ? orders.map((order) => {
+                return renderRow(order);
+              })
+            : specificOrders.map((order) => {
+                return renderRow(order);
+              })}
+        </tbody>
+      </table>
     </div>
   );
 }

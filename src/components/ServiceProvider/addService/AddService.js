@@ -4,11 +4,15 @@ import UserContext from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import "./addservice.css";
 import axios from "axios";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-dropdown";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
 import Header from "../../ServiceProvider/Header/Header.js";
 import "react-dropdown/style.css";
-import logo from "./img.png";
+import AddButtonImage from "./img.png";
 
 export default function AddService() {
   // store this token in context api
@@ -28,55 +32,84 @@ export default function AddService() {
     }
   }, []);
 
-  const initialValues = {
-    serviceName: "",
-    serviceType: "",
-    price: "",
-    status: "active",
-    description: "",
-    discount: "",
+  const [serviceImages, setServiceImages] = useState([]);
+
+  const [serviceName, setServiceName] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [price, setPrice] = useState(0);
+  const [status, setStatus] = useState("active");
+  const [description, setDescription] = useState("");
+  const [discount, setDiscount] = useState(0);
+
+  const onServiceNameChange = (e) => {
+    setServiceName(e.target.value);
   };
-
-  const [formValues, setFormValues] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState({});
-  const [serviceImages, setServiceImages] = useState([]); // is array ki jaga wo oper wali use kr ok and yes, wait
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setFormValues({ ...formValues, [name]: value });
+  const onServiceTypeChange = (e) => {
+    console.log(e.target.value);
+    setServiceType(e.target.value);
+  };
+  const onServicePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+  const onServiceStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
+  const onServiceDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const onServiceDiscountChange = (e) => {
+    setDiscount(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let errors = validate(formValues);
-    setFormErrors(errors);
-    console.log(formValues);
-    // setIsSubmit(true);
+    // let errors = validate(formValues);
+    // setFormErrors(errors);
+    // console.log(formValues);
+    // // setIsSubmit(true);
 
-    if (Object.keys(errors).length !== 0) {
-      return;
-    }
+    // if (Object.keys(errors).length !== 0) {
+    //   return;
+    // }
 
-    const apiObject = {
-      serviceName: formValues.serviceName,
-      serviceType: formValues.serviceType,
-      serviceUnitPrice: formValues.price,
-      discount: formValues.discount,
-      description: formValues.description,
-      status: formValues.status,
-    };
+    // const apiObject = {
+    //   serviceName: formValues.serviceName,
+    //   serviceType: formValues.serviceType,
+    //   serviceUnitPrice: formValues.price,
+    //   discount: formValues.discount,
+    //   description: formValues.description,
+    //   status: formValues.status,
+    // };
+    console.log({
+      serviceName,
+      serviceType,
+      price,
+      discount,
+      status,
+      description,
+    });
 
     axios
-      .post("http://localhost:3000/service-providers/add-service", apiObject, {
-        headers: {
-          Authorization: "Bearer " + token,
+      .post(
+        "http://localhost:3000/service-providers/add-service",
+        {
+          serviceName,
+          serviceType,
+          serviceUnitPrice: price,
+          discount,
+          status,
+          description,
         },
-      })
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         if (response.status === 201) {
-          navigate("/getAllServices");
+          navigate("/service-provider/my-services");
         }
       })
       .catch((err) => {
@@ -85,7 +118,7 @@ export default function AddService() {
   };
 
   const onImageSelectClicked = (e) => {
-    if (!formValues.serviceType) {
+    if (!serviceType) {
       alert("Please select a service type first");
       e.preventDefault();
     }
@@ -96,7 +129,7 @@ export default function AddService() {
       return;
     }
     const formData = new FormData();
-    formData.append("serviceType", formValues.serviceType);
+    formData.append("serviceType", serviceType);
     formData.append("eventierUserEmail", user.email);
     formData.append("serviceImage", e.target.files[0]);
     console.log(formData);
@@ -124,150 +157,95 @@ export default function AddService() {
     console.log(serviceImages);
   }, [serviceImages]);
 
-  const validate = (values) => {
-    const errors = {};
-    if (!values.serviceName) {
-      errors.serviceName = "Service Name is required!";
-    }
-    if (!values.serviceType) {
-      errors.serviceType = "Service Type is required!";
-    }
-    if (!values.price) {
-      errors.price = "Price is required!";
-    }
-
-    if (!values.description) {
-      errors.description = "Description is required!";
-    }
-    if (!values.status) {
-      errors.status = "Status is required!";
-    }
-    return errors;
-  };
-
   return (
-    <div className="container-fluid addService">
+    <div className="sp__add-service-container">
       <Header />
-      <div className="row">
-        <div className=" col-lg-10 col-md-10 col-sm-10 addcard   ">
-          <h1>Add Service</h1>
-          <div className="row">
-            <div className=" col-lg-5 col-md-5 col-sm-5 cardLeft  ">
-              <label>Service Name</label>
-              <input
-                size={5}
-                type="text"
-                className="form-control"
-                name="serviceName"
-                placeholder="Service Name"
-                value={formValues.serviceName}
-                onChange={handleChange}
-              />
-              <p>{formErrors.serviceName}</p>
-
-              <label>Service Type</label>
-
-              <select
-                name="serviceType"
-                className="form-control"
-                value={formValues.serviceType}
-                onChange={handleChange}
+      <div className="sp__add-service-form-container">
+        <div className="sp__add-service-heading-container">
+          <h4>Add New Service</h4>
+        </div>
+        <div className="sp__add-service-inputs-container">
+          <div className="sp__add-service-sub-entry">
+            <TextField
+              value={serviceName}
+              label="Service Name"
+              onChange={onServiceNameChange}
+            />
+            <FormControl>
+              <InputLabel>Service Type</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={serviceType}
+                label="Service Type"
+                onChange={onServiceTypeChange}
               >
-                <option>--</option>
-                <option value="Rent a Car">Rent a Car</option>
-                <option value="Decoration">Decoration</option>
-                <option value="Food">Food</option>
-                <option value="Clothing">Clothing</option>
-              </select>
-              <p>{formErrors.serviceType}</p>
-
-              <label>Price</label>
-              <input
-                type="number"
-                className="form-control"
-                name="price"
-                placeholder="Price"
-                value={formValues.price}
-                onChange={handleChange}
-              />
-              <label>Discount</label>
-              <input
-                type="number"
-                className="form-control"
-                name="discount"
-                placeholder="Discount"
-                value={formValues.discount}
-                onChange={handleChange}
-              />
-              <p>{formErrors.price}</p>
-              <h4>Add images</h4>
-              <button
-                onClick={() => {
-                  hiddenFileInput.current.click();
-                }}
-              >
-                <img width="70" height="70" src={logo} alt="upload button" />
-              </button>
-              <input
-                type="file"
-                onClick={onImageSelectClicked}
-                accept="image/png, image/jpg, image/jpeg"
-                onChange={handleImageUpload}
-                ref={hiddenFileInput}
-                style={{ display: "none" }}
-              />
-
-              {serviceImages.map((e) => (
-                <img src={e} alt="error" width="70" height="70" />
-              ))}
-              {/* <button>
-                  <img src={logo} alt="Image Not Found"   width="70" height="70"
-                onClick={onImageSelectClicked}
-                type="file"
-                accept="image/png, image/jpg, image/jpeg"
-                onChange={handleImageUpload}
-                />
-                </button>
-                
-              </div> */}
-
-              {/**
-          add 5 hidden image tags and un-hide one by one
-          as the serviceImages array has a new value
-          pushed.
-          */}
-            </div>
-            <div className=" col-lg-5 col-md-5 col-sm-6 cardRight   ">
-              <label>Status</label>
-              <select
-                name="status"
-                className="form-control"
-                value={formValues.status}
-                onChange={handleChange}
-              >
-                <option value="active">Active</option>
-                <option value="in-active">In-Active</option>
-              </select>
-              <label>Description</label>
-              <input
-                size={5}
-                type="text"
-                className="form-control"
-                name="description"
-                placeholder="Add Description"
-                value={formValues.description}
-                onChange={handleChange}
-              />
-              <p>{formErrors.description}</p>
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={handleSubmit}
-              >
-                Upload Service
-              </button>
-            </div>
+                <MenuItem value="Rent a Car">Rent a Car</MenuItem>
+                <MenuItem value="Decoration">Decoration</MenuItem>
+                <MenuItem value="Food">Food</MenuItem>
+                <MenuItem value="Clothing">Clothing</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              value={price}
+              label="Price"
+              onChange={onServicePriceChange}
+            />
+            <TextField
+              value={discount}
+              label="Discount"
+              onChange={onServiceDiscountChange}
+            />
           </div>
+          <div className="sp__add-service-sub-entry">
+            <FormControl>
+              <InputLabel>Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={status}
+                label="Status"
+                onChange={onServiceStatusChange}
+              >
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="in-active">In-Active</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              value={description}
+              label="Description"
+              onChange={onServiceDescriptionChange}
+              multiline
+              rows={2}
+            />
+            <img
+              width="70"
+              height="70"
+              src={AddButtonImage}
+              alt="Add Pictures"
+              onClick={() => hiddenFileInput.current.click()}
+            />
+            <input
+              type="file"
+              onClick={onImageSelectClicked}
+              accept="image/png, image/jpg, image/jpeg"
+              onChange={handleImageUpload}
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+            />
+            {serviceImages.length !== 0 && (
+              <div className="sp__add-service-uploaded-images">
+                {serviceImages.map((image) => (
+                  <img src={image} alt="Service" width="60" height="60" />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="sp__add-service-tn-container">
+          <Button variant="contained" onClick={handleSubmit}>
+            Add Service
+          </Button>
         </div>
       </div>
     </div>

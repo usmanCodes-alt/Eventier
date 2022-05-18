@@ -22,6 +22,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivingMessage, setArrivingMessage] = useState(null);
+  const [newConversationCreated, setNewConversationCreated] = useState(false);
   const socketRef = useRef();
   const scrollRef = useRef();
 
@@ -56,6 +57,20 @@ export default function Chat() {
     socketRef.current.emit("addUser", localStorage.getItem("email"));
   }, []);
 
+  // get all conversations of this user when the page loads
+  const getConversations = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/chat-api/conversation/" +
+          localStorage.getItem("email")
+      );
+      console.log("user conversations", response.data);
+      setConversations(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     // check if you have to create a new conversation
     const {
@@ -76,6 +91,7 @@ export default function Chat() {
 
           console.log(response);
           setCurrentChat(response.data);
+          setNewConversationCreated(true);
         } catch (error) {
           console.log(error);
         }
@@ -84,21 +100,12 @@ export default function Chat() {
       createConversation();
     }
 
-    // get all conversations of this user when the page loads
-    const getConversations = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/chat-api/conversation/" +
-            localStorage.getItem("email")
-        );
-        setConversations(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getConversations();
   }, []);
+
+  useEffect(() => {
+    getConversations();
+  }, [newConversationCreated]);
 
   useEffect(() => {
     const getMessages = async () => {

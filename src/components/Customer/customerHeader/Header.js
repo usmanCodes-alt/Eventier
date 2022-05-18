@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 import CartContext from "../../../context/Cart/cartContext";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import logo from "../../../logo.png";
 import "./header.css";
@@ -34,13 +35,8 @@ export default function Header() {
       <nav>
         <ul className="customer-header__nav-links">
           <li>
-            <NavLink className="customer-header__link" to="/customer/wish-list">
-              Wish List
-            </NavLink>
-          </li>
-          <li>
             <NavLink className="customer-header__link" to="/customer/cart">
-              Cart{" "}
+              <ShoppingCartIcon />
               {cartItems.length > 0 && (
                 <div className="customer-header__cart-items-count">
                   <span>({cartItems.length})</span>
@@ -49,16 +45,31 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
+            <NavLink className="customer-header__link" to="/customer/wish-list">
+              Wish List
+            </NavLink>
+          </li>
+
+          <li>
             <NavLink className="customer-header__link" to="/customer-orders">
               Orders
             </NavLink>
           </li>
-          <NavLink className="customer-header__link" to="/chat">
-            Messages
-          </NavLink>
-          <NavLink to="/" className="customer-header__link" onClick={logout}>
-            Logout
-          </NavLink>
+          <li>
+            <NavLink className="customer-header__link" to="/chat">
+              Messages
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="customer-header__link" to="/customer/profile">
+              Profile
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/" className="customer-header__link" onClick={logout}>
+              Logout
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>

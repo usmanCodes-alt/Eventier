@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import CartContext from "../../../context/Cart/cartContext";
 import Header from "../customerHeader/Header";
 
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import axios from "axios";
 import "./Cart.css";
 
 function Cart() {
-  const { cartItems, resetCart } = useContext(CartContext);
-  // const navigate = useNavigate();
+  const { cartItems, resetCart, removeFromCart } = useContext(CartContext);
 
   const onPlaceOrderClicked = (e) => {
     e.preventDefault();
@@ -41,6 +43,10 @@ function Cart() {
       .catch((error) => console.log(error));
   };
 
+  const onDeletePresses = (serviceId) => {
+    removeFromCart(serviceId);
+  };
+
   return (
     <div className="cart__container">
       <Header />
@@ -51,7 +57,8 @@ function Cart() {
             <th className="cart__thead-cells">Service Type</th>
             <th className="cart__thead-cells">Unit price</th>
             <th className="cart__thead-cells">Discount</th>
-            <th className="cart__thead-cells last">Service Provider Email</th>
+            <th className="cart__thead-cells">Service Provider Email</th>
+            <th className="cart__thead-cells last">Remove from Cart</th>
           </tr>
         </thead>
 
@@ -64,12 +71,18 @@ function Cart() {
                 <td className="cart__tbody-cells">{item.unit_price}</td>
                 <td className="cart__tbody-cells">{item.discount}</td>
                 <td className="cart__tbody-cells">{item.email}</td>
+                <td className="cart__tbody-cells">
+                  <DeleteIcon
+                    className="cart__delete-icon"
+                    onClick={onDeletePresses.bind(this, item.serviceId)}
+                  />
+                </td>
               </tr>
             );
           })}
         </tbody>
 
-        <tfoot>
+        <tfoot align="left">
           <tr>
             <td className="cart__tfoot-cell">
               Sum: {cartItems.reduce((acc, item) => acc + item.unit_price, 0)}{" "}
@@ -78,7 +91,9 @@ function Cart() {
           </tr>
           <tr>
             <td className="cart__tfoot-cell place-order-button-container">
-              <button onClick={onPlaceOrderClicked}>Place order</button>
+              <Button variant="contained" onClick={onPlaceOrderClicked}>
+                Place order
+              </Button>
             </td>
           </tr>
         </tfoot>

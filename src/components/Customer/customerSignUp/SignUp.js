@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 
-import Header from "../customerHeader/Header";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 import logo from "../../../logo.png";
 import "./signup.css";
@@ -96,10 +97,6 @@ export default function SignUp() {
       });
   };
 
-  const redirectToCustomerLogin = (e) => {
-    navigate("/");
-  };
-
   return (
     <React.Fragment>
       <div className="customerLogin__container">
@@ -122,12 +119,10 @@ export default function SignUp() {
             )}
             <div className="sub-entry">
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-first-name">
-                  First Name
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-first-name"
+                <TextField
+                  id="outlined-basic"
+                  label="First Name"
+                  variant="outlined"
                   type="text"
                   value={firstName}
                   onChange={onFirstNameChanged}
@@ -137,12 +132,10 @@ export default function SignUp() {
               </div>
 
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-last-name">
-                  Last Name
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-last-name"
+                <TextField
+                  id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
                   type="text"
                   value={lastName}
                   onChange={onLastNameChanged}
@@ -152,12 +145,10 @@ export default function SignUp() {
               </div>
 
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-phone">
-                  Phone Number
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-phone"
+                <TextField
+                  id="outlined-basic"
+                  label="Phone Number"
+                  variant="outlined"
                   type="number"
                   value={phoneNumber}
                   onChange={onPhoneNumberChanged}
@@ -169,12 +160,10 @@ export default function SignUp() {
 
             <div className="sub-entry">
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-email">
-                  Email
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-email"
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
                   type="email"
                   value={email}
                   onChange={onEmailChange}
@@ -184,12 +173,10 @@ export default function SignUp() {
               </div>
 
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-password">
-                  Password
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-password"
+                <TextField
+                  id="outlined-basic"
+                  label="Password"
+                  variant="outlined"
                   type="password"
                   value={password}
                   onChange={onPasswordChange}
@@ -198,12 +185,10 @@ export default function SignUp() {
               </div>
 
               <div className="customerLogin__input-container">
-                <label className="label" htmlFor="customer-confirm-password">
-                  Password
-                </label>
-                <input
-                  className="customerLogin__input-field"
-                  id="customer-confirm-password"
+                <TextField
+                  id="outlined-basic"
+                  label="Confirm Password"
+                  variant="outlined"
                   type="password"
                   value={confirmPassword}
                   onChange={onConfirmPasswordChange}
@@ -214,16 +199,13 @@ export default function SignUp() {
           </form>
 
           <div className="customerLogin__buttons-container">
-            <button className="customerLogin__btn" onClick={onRegisterClicked}>
+            <Button variant="contained" onClick={onRegisterClicked}>
               Register
-            </button>
-            <button
-              className="customerLogin__btn"
-              onClick={redirectToCustomerLogin}
-            >
-              Login
-            </button>
+            </Button>
           </div>
+          <p>
+            Already have an account? <Link to="/">Login</Link>
+          </p>
         </div>
       </div>
     </React.Fragment>

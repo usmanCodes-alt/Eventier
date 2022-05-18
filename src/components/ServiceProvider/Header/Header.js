@@ -1,65 +1,82 @@
 import React from "react";
 import logo from "./logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+import "./Header.css";
+import axios from "axios";
 
 export default function Header() {
   const logout = () => {
-    localStorage.clear();
-    // navigate("/customer-login");
+    axios
+      .delete("http://localhost:3000/service-providers/logout", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          localStorage.clear();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <Link className="navbar-brand mt-2 mt-lg-0" to="/vendordashboard">
-              <img src={logo} height="30" alt="MDB Logo" loading="lazy" />
-            </Link>
+    <div className="sp__header-container">
+      <div className="sp__header-left">
+        <div className="sp__header-img-container">
+          <NavLink to="/service-provider/dashboard">
+            <img className="sp__header-logo" src={logo} alt="Eventier" />
+          </NavLink>
+        </div>
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <Link className="nav-link" to="/vendordashboard">
-                  Home{" "}
-                </Link>
-              </li>
-              <li class="nav-item">
-                <Link className="nav-link" to="/totalOrders">
-                  MyOrders{" "}
-                </Link>
-              </li>
-              <li class="nav-item">
-                <Link className="nav-link" to="/getAllServices">
-                  Services{" "}
-                </Link>
-              </li>
-              <li>
-                <Link className="nav-link" to="/addService">
-                  Add Service
-                </Link>
-              </li>
-              <li>
-                <Link className="nav-link" to="/chat">
-                  Messages
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div class="d-flex align-items-center">
-            <Link className="btn" to="/profileDetail">
-              My Profile
-            </Link>
+        <nav>
+          <ul className="sp__header-ul">
             <NavLink
+              className="sp__header-nav-link"
+              to="/service-provider/total-orders"
+            >
+              <li className="sp__header-li">My Orders</li>
+            </NavLink>
+            <NavLink
+              className="sp__header-nav-link"
+              to="/service-provider/my-services"
+            >
+              <li className="sp__header-li">My Services</li>
+            </NavLink>
+            <NavLink
+              className="sp__header-nav-link"
+              to="/service-provider/add-service"
+            >
+              <li className="sp__header-li">Add Service</li>
+            </NavLink>
+          </ul>
+        </nav>
+      </div>
+
+      <div className="sp__header-right">
+        <nav>
+          <ul className="sp__header-ul">
+            <NavLink
+              className="sp__header-nav-link"
+              to="/service-provider/profile"
+            >
+              <li className="sp__header-li">Profile</li>
+            </NavLink>
+
+            <NavLink
+              className="sp__header-nav-link"
               to="/service-provider-login"
-              className="nav-link"
               onClick={logout}
             >
-              Logout
+              <li className="sp__header-li">Logout</li>
             </NavLink>
-          </div>
-        </div>
-      </nav>
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }

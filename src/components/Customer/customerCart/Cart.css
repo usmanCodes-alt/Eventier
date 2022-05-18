@@ -25,7 +25,7 @@
 
 tfoot {
   margin-top: 10px;
-  transform: translateX(81%);
+  /* transform: translateX(81%); */
 }
 
 .cart__tfoot-cell {
@@ -33,9 +33,13 @@ tfoot {
 }
 
 .place-order-button-container {
-  padding-left: 25px;
+  /* padding-left: 25px; */
 }
 
 .cart__tbodyRow:hover td {
   background-color: #d1d1d1;
+}
+
+.cart__delete-icon {
+  cursor: pointer;
 }

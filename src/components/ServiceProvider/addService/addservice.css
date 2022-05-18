@@ -1,56 +1,50 @@
-.addService {
-    width: auto;
-    height: auto;
-    background-color: #E1E7FF;
-    position: relative;
- 
-    
+.sp__add-service-container {
+  height: auto;
+  padding-bottom: 260px;
 }
-.addcard {
-    margin: 30px;
-    width: 90%;
-   
-    padding: 10px;
-    background-color: #c0caca;
-    border-radius: 25px;
-    
+
+.sp__add-service-form-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding: 20px;
+  border: 1px solid gainsboro;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
-.btnimg{
-    margin-top: 20px;
+
+.sp__add-service-sub-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.cardLeft{
-   padding: 20px;
-   margin: 30px;
+
+.sp__add-service-inputs-container {
+  display: flex;
+  justify-content: space-evenly;
 }
-.cardRight{
-    padding: 20px;
-    margin: 30px;
- }
- .dropbtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
+
+.sp__add-service-heading-container {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.sp__add-service-tn-container {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.sp__add-service-uploaded-images {
+  padding: 10px;
+  border: 1px solid gainsboro;
+  overflow-x: scroll;
+  width: 300px;
+  overflow-y: hidden;
+  position: relative;
+  height: 90px;
+  white-space: nowrap;
+}

@@ -6,12 +6,14 @@ import { PieChart } from "react-minimal-pie-chart";
 import { Link } from "react-router-dom";
 import AddServiceImage from "../../../add_service_button.png";
 
+import EmptyOrdersImage from "../../../no orders.webp";
 import Header from "../Header/Header";
 
 import StarRatings from "react-star-ratings";
 
 export default function DashBoard() {
   const [orders, setOrders] = useState([]);
+  const [ratingsAndReviews, setRatingsAndReviews] = useState([]);
 
   useEffect(() => {
     const bearerToken = localStorage.getItem("auth_token");
@@ -28,6 +30,23 @@ export default function DashBoard() {
       .catch((err) => {
         console.log(err);
       });
+
+    axios
+      .get(
+        "http://localhost:3000/service-provider/get-all-ratings-and-reviews",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setRatingsAndReviews(res.data.allReviews);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const getLengthOfOrders = (orderStatus) => {
@@ -36,124 +55,166 @@ export default function DashBoard() {
   };
 
   return (
-    <div className="container-fluid MainCardDashboard ">
+    <React.Fragment>
       <Header />
-      <div className="row carddatsboard1 ">
-        <div>
-          <h1>DashBoard</h1>
-        </div>
-        <div className="row cardsDashboard row justify-content-md-center">
-          <h3>Order Statics</h3>
-          <div className="col-lg-2 col-md-2 col-sm-2 ">
-            <PieChart
-              data={[
-                {
-                  title: "Total Orders",
-                  value: orders.length,
-                  color: "#c0caca",
-                },
-                {
-                  title: "In-Progress Orders",
-                  value: getLengthOfOrders("in-progress").length,
-                  color: "#FF0000",
-                },
-              ]}
+      <div className="sp__dashboard-container">
+        {orders.length === 0 ? (
+          <div className="sp__dashboard-no-order-img-wrapper">
+            <img
+              className="sp__dashboard-no-order-img"
+              src={EmptyOrdersImage}
+              alt="No Orders"
             />
+            <h4>You do not have any orders yet! :(</h4>
           </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 ">
-            <PieChart
-              data={[
-                {
-                  title: "Total Orders",
-                  value: orders.length,
-                  color: "#c0caca",
-                },
-                {
-                  title: "Delivered Orders",
-                  value: getLengthOfOrders("delivered").length,
-                  color: "#FF0000",
-                },
-              ]}
-            />
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 ">
-            <PieChart
-              data={[
-                {
-                  title: "Total Orders",
-                  value: orders.length,
-                  color: "#c0caca",
-                },
-                {
-                  title: "Accepted Orders",
-                  value: getLengthOfOrders("accepted").length,
-                  color: "#FF0000",
-                },
-              ]}
-            />
-          </div>
-          <div className="col-lg-2 col-md-2 col-sm-2 ">
-            <PieChart
-              data={[
-                {
-                  title: "Total Orders",
-                  value: orders.length,
-                  color: "#c0caca",
-                },
-                {
-                  title: "Rejected Orders",
-                  value: getLengthOfOrders("rejected").length,
-                  color: "#FF0000",
-                },
-              ]}
-            />
-          </div>
+        ) : (
+          <div className="sp__dashboard-pie-charts-container">
+            <div className="sp__dashboard-pri-chart-content">
+              <PieChart
+                className="sp__dashboard-pie-chart"
+                data={[
+                  {
+                    title: "Total Orders",
+                    value: orders.length,
+                    color: "#c0caca",
+                  },
+                  {
+                    title: "In-Progress Orders",
+                    value: getLengthOfOrders("in-progress").length,
+                    color: "#FF0000",
+                  },
+                ]}
+                lineWidth="30"
+                animate={true}
+                totalValue={orders.length}
+              />
+              <h6 className="sp__dashboard-chart-label">In-Progress Orders</h6>
+            </div>
 
-          <div className="row">
-            <div className="  col-lg-1 col-md-1 col-sm-1"></div>
-            <div className="  col-lg-1 col-md-1 col-sm-1"></div>
+            <div className="sp__dashboard-pri-chart-content">
+              <PieChart
+                className="sp__dashboard-pie-chart"
+                data={[
+                  {
+                    title: "Total Orders",
+                    value: orders.length,
+                    color: "#c0caca",
+                  },
+                  {
+                    title: "Delivered Orders",
+                    value: getLengthOfOrders("delivered").length,
+                    color: "#FF0000",
+                  },
+                ]}
+                lineWidth="30"
+                animate={true}
+                totalValue={orders.length}
+              />
+              <h6 className="sp__dashboard-chart-label">Delivered Orders</h6>
+            </div>
 
-            <div className="  col-lg-2 col-md-2 col-sm-2">
-              <h3>In-Progress Orders</h3>
+            <div className="sp__dashboard-pri-chart-content">
+              <PieChart
+                className="sp__dashboard-pie-chart"
+                data={[
+                  {
+                    title: "Total Orders",
+                    value: orders.length,
+                    color: "#c0caca",
+                  },
+                  {
+                    title: "Accepted Orders",
+                    value: getLengthOfOrders("accepted").length,
+                    color: "#FF0000",
+                  },
+                ]}
+                lineWidth="30"
+                animate={true}
+                totalValue={orders.length}
+              />
+              <h6 className="sp__dashboard-chart-label">Accepted Orders</h6>
             </div>
-            <div className="  col-lg-2 col-md-2 col-sm-2">
-              <h3>Delivered Orders</h3>
-            </div>
-            <div className="  col-lg-2 col-md-2 col-sm-2">
-              <h3>Accepted Orders</h3>
-            </div>
-            <div className=" titlepie col-lg-2 col-md-2 col-sm-2">
-              <h3>Rejected Orders</h3>
+            <div className="sp__dashboard-pri-chart-content">
+              <PieChart
+                className="sp__dashboard-pie-chart"
+                data={[
+                  {
+                    title: "Total Orders",
+                    value: orders.length,
+                    color: "#c0caca",
+                  },
+                  {
+                    title: "Rejected Orders",
+                    value: getLengthOfOrders("rejected").length,
+                    color: "#FF0000",
+                  },
+                ]}
+                lineWidth="30"
+                animate={true}
+                totalValue={orders.length}
+              />
+              <h6 className="sp__dashboard-chart-label">Rejected Orders</h6>
             </div>
           </div>
-        </div>
+        )}
 
-        <div className="row">
-          <div className=" col-lg-6 col-md-6 col-sm-6 latestOrdersDashBoard">
-            <h1>Latest Orders</h1>
-            <ul>
-              {orders
+        <div className="sp__dashboard-orders-reviews-add_service-container">
+          <div className="sp__dashboard-recent-order-container">
+            <h4>Recent orders</h4>
+            {orders.length !== 0 ? (
+              <ul className="sp__dashboard-recent-orders-list">
+                {orders
+                  .slice(-5)
+                  .reverse()
+                  .map((order) => (
+                    <li
+                      key={order.order_id}
+                      className="sp__dashboard-recent-orders-li"
+                    >
+                      {order.order_name} {order.customer_name}{" "}
+                      {order.service_type}
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <h5>No recent orders.</h5>
+            )}
+          </div>
+          <div className="sp__dashboard-reviews-container">
+            <h4>Reviews</h4>
+            {ratingsAndReviews.length !== 0 ? (
+              ratingsAndReviews
                 .slice(-5)
                 .reverse()
-                .map((order) => (
-                  <li>
-                    {order.order_name} {order.customer_name}{" "}
-                    {order.service_type}
-                  </li>
-                ))}
-            </ul>
+                .map((ratingAndReview) => {
+                  return (
+                    <div className="sp__dashboard-single-rating-review-wrapper">
+                      <div className="sp__dashboard-user-name">
+                        {ratingAndReview.first_name}
+                      </div>
+                      <div className="sp__dashboard-user-review">
+                        "{ratingAndReview.review_message}"
+                      </div>
+                      <div className="sp__dashboard-user-rating">
+                        <StarRatings
+                          numberOfStars={ratingAndReview.star_rating}
+                          starDimension="25px"
+                          starEmptyColor="orange"
+                          starSpacing="0"
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+            ) : (
+              <h5>No reviews.</h5>
+            )}
           </div>
-          <div className=" col-lg-3 col-md-3 col-sm- ratingsDashboard">
-            <h1>Rating and Review</h1>
-          </div>
-          <div
-            style={{ padding: "4px" }}
-            className=" col-lg-2 col-md-2 col-sm-2 addserviceDashBoard"
-          >
-            <Link className="dashboard__add-service-link" to="/addService">
+          <div className="sp__dashboard-add-service-container">
+            <h4>Add service</h4>
+            <Link to="/service-provider/add-service">
               <img
-                height="200px"
-                width="200px"
+                className="sp__dashboard-add-service-image"
                 src={AddServiceImage}
                 alt="Add Service"
               />
@@ -161,6 +222,6 @@ export default function DashBoard() {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }

@@ -1,40 +1,106 @@
-.MainCardDashboard {
-  padding: 10px;
-  background-color: #e1e7ff;
-  position: relative;
+.sp__dashboard-container {
+  padding-bottom: 260px;
 }
 
-.dashboard__add-service-link {
+.sp__dashboard-no-order-img-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.sp__dashboard-no-order-img {
+  height: 100px;
+  width: 100px;
+}
+
+.sp__dashboard-pie-charts-container {
+  display: flex;
+  align-items: center;
+  height: -10%;
+  width: 70%;
+  margin: auto;
+  justify-content: center;
+  /* gap: 20px; */
+  margin-top: 30px;
+}
+
+.sp__dashboard-pie-chart {
+  width: 60%;
+}
+
+.sp__dashboard-pri-chart-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.sp__dashboard-chart-label {
+  text-align: center;
+}
+
+.sp__dashboard-orders-reviews-add_service-container {
+  display: flex;
+  width: 70%;
+  justify-content: space-evenly;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sp__dashboard-recent-order-container {
+  border: 1px solid gainsboro;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.sp__dashboard-recent-orders-list {
   padding: 0;
 }
 
-.carddatsboard1 {
-  background-color: #c0caca;
-  border-radius: 25px;
+.sp__dashboard-recent-orders-li {
+  list-style: none;
+  margin: 5px;
 }
 
-.cardsDashboard {
-  padding: 20px;
-  margin: 10px;
-  background-color: white;
-  border-radius: 25px;
+.sp__dashboard-add-service-image {
+  width: 120px;
+  height: 120px;
+  margin-top: 30px;
 }
 
-.latestOrdersDashBoard {
-  margin: 10px;
-  background-color: white;
-  border-radius: 25px;
+.sp__dashboard-add-service-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  padding: 10px;
 }
-.ratingsDashboard {
-  margin: 10px;
-  background-color: white;
-  border-radius: 25px;
+
+.sp__dashboard-reviews-container {
+  border: 1px solid gainsboro;
+  padding: 10px;
+  border-radius: 5px;
 }
-.addserviceDashBoard {
-  margin: 10px;
-  background-color: white;
-  border-radius: 25px;
+
+.sp__dashboard-single-rating-review-wrapper {
+  display: flex;
+  gap: 20px;
+  margin: 5px;
 }
-.checked {
-  color: orange;
+
+.sp__dashboard-user-review {
+  text-overflow: ellipsis;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp__dashboard-user-rating {
+  margin-left: auto;
 }

@@ -1,10 +1,13 @@
 .chat__container {
   height: calc(100vh - 80px);
   display: flex;
+  padding-bottom: 260px;
 }
 
 .chat__all-chats {
   flex: 25%;
+  overflow-y: scroll;
+  white-space: nowrap;
 }
 
 .chat__current-chat {

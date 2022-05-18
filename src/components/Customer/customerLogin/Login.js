@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import logo from "../../../logo.png";
 import "./login.css";
 import { Link } from "react-router-dom";
@@ -37,6 +39,9 @@ export default function Login() {
         if (response.status !== 200) {
           return;
         }
+        if (response.data.roles[0] !== "customer") {
+          throw new Error("Invalid login");
+        }
         const user = {
           email,
           roles: response.data.roles,
@@ -49,20 +54,16 @@ export default function Login() {
         navigate("/customer-home");
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          setAuthenticationError(true);
-        }
+        console.log(error);
+        setAuthenticationError(true);
       });
-  };
-
-  const redirectToCustomerRegister = (e) => {
-    navigate("/customer-signup");
   };
 
   return (
     <div className="customerLogin__container">
       <img className="customerLogin__logo" src={logo} alt="logo" />
       <div className="customerLogin__form-container">
+        <h3>Explore different businesses around you!</h3>
         <form>
           {authenticationError && (
             <div className="customerLogin__error-container">
@@ -70,12 +71,10 @@ export default function Login() {
             </div>
           )}
           <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-email">
-              Email
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-email"
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
               type="email"
               value={email}
               onChange={onEmailChange}
@@ -85,12 +84,10 @@ export default function Login() {
           </div>
 
           <div className="customerLogin__input-container">
-            <label className="label" htmlFor="customer-password">
-              Password
-            </label>
-            <input
-              className="customerLogin__input-field"
-              id="customer-password"
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
               type="password"
               value={password}
               onChange={onPasswordChange}
@@ -100,23 +97,22 @@ export default function Login() {
         </form>
 
         <div className="customerLogin__buttons-container">
-          <button className="customerLogin__btn" onClick={onLoginButtonClicked}>
+          <Button variant="contained" onClick={onLoginButtonClicked}>
             Login
-          </button>
-          <button
-            className="customerLogin__btn"
-            onClick={redirectToCustomerRegister}
-          >
-            Register
-          </button>
+          </Button>
         </div>
-
-        <Link
-          to="/service-provider-login"
-          className="customerLogin__login-as-sp"
-        >
-          Login as a Business
-        </Link>
+        <div className="customerLogin__other-options-container">
+          <Link className="customerLogin__signup" to="/customer-signup">
+            Create a New Account
+          </Link>{" "}
+          |{" "}
+          <Link
+            to="/service-provider-login"
+            className="customerLogin__login-as-sp"
+          >
+            Login as a Business
+          </Link>
+        </div>
       </div>
     </div>
   );

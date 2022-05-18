@@ -2,13 +2,10 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../../context/auth-context.js";
 import Card from "../../card/Card.js";
-import styles from "./GetAllServices.css";
+import "./GetAllServices.css";
 import axios from "axios";
 import Header from "../../ServiceProvider/Header/Header.js";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import { Alert } from "bootstrap";
 
 export default function TotalOrders() {
   const [services, setServices] = useState([]);

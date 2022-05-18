@@ -1,52 +1,58 @@
 import { useState, useContext } from "react";
 import UserContext from "../../../context/auth-context";
+
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import logo from "../../../logo.png";
-import { useNavigate } from "react-router-dom";
-import "./signin.css";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SigninPage() {
-  let navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const initialValues = { userEmail: "", userPassword: "" };
-  const [formValues, setFormValues] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authenticationError, setAuthenticationError] = useState(false);
 
-    setFormValues({ ...formValues, [name]: value });
-    // setFormErrors(validate(formValues));
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let errors = validate(formValues);
-    setFormErrors(errors);
 
-    if (Object.keys(errors).length !== 0) {
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onLoginButtonClicked = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
       return;
     }
     axios
       .post("http://localhost:3000/eventier/login", {
-        email: formValues.userEmail.trim(),
-        password: formValues.userPassword.trim(),
+        email,
+        password,
       })
-      .then((response) => {
-        if (response.status !== 200) {
-          console.log(response);
-          return;
+      .then((res) => {
+        if (res.status !== 200) {
+          return; // Invalid email or password
+        }
+        if (res.data.roles[0] !== "service_provider") {
+          throw new Error("Logged in for sp");
         }
         const loggedInUser = {
-          email: formValues.userEmail.trim(),
-          roles: response.data.roles,
+          email: email.trim(),
+          roles: res.data.roles,
         };
         setUser(loggedInUser);
-        localStorage.setItem("auth_token", response.data.token);
-        localStorage.setItem("email", formValues.userEmail.trim());
-        localStorage.setItem("roles", JSON.stringify(response.data.roles));
-        navigate("/vendordashboard");
+        localStorage.setItem("auth_token", res.data.token);
+        localStorage.setItem("email", email.trim());
+        localStorage.setItem("roles", JSON.stringify(res.data.roles));
+
+        navigate("/service-provider/dashboard");
       })
       .catch((err) => {
+        setAuthenticationError(true);
         console.log(err);
       });
   };
@@ -70,68 +76,58 @@ export default function SigninPage() {
   };
 
   return (
-    <div className="container-fluid Signin">
-      <div className="row">
-        <div className=" col-lg-6 col-md-6 col-sm-6 logo ">
-          <img src={logo} alt=" error" />
-        </div>
-        <div className="col-lg-5 col-md-5 col-sm-5 Signin-Form">
-          <div>
-            <div className="Signin-label">
-              <h1>Sign In</h1>
+    <div className="customerLogin__container">
+      <img className="customerLogin__logo" src={logo} alt="logo" />
+      <div className="customerLogin__form-container">
+        <h3>Grow your business with us!</h3>
+        <form>
+          {authenticationError && (
+            <div className="customerLogin__error-container">
+              <div>Invalid username or password.</div>
             </div>
-            <br />
-            <br />
-            <div className="mb-3">
-              <label>Email</label>
-
-              <input
-                type="email"
-                className="form-control"
-                name="userEmail"
-                placeholder="Email"
-                value={formValues.userEmail}
-                onChange={handleChange}
-              />
-
-              <p>{formErrors.email}</p>
-
-              <label>Password</label>
-
-              <input
-                type="password"
-                className="form-control"
-                name="userPassword"
-                placeholder="Password"
-                value={formValues.password}
-                onChange={handleChange}
-              />
-
-              <p>{formErrors.password}</p>
-
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={handleSubmit}
-              >
-                Sign In
-              </button>
-            </div>
-            <p
-              onClick={() => {
-                navigate("/signupPage");
-              }}
-            >
-              Don't Have an Account ?
-            </p>
-            <p
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Login as a Customer
-            </p>
+          )}
+          <div className="customerLogin__input-container">
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              type="email"
+              value={email}
+              onChange={onEmailChange}
+              autoComplete="off"
+              required
+            />
           </div>
+
+          <div className="customerLogin__input-container">
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+              type="password"
+              value={password}
+              onChange={onPasswordChange}
+              required
+            />
+          </div>
+        </form>
+
+        <div className="customerLogin__buttons-container">
+          <Button variant="contained" onClick={onLoginButtonClicked}>
+            Login
+          </Button>
+        </div>
+        <div className="customerLogin__other-options-container">
+          <Link
+            className="customerLogin__signup"
+            to="/service-provider/sign-up"
+          >
+            Create a New Business Account
+          </Link>{" "}
+          |{" "}
+          <Link to="/" className="customerLogin__login-as-sp">
+            Login as a Customer
+          </Link>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import { RESET_CART, ADD_TO_CART, REMOVE_FROM_CART } from "../Types";
 
 const CartReducer = (state, action) => {
-  console.log("Before operation", state);
   if (action.type === ADD_TO_CART) {
     let alreadyExists = state.cartItems.some(
       (element) => element.serviceId === action.payload.serviceId
@@ -14,9 +13,10 @@ const CartReducer = (state, action) => {
       cartItems: [...state.cartItems, action.payload],
     };
   } else if (action.type === REMOVE_FROM_CART) {
+    console.log("deleting");
     return {
       ...state,
-      cartItems: state.cartItem.filter(
+      cartItems: state.cartItems.filter(
         (item) => item.serviceId !== action.payload
       ),
     };

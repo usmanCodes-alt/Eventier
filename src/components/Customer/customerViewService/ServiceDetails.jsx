@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 import CartContext from "../../../context/Cart/cartContext";
 
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import StarRatings from "react-star-ratings";
 import axios from "axios";
 import ServiceImageCarousel from "./Carousel/ServiceImageCarousel";
@@ -12,7 +14,7 @@ import Header from "../customerHeader/Header";
 import "./service-details.css";
 
 export default function ServiceDetails() {
-  const { addToCart } = useContext(CartContext);
+  const { cartItems, addToCart } = useContext(CartContext);
   const { user, setUser } = useContext(UserContext);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -22,7 +24,21 @@ export default function ServiceDetails() {
   const [starRating, setStarRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [existingWishList, setExistingWishList] = useState([]);
+
   const [showAddToWishListButton, setShowAddToWishListButton] = useState(true);
+  const [wishListSuccessAlert, setWishListSuccessAlert] = useState(false);
+  const [showServiceInActiveErrorAlert, setShowServiceInActiveErrorAlert] =
+    useState(false);
+  const [showAddedToCartSuccessAlert, setShowAddedToCartSuccessAlert] =
+    useState(false);
+  const [showUserReviewRecordedAlert, setShowUserReviewRecordedAlert] =
+    useState(false);
+  const [serviceAlreadyAddedToCartAlert, showServiceAlreadyAddedToCartAlert] =
+    useState(false);
+  const [
+    showInValidRequiredReviewFieldsAlert,
+    setShowInValidRequiredReviewFieldsAlert,
+  ] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("auth_token")) {
@@ -80,7 +96,7 @@ export default function ServiceDetails() {
   }, []);
 
   useEffect(() => {
-    if (!existingWishList) {
+    if (!existingWishList || !serviceDetails) {
       return;
     }
     const alreadyExistsInWishList = existingWishList.some(
@@ -127,8 +143,18 @@ export default function ServiceDetails() {
   };
 
   const addServiceToCart = () => {
+    const alreadyExists = cartItems.some(
+      (element) => element.serviceId === serviceDetails.serviceId
+    );
+    if (alreadyExists) {
+      showServiceAlreadyAddedToCartAlert(true);
+      return;
+    }
     if (serviceDetails.status === "active") {
       addToCart(serviceDetails);
+      setShowAddedToCartSuccessAlert(true);
+    } else {
+      setShowServiceInActiveErrorAlert(true);
     }
   };
 
@@ -155,6 +181,7 @@ export default function ServiceDetails() {
         console.log(res);
         if (res.status === 201) {
           setShowAddToWishListButton(false);
+          setWishListSuccessAlert(true);
         }
       })
       .catch((err) => {
@@ -169,6 +196,7 @@ export default function ServiceDetails() {
   const addUserReview = (e) => {
     e.preventDefault();
     if (!userReview || starRating === 0) {
+      setShowInValidRequiredReviewFieldsAlert(true);
       return;
     }
     axios
@@ -190,6 +218,7 @@ export default function ServiceDetails() {
           setStarRating(0);
           setUserReview("");
           getReviewsOfService();
+          setShowUserReviewRecordedAlert(true);
         }
       })
       .catch((err) => {
@@ -207,13 +236,68 @@ export default function ServiceDetails() {
   return (
     <div className="serviceDetails__wrapper">
       <Header />
+      {wishListSuccessAlert && (
+        <Alert
+          severity="success"
+          onClose={() => setWishListSuccessAlert(false)}
+        >
+          This service has been added to your wish list!
+        </Alert>
+      )}
+      {showServiceInActiveErrorAlert && (
+        <Alert
+          severity="error"
+          onClose={() => setShowServiceInActiveErrorAlert(false)}
+        >
+          This service is In-Active at the moment and can not be bought!
+        </Alert>
+      )}
+      {showAddedToCartSuccessAlert && (
+        <Alert
+          severity="success"
+          onClose={() => setShowAddedToCartSuccessAlert(false)}
+        >
+          This service has been added to your cart!
+        </Alert>
+      )}
+      {showUserReviewRecordedAlert && (
+        <Alert
+          severity="success"
+          onClose={() => setShowUserReviewRecordedAlert(false)}
+        >
+          Your review has been recorded!
+        </Alert>
+      )}
+      {serviceAlreadyAddedToCartAlert && (
+        <Alert
+          severity="warning"
+          onClose={() => showServiceAlreadyAddedToCartAlert(false)}
+        >
+          This service has already been added to your cart!
+        </Alert>
+      )}
+      {showInValidRequiredReviewFieldsAlert && (
+        <Alert
+          severity="error"
+          onClose={() => setShowInValidRequiredReviewFieldsAlert(false)}
+        >
+          Please provide a review and a star rating!
+        </Alert>
+      )}
+
       <ServiceImageCarousel staticURLs={serviceDetails.static_urls} />
       <div className="serviceDetails__button-actions-container">
-        <button onClick={onContactClicked}>Contact</button>
-        <button onClick={addServiceToCart}>Add to Cart</button>
+        <Button variant="outlined" onClick={onContactClicked}>
+          Contact
+        </Button>
         {showAddToWishListButton && (
-          <button onClick={addServiceToWishList}>Add to my Wish List</button>
+          <Button variant="outlined" onClick={addServiceToWishList}>
+            Add to my Wish List
+          </Button>
         )}
+        <Button variant="outlined" onClick={addServiceToCart}>
+          Add to Cart
+        </Button>
       </div>
       <div className="serviceDetails__information-container">
         <div className="serviceDetails__information-heading">
@@ -243,7 +327,9 @@ export default function ServiceDetails() {
             value={userReview}
           ></textarea>
           <div className="serviceDetails__btnAndStarRating">
-            <button onClick={addUserReview}>Add Comment</button>
+            <Button variant="contained" onClick={addUserReview}>
+              Add Comment
+            </Button>
             <StarRatings
               numberOfStars={5}
               changeRating={onRatingChanged}

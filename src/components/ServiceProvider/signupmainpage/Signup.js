@@ -1,9 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import logo from "./logo.png";
 
-import "./SignupCss.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import logo from "./logo.png";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ export default function Signup() {
   const [country, setCountry] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
+  const [passwordsNotMatch, setPasswordsNotMatch] = useState(false);
+
   const onFirstNameChanged = (e) => setFirstName(e.target.value);
   const onLastNameChanged = (e) => setLastName(e.target.value);
   const onStoreNameChanged = (e) => setStoreName(e.target.value);
@@ -32,7 +36,7 @@ export default function Signup() {
   const onCountryChanged = (e) => setCountry(e.target.value);
   const onPhoneNumberChanged = (e) => setPhoneNumber(e.target.value);
 
-  const handleSubmit = (e) => {
+  const onRegisterClicked = (e) => {
     e.preventDefault();
     if (
       !firstName ||
@@ -47,7 +51,10 @@ export default function Signup() {
       !country ||
       !phoneNumber
     ) {
-      return alert("Please provide all fields");
+      setRequiredFieldsError(true);
+    }
+    if (password !== confirmPassword) {
+      setPasswordsNotMatch(true);
     }
     axios
       .post("http://localhost:3000/service-providers/create-new", {
@@ -65,7 +72,7 @@ export default function Signup() {
       })
       .then((response) => {
         if (response.status === 201) {
-          navigate("/");
+          navigate("/service-provider-login");
         }
       })
       .catch((err) => {
@@ -74,138 +81,178 @@ export default function Signup() {
   };
 
   return (
-    <div className="service_provider__container">
-      <h1 className="service_provider__logo-container">Logo</h1>
-      <form className="service_provider__form">
-        <div className="service_provider__inputs-container">
-          <div className="service_provider__column">
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__first_name">First Name</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__first_name"
-                onChange={onFirstNameChanged}
-                value={firstName}
-              />
+    <React.Fragment>
+      <div className="customerLogin__container">
+        <img className="customerLogin__logo" src={logo} alt="logo" />
+        <div className="customerLogin__form-container">
+          <form>
+            {requiredFieldsError && (
+              <div>
+                <div className="customerLogin__error-container">
+                  <div>Please provide all fields.</div>
+                </div>
+              </div>
+            )}
+            {passwordsNotMatch && (
+              <div>
+                <div className="customerLogin__error-container">
+                  <div>Passwords don't match.</div>
+                </div>
+              </div>
+            )}
+            <div className="sub-entry">
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="First Name"
+                  variant="outlined"
+                  type="text"
+                  value={firstName}
+                  onChange={onFirstNameChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
+                  type="text"
+                  value={lastName}
+                  onChange={onLastNameChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Store Name"
+                  variant="outlined"
+                  type="text"
+                  value={storeName}
+                  onChange={onStoreNameChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Phone Number"
+                  variant="outlined"
+                  type="number"
+                  value={phoneNumber}
+                  onChange={onPhoneNumberChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  variant="outlined"
+                  type="email"
+                  value={email}
+                  onChange={onEmailChanged}
+                  autoComplete="off"
+                  required
+                />
+              </div>
             </div>
 
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__last_name">Last Name</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__last_name"
-                onChange={onLastNameChanged}
-                value={lastName}
-              />
-            </div>
+            <div className="sub-entry">
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Password"
+                  variant="outlined"
+                  type="password"
+                  value={password}
+                  onChange={onPasswordChanged}
+                  required
+                />
+              </div>
 
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__store_name">Store Name</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__store_name"
-                onChange={onStoreNameChanged}
-                value={storeName}
-              />
-            </div>
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Confirm Password"
+                  variant="outlined"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={onConfirmPasswordChanged}
+                  required
+                />
+              </div>
 
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__email">Email</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__email"
-                onChange={onEmailChanged}
-                value={email}
-                type="email"
-              />
-            </div>
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Street"
+                  variant="outlined"
+                  type="text"
+                  value={street}
+                  onChange={onStreetChanged}
+                  required
+                />
+              </div>
 
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__password">Password</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__password"
-                onChange={onPasswordChanged}
-                value={password}
-                type="password"
-              />
-            </div>
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="City"
+                  variant="outlined"
+                  type="text"
+                  value={city}
+                  onChange={onCityChanged}
+                  required
+                />
+              </div>
 
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__confirm-password">
-                Confirm Password
-              </label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__confirm-password"
-                onChange={onConfirmPasswordChanged}
-                value={confirmPassword}
-                type="password"
-              />
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Country"
+                  variant="outlined"
+                  type="text"
+                  value={country}
+                  onChange={onCountryChanged}
+                  required
+                />
+              </div>
+
+              <div className="customerLogin__input-container">
+                <TextField
+                  id="outlined-basic"
+                  label="Province"
+                  variant="outlined"
+                  type="text"
+                  value={province}
+                  onChange={onProvinceChanged}
+                  required
+                />
+              </div>
             </div>
+          </form>
+
+          <div className="customerLogin__buttons-container">
+            <Button variant="contained" onClick={onRegisterClicked}>
+              Register
+            </Button>
           </div>
-          <div className="service_provider__column">
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__street">Street</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__street"
-                onChange={onStreetChanged}
-                value={street}
-              />
-            </div>
-
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__city">City</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__city"
-                onChange={onCityChanged}
-                value={city}
-              />
-            </div>
-
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__city">Province</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__province"
-                onChange={onProvinceChanged}
-                value={province}
-              />
-            </div>
-
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__country">Country</label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__country"
-                onChange={onCountryChanged}
-                value={country}
-              />
-            </div>
-
-            <div className="service_provider__input">
-              <label htmlFor="service_provider__phone-number">
-                Phone Number
-              </label>
-              <input
-                className="service_provider__input-field"
-                id="service_provider__phone-number"
-                onChange={onPhoneNumberChanged}
-                value={phoneNumber}
-                type="number"
-              />
-            </div>
-
-            <p>I agree with terms and conditions</p>
-            <button onClick={handleSubmit}>Sign Up</button>
-            <button>
-              <Link to="/service-provider-login">Login</Link>
-            </button>
-          </div>
+          <p>
+            Already have an account?{" "}
+            <Link to="/service-provider-login">Login</Link>
+          </p>
         </div>
-      </form>
-    </div>
+      </div>
+    </React.Fragment>
   );
 }

@@ -1,0 +1,48 @@
+.profileDetail__wrapper {
+  padding-bottom: 260px;
+}
+
+.profileDetail__profile-picture-wrapper {
+  display: flex;
+  margin-top: 10px;
+}
+
+.profileDetail__picture {
+  margin: auto;
+  height: 300px;
+  border-radius: 5%;
+}
+
+.profileDetail__information {
+  padding: 20px;
+  display: flex;
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+  margin: 10px;
+  width: 50%;
+  margin: auto;
+}
+
+.profileDetail__information-wrapper {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.profileDetail__button-container {
+  align-self: center;
+  margin-top: 10px;
+}
+
+.profileDetail__input {
+  margin: 10px;
+}
+
+.profileDetail__information-heading {
+  margin: auto;
+  margin-top: 40px;
+}
+
+.profileDetail__info-heading {
+  margin: 20px;
+}

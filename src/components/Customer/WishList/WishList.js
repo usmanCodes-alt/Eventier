@@ -2,7 +2,11 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "../customerHeader/Header";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import "./WishList.css";
+
 export default function WishList() {
   const [wishList, setWishList] = useState([]);
 
@@ -71,14 +75,13 @@ export default function WishList() {
                   {item.service_provider_email}
                 </td>
                 <td className="cart__tbody-cells">
-                  <button
+                  <DeleteIcon
+                    className="cart__delete-icon"
                     onClick={onRemoveButtonClicked.bind(
                       this,
                       item.wish_list_id
                     )}
-                  >
-                    Remove
-                  </button>
+                  />
                 </td>
               </tr>
             );

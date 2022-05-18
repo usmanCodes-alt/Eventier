@@ -12,7 +12,8 @@
 }
 
 .customerLogin__form-container {
-  height: 80vh;
+  /* height: 80vh; */
+  padding: 25px;
   width: 90vh;
   margin: 10px;
   border-radius: 10px;
@@ -74,9 +75,22 @@
 
 .customerLogin__login-as-sp {
   text-decoration: none;
+  margin-left: 5px;
   color: black;
 }
 
-.customerLogin__login-as-sp:hover {
+.customerLogin__signup {
+  text-decoration: none;
+  margin-right: 5px;
   color: black;
+}
+
+/* .customerLogin__login-as-sp:hover,
+.customerLogin__signup:hover {
+  color: black;
+} */
+
+.customerLogin__other-options-container {
+  margin-top: 10px;
+  display: flex;
 }

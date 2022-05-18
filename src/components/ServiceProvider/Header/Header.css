@@ -1,0 +1,42 @@
+.sp__header-container {
+  width: 100%;
+  height: 70px;
+  background-color: lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp__header-img-container {
+  margin-left: 10px;
+}
+
+.sp__header-logo {
+  height: 50px;
+  width: 50px;
+}
+
+.sp__header-ul {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+
+.sp__header-li {
+  list-style: none;
+}
+
+.sp__header-left {
+  display: flex;
+  align-items: center;
+}
+
+.sp__header-right {
+  margin-right: 20px;
+}
+
+.sp__header-nav-link {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
