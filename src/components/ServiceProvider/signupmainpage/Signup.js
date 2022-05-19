@@ -2,73 +2,151 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import {
+  validateFirstName,
+  validateStoreName,
+  validatePhoneNumber,
+  validateEmail,
+  validatePassword,
+  validateCountry,
+} from "../../../utils/inputs-validators";
+import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import logo from "./logo.png";
 
 export default function Signup() {
   const navigate = useNavigate();
+  let formIsValid = false;
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [storeName, setStoreName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState("");
-  const [country, setCountry] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const {
+    value: enteredFirstName,
+    isValid: firstNameValueIsValid,
+    inputFieldHasError: firstNameInputFieldHasError,
+    inputValueChangedHandler: firstNameChangeHandler,
+    blurHandler: firstNameBlurHandler,
+  } = useInput(validateFirstName);
+
+  const {
+    value: enteredLastName,
+    isValid: lastNameValueIsValid,
+    inputFieldHasError: lastNameInputFieldHasError,
+    inputValueChangedHandler: lastNameChangeHandler,
+    blurHandler: lastNameBlurHandler,
+  } = useInput(validateFirstName);
+
+  const {
+    value: enteredStoreName,
+    isValid: storeNameValueIsValid,
+    inputFieldHasError: storeNameInputFieldHasError,
+    inputValueChangedHandler: storeNameChangeHandler,
+    blurHandler: storeNameBlurHandler,
+  } = useInput(validateStoreName);
+
+  const {
+    value: enteredPhoneNumber,
+    isValid: phoneNumberValueIsValid,
+    inputFieldHasError: phoneNumberInputFieldHasError,
+    inputValueChangedHandler: phoneNumberChangeHandler,
+    blurHandler: phoneNumberBlurHandler,
+  } = useInput(validatePhoneNumber);
+
+  const {
+    value: enteredEmail,
+    isValid: emailValueIsValid,
+    inputFieldHasError: emailInputFieldHasError,
+    inputValueChangedHandler: emailChangeHandler,
+    blurHandler: emailBlurHandler,
+  } = useInput(validateEmail);
+
+  const {
+    value: enteredPassword,
+    isValid: passwordValueIsValid,
+    inputFieldHasError: passwordInputFieldHasError,
+    inputValueChangedHandler: passwordChangeHandler,
+    blurHandler: passwordBlurHandler,
+  } = useInput(validatePassword);
+
+  const {
+    value: enteredStreet,
+    isValid: streetValueIsValid,
+    inputFieldHasError: streetInputFieldHasError,
+    inputValueChangedHandler: streetChangeHandler,
+    blurHandler: streetBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredCity,
+    isValid: cityValueIsValid,
+    inputFieldHasError: cityInputFieldHasError,
+    inputValueChangedHandler: cityChangeHandler,
+    blurHandler: cityBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredProvince,
+    isValid: provinceValueIsValid,
+    inputFieldHasError: provinceInputFieldHasError,
+    inputValueChangedHandler: provinceChangeHandler,
+    blurHandler: provinceBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredCountry,
+    isValid: countryValueIsValid,
+    inputFieldHasError: countryInputFieldHasError,
+    inputValueChangedHandler: countryChangeHandler,
+    blurHandler: countryBlurHandler,
+  } = useInput(validateCountry);
 
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
   const [passwordsNotMatch, setPasswordsNotMatch] = useState(false);
 
-  const onFirstNameChanged = (e) => setFirstName(e.target.value);
-  const onLastNameChanged = (e) => setLastName(e.target.value);
-  const onStoreNameChanged = (e) => setStoreName(e.target.value);
-  const onEmailChanged = (e) => setEmail(e.target.value);
-  const onPasswordChanged = (e) => setPassword(e.target.value);
+  if (
+    firstNameValueIsValid &&
+    lastNameValueIsValid &&
+    storeNameValueIsValid &&
+    phoneNumberValueIsValid &&
+    emailValueIsValid &&
+    passwordValueIsValid &&
+    streetValueIsValid &&
+    cityValueIsValid &&
+    provinceValueIsValid &&
+    countryValueIsValid
+  ) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
+
   const onConfirmPasswordChanged = (e) => setConfirmPassword(e.target.value);
-  const onStreetChanged = (e) => setStreet(e.target.value);
-  const onCityChanged = (e) => setCity(e.target.value);
-  const onProvinceChanged = (e) => setProvince(e.target.value);
-  const onCountryChanged = (e) => setCountry(e.target.value);
-  const onPhoneNumberChanged = (e) => setPhoneNumber(e.target.value);
 
   const onRegisterClicked = (e) => {
     e.preventDefault();
-    if (
-      !firstName ||
-      !lastName ||
-      !storeName ||
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !street ||
-      !city ||
-      !province ||
-      !country ||
-      !phoneNumber
-    ) {
-      setRequiredFieldsError(true);
-    }
-    if (password !== confirmPassword) {
+    if (enteredPassword !== confirmPassword) {
       setPasswordsNotMatch(true);
+      return;
     }
+    if (!formIsValid) {
+      setRequiredFieldsError(true);
+      return;
+    }
+
     axios
       .post("http://localhost:3000/service-providers/create-new", {
-        firstName,
-        lastName,
-        storeName,
-        email,
-        password,
+        firstName: enteredFirstName,
+        lastName: enteredLastName,
+        storeName: enteredStoreName,
+        email: enteredEmail,
+        password: enteredPassword,
         confirmPassword,
-        street,
-        city,
-        province,
-        country,
-        phoneNumber,
+        street: enteredStreet,
+        city: enteredCity,
+        province: enteredProvince,
+        country: enteredCountry,
+        phoneNumber: enteredPhoneNumber,
       })
       .then((response) => {
         if (response.status === 201) {
@@ -85,6 +163,7 @@ export default function Signup() {
       <div className="customerLogin__container">
         <img className="customerLogin__logo" src={logo} alt="logo" />
         <div className="customerLogin__form-container">
+          <h3>Create a Business Account!</h3>
           <form>
             {requiredFieldsError && (
               <div>
@@ -102,65 +181,106 @@ export default function Signup() {
             )}
             <div className="sub-entry">
               <div className="customerLogin__input-container">
+                {firstNameInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Name can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
                   type="text"
-                  value={firstName}
-                  onChange={onFirstNameChanged}
+                  value={enteredFirstName}
+                  onChange={firstNameChangeHandler}
+                  onBlur={firstNameBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {lastNameInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Name can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
                   type="text"
-                  value={lastName}
-                  onChange={onLastNameChanged}
+                  value={enteredLastName}
+                  onChange={lastNameChangeHandler}
+                  onBlur={lastNameBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {storeNameInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Store Name can not be empty.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Store Name"
                   variant="outlined"
                   type="text"
-                  value={storeName}
-                  onChange={onStoreNameChanged}
+                  value={enteredStoreName}
+                  onChange={storeNameChangeHandler}
+                  onBlur={storeNameBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {phoneNumberInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Phone number must be valid.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Phone Number"
                   variant="outlined"
                   type="number"
-                  value={phoneNumber}
-                  onChange={onPhoneNumberChanged}
+                  value={enteredPhoneNumber}
+                  onChange={phoneNumberChangeHandler}
+                  onBlur={phoneNumberBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {emailInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Email should not be empty or contain any special
+                      characters and should be in a correct format.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   type="email"
-                  value={email}
-                  onChange={onEmailChanged}
+                  value={enteredEmail}
+                  onChange={emailChangeHandler}
+                  onBlur={emailBlurHandler}
                   autoComplete="off"
                   required
                 />
@@ -169,13 +289,22 @@ export default function Signup() {
 
             <div className="sub-entry">
               <div className="customerLogin__input-container">
+                {passwordInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Password must be at least 8 characters long, contain one
+                      lower case, one upper case and one special character.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Password"
                   variant="outlined"
                   type="password"
-                  value={password}
-                  onChange={onPasswordChanged}
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
+                  onBlur={passwordBlurHandler}
                   required
                 />
               </div>
@@ -193,49 +322,81 @@ export default function Signup() {
               </div>
 
               <div className="customerLogin__input-container">
+                {streetInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Street can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Street"
                   variant="outlined"
                   type="text"
-                  value={street}
-                  onChange={onStreetChanged}
+                  value={enteredStreet}
+                  onChange={streetChangeHandler}
+                  onBlur={streetBlurHandler}
                   required
+                  placeholder="First Street"
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {cityInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      City can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="City"
                   variant="outlined"
                   type="text"
-                  value={city}
-                  onChange={onCityChanged}
+                  value={enteredCity}
+                  onChange={cityChangeHandler}
+                  onBlur={cityBlurHandler}
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {countryInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Country can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Country"
                   variant="outlined"
                   type="text"
-                  value={country}
-                  onChange={onCountryChanged}
+                  value={enteredCountry}
+                  onChange={countryChangeHandler}
+                  onBlur={countryBlurHandler}
                   required
                 />
               </div>
-
               <div className="customerLogin__input-container">
+                {provinceInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Province can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Province"
                   variant="outlined"
                   type="text"
-                  value={province}
-                  onChange={onProvinceChanged}
+                  value={enteredProvince}
+                  onChange={provinceChangeHandler}
+                  onBlur={provinceBlurHandler}
                   required
                 />
               </div>

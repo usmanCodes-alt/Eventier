@@ -5,3 +5,12 @@
   font-family: "Roboto Flex", sans-serif;
   overflow-x: clip;
 }
+
+.inputField__error-message-span {
+  color: red;
+  font-size: x-small;
+}
+
+.inputField__error-message-wrapper {
+  margin-bottom: 10px;
+}

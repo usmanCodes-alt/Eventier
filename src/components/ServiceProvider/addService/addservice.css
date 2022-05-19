@@ -48,3 +48,7 @@
   height: 90px;
   white-space: nowrap;
 }
+
+.sp__add-service-apply-margin {
+  margin-top: 2px;
+}

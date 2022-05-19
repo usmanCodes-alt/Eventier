@@ -3,6 +3,13 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 
+import {
+  validateFirstName,
+  validatePhoneNumber,
+  validateEmail,
+  validatePassword,
+} from "../../../utils/inputs-validators";
+import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
@@ -10,36 +17,62 @@ import logo from "../../../logo.png";
 import "./signup.css";
 
 export default function SignUp() {
+  let formIsValid = false;
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  // const { setUser } = useContext(UserContext);
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const onFirstNameChanged = (e) => {
-    setFirstName(e.target.value.trim());
-  };
+  const {
+    value: enteredFirstName,
+    isValid: firstNameValueIsValid, // based on the function we pass
+    inputFieldHasError: firstNameInputFieldHasError, // based on the touched state and value valid value
+    inputValueChangedHandler: firstNameChangedHandler,
+    blurHandler: firstNameBlurHandler,
+  } = useInput(validateFirstName);
 
-  const onLastNameChanged = (e) => {
-    setLastName(e.target.value.trim());
-  };
+  const {
+    value: enteredLastName,
+    isValid: lastNameValueIsValid, // based on the function we pass
+    inputFieldHasError: lastNameInputFieldHasError, // based on the touched state and value valid value
+    inputValueChangedHandler: lastNameChangedHandler,
+    blurHandler: lastNameBlurHandler,
+  } = useInput(validateFirstName);
 
-  const onPhoneNumberChanged = (e) => {
-    setPhoneNumber(e.target.value.trim());
-  };
+  const {
+    value: enteredPhoneNumber,
+    isValid: phoneNumberValueIsValid, // based on the function we pass
+    inputFieldHasError: phoneNumberInputFieldHasError, // based on the touched state and value valid value
+    inputValueChangedHandler: phoneNumberChangedHandler,
+    blurHandler: phoneNumberBlurHandler,
+  } = useInput(validatePhoneNumber);
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value.trim());
-  };
+  const {
+    value: enteredEmail,
+    isValid: emailValueIsValid, // based on the function we pass
+    inputFieldHasError: emailInputFieldHasError, // based on the touched state and value valid value
+    inputValueChangedHandler: emailChangedHandler,
+    blurHandler: emailBlurHandler,
+  } = useInput(validateEmail);
 
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const {
+    value: enteredPassword,
+    isValid: passwordValueIsValid, // based on the function we pass
+    inputFieldHasError: passwordInputFieldHasError, // based on the touched state and value valid value
+    inputValueChangedHandler: passwordChangedHandler,
+    blurHandler: passwordBlurHandler,
+  } = useInput(validatePassword);
+
+  if (
+    firstNameValueIsValid &&
+    lastNameValueIsValid &&
+    phoneNumberValueIsValid &&
+    emailValueIsValid &&
+    passwordValueIsValid
+  ) {
+    formIsValid = true;
+  }
 
   const onConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value.trim());
@@ -48,47 +81,33 @@ export default function SignUp() {
   const onRegisterClicked = (e) => {
     setRequiredFieldsError(false);
     setPasswordMatchError(false);
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !phoneNumber ||
-      !password ||
-      !confirmPassword
-    ) {
+    if (!formIsValid || !confirmPassword) {
       setRequiredFieldsError(true);
       return;
     }
-    if (password !== confirmPassword) {
+    if (enteredPassword !== confirmPassword) {
       setPasswordMatchError(true);
       return;
     }
 
     axios
       .post("http://localhost:3000/customers/create-new", {
-        firstName,
-        lastName,
-        email,
-        password,
+        firstName: enteredFirstName,
+        lastName: enteredLastName,
+        email: enteredEmail,
+        password: enteredPassword,
         confirmPassword,
-        phoneNumber,
+        phoneNumber: enteredPhoneNumber,
       })
       .then((response) => {
         if (response.status !== 201) {
           return;
         }
 
-        const user = {
-          email,
-          roles: response.data.roles,
-        };
-        // setUser(user);
-        // console.log(response.data);
-        // localStorage.setItem("auth_token", response.data.token);
-        // localStorage.setItem("email", email.trim());
-        // localStorage.setItem("roles", JSON.stringify(response.data.roles));
-
-        // goto customer dashboard
+        // const user = {
+        //   email,
+        //   roles: response.data.roles,
+        // };
         navigate("/");
         alert("Account created");
       })
@@ -102,11 +121,13 @@ export default function SignUp() {
       <div className="customerLogin__container">
         <img className="customerLogin__logo" src={logo} alt="logo" />
         <div className="customerLogin__form-container">
+          <h3>Create a new Account.</h3>
+
           <form>
             {requiredFieldsError && (
               <div>
                 <div className="customerLogin__error-container">
-                  <div>Please provide all fields.</div>
+                  <div>Please provide all fields properly.</div>
                 </div>
               </div>
             )}
@@ -119,39 +140,63 @@ export default function SignUp() {
             )}
             <div className="sub-entry">
               <div className="customerLogin__input-container">
+                {firstNameInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Name can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
                   type="text"
-                  value={firstName}
-                  onChange={onFirstNameChanged}
+                  value={enteredFirstName}
+                  onChange={firstNameChangedHandler}
+                  onBlur={firstNameBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {lastNameInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Name can not be empty and only contain letters.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
                   type="text"
-                  value={lastName}
-                  onChange={onLastNameChanged}
+                  value={enteredLastName}
+                  onChange={lastNameChangedHandler}
+                  onBlur={lastNameBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {phoneNumberInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      In-valid phone number.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Phone Number"
                   variant="outlined"
                   type="number"
-                  value={phoneNumber}
-                  onChange={onPhoneNumberChanged}
+                  value={enteredPhoneNumber}
+                  onChange={phoneNumberChangedHandler}
+                  onBlur={phoneNumberBlurHandler}
                   autoComplete="off"
                   required
                 />
@@ -160,26 +205,44 @@ export default function SignUp() {
 
             <div className="sub-entry">
               <div className="customerLogin__input-container">
+                {emailInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Email should not be empty or contain any special
+                      characters and should be in a correct format.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   type="email"
-                  value={email}
-                  onChange={onEmailChange}
+                  value={enteredEmail}
+                  onChange={emailChangedHandler}
+                  onBlur={emailBlurHandler}
                   autoComplete="off"
                   required
                 />
               </div>
 
               <div className="customerLogin__input-container">
+                {passwordInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Password must be at least 8 characters long, contain one
+                      lower case, one upper case and one special character.
+                    </span>
+                  </div>
+                )}
                 <TextField
                   id="outlined-basic"
                   label="Password"
                   variant="outlined"
                   type="password"
-                  value={password}
-                  onChange={onPasswordChange}
+                  value={enteredPassword}
+                  onChange={passwordChangedHandler}
+                  onBlur={passwordBlurHandler}
                   required
                 />
               </div>

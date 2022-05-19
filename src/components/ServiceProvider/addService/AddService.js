@@ -2,7 +2,14 @@ import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import UserContext from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
-import "./addservice.css";
+
+import useInput from "../../../hooks/use-input";
+import {
+  validateServiceName,
+  validateServiceType,
+  validateServiceUnitPrice,
+  validateDescription,
+} from "../../../utils/inputs-validators";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -13,14 +20,14 @@ import FormControl from "@mui/material/FormControl";
 import Header from "../../ServiceProvider/Header/Header.js";
 import "react-dropdown/style.css";
 import AddButtonImage from "./img.png";
+import "./addservice.css";
 
 export default function AddService() {
-  // store this token in context api
-
   const navigate = useNavigate();
   const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);
   const hiddenFileInput = useRef();
+  let formIsValid = false;
 
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
@@ -34,71 +41,82 @@ export default function AddService() {
 
   const [serviceImages, setServiceImages] = useState([]);
 
-  const [serviceName, setServiceName] = useState("");
-  const [serviceType, setServiceType] = useState("");
-  const [price, setPrice] = useState(0);
   const [status, setStatus] = useState("active");
-  const [description, setDescription] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
 
-  const onServiceNameChange = (e) => {
-    setServiceName(e.target.value);
-  };
-  const onServiceTypeChange = (e) => {
-    console.log(e.target.value);
-    setServiceType(e.target.value);
-  };
-  const onServicePriceChange = (e) => {
-    setPrice(e.target.value);
-  };
+  const {
+    value: enteredServiceName,
+    isValid: serviceNameValueIsValid,
+    inputFieldHasError: serviceNameInputFieldHasError,
+    inputValueChangedHandler: serviceNameChangeHandler,
+    blurHandler: serviceNameBlurHandler,
+  } = useInput(validateServiceName);
+
+  const {
+    value: selectedServiceType,
+    isValid: serviceTypeValueIsValid,
+    inputFieldHasError: serviceTypeInputFieldHasError,
+    inputValueChangedHandler: serviceTypeChangeHandler,
+    blurHandler: serviceTypeBlurHandler,
+  } = useInput(validateServiceType);
+
+  const {
+    value: enteredServicePrice,
+    isValid: servicePriceValueIsValid,
+    inputFieldHasError: servicePriceInputFieldHasError,
+    inputValueChangedHandler: servicePriceChangeHandler,
+    blurHandler: servicePriceBlurHandler,
+  } = useInput(validateServiceUnitPrice);
+
+  const {
+    value: enteredServiceDiscount,
+    isValid: serviceDiscountValueIsValid,
+    inputFieldHasError: serviceDiscountInputFieldHasError,
+    inputValueChangedHandler: serviceDiscountChangeHandler,
+    blurHandler: serviceDiscountBlurHandler,
+  } = useInput(validateServiceUnitPrice);
+
+  const {
+    value: enteredServiceDescription,
+    isValid: serviceDescriptionValueIsValid,
+    inputFieldHasError: serviceDescriptionInputFieldHasError,
+    inputValueChangedHandler: serviceDescriptionChangeHandler,
+    blurHandler: serviceDescriptionBlurHandler,
+  } = useInput(validateDescription);
+
+  if (
+    serviceNameValueIsValid &&
+    serviceTypeValueIsValid &&
+    servicePriceValueIsValid &&
+    serviceDiscountValueIsValid &&
+    serviceDescriptionValueIsValid
+  ) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
+
   const onServiceStatusChange = (e) => {
     setStatus(e.target.value);
-  };
-  const onServiceDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-  const onServiceDiscountChange = (e) => {
-    setDiscount(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // let errors = validate(formValues);
-    // setFormErrors(errors);
-    // console.log(formValues);
-    // // setIsSubmit(true);
 
-    // if (Object.keys(errors).length !== 0) {
-    //   return;
-    // }
-
-    // const apiObject = {
-    //   serviceName: formValues.serviceName,
-    //   serviceType: formValues.serviceType,
-    //   serviceUnitPrice: formValues.price,
-    //   discount: formValues.discount,
-    //   description: formValues.description,
-    //   status: formValues.status,
-    // };
-    console.log({
-      serviceName,
-      serviceType,
-      price,
-      discount,
-      status,
-      description,
-    });
+    if (!formIsValid || !status) {
+      setRequiredFieldsError(true);
+    }
 
     axios
       .post(
         "http://localhost:3000/service-providers/add-service",
         {
-          serviceName,
-          serviceType,
-          serviceUnitPrice: price,
-          discount,
+          serviceName: enteredServiceName,
+          serviceType: selectedServiceType,
+          serviceUnitPrice: enteredServicePrice,
+          discount: enteredServiceDiscount,
           status,
-          description,
+          description: enteredServiceDescription,
         },
         {
           headers: {
@@ -118,7 +136,7 @@ export default function AddService() {
   };
 
   const onImageSelectClicked = (e) => {
-    if (!serviceType) {
+    if (!selectedServiceType) {
       alert("Please select a service type first");
       e.preventDefault();
     }
@@ -129,7 +147,7 @@ export default function AddService() {
       return;
     }
     const formData = new FormData();
-    formData.append("serviceType", serviceType);
+    formData.append("serviceType", selectedServiceType);
     formData.append("eventierUserEmail", user.email);
     formData.append("serviceImage", e.target.files[0]);
     console.log(formData);
@@ -164,21 +182,46 @@ export default function AddService() {
         <div className="sp__add-service-heading-container">
           <h4>Add New Service</h4>
         </div>
+        {requiredFieldsError && (
+          <div>
+            <div className="customerLogin__error-container">
+              <div>Please provide all fields properly.</div>
+            </div>
+          </div>
+        )}
         <div className="sp__add-service-inputs-container">
           <div className="sp__add-service-sub-entry">
+            {serviceNameInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Invalid Service Name.
+                </span>
+              </div>
+            )}
             <TextField
-              value={serviceName}
+              value={enteredServiceName}
               label="Service Name"
-              onChange={onServiceNameChange}
+              onChange={serviceNameChangeHandler}
+              onBlur={serviceNameBlurHandler}
+              required
             />
+
             <FormControl>
+              {serviceTypeInputFieldHasError && (
+                <div className="inputField__error-message-wrapper">
+                  <span className="inputField__error-message-span">
+                    Service Type can not be empty.
+                  </span>
+                </div>
+              )}
               <InputLabel>Service Type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={serviceType}
+                value={selectedServiceType}
                 label="Service Type"
-                onChange={onServiceTypeChange}
+                onChange={serviceTypeChangeHandler}
+                onBlur={serviceTypeBlurHandler}
               >
                 <MenuItem value="Rent a Car">Rent a Car</MenuItem>
                 <MenuItem value="Decoration">Decoration</MenuItem>
@@ -186,15 +229,36 @@ export default function AddService() {
                 <MenuItem value="Clothing">Clothing</MenuItem>
               </Select>
             </FormControl>
+
+            {servicePriceInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Unit price can not be empty or negative and should only
+                  contain numbers.
+                </span>
+              </div>
+            )}
             <TextField
-              value={price}
+              value={enteredServicePrice}
               label="Price"
-              onChange={onServicePriceChange}
+              type="number"
+              onChange={servicePriceChangeHandler}
+              onBlur={servicePriceBlurHandler}
             />
+
+            {serviceDiscountInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Discount can not be empty or negative and should only contain
+                  numbers.
+                </span>
+              </div>
+            )}
             <TextField
-              value={discount}
-              label="Discount"
-              onChange={onServiceDiscountChange}
+              value={enteredServiceDiscount}
+              label="Discount %"
+              onChange={serviceDiscountChangeHandler}
+              onBlur={serviceDiscountBlurHandler}
             />
           </div>
           <div className="sp__add-service-sub-entry">
@@ -211,10 +275,20 @@ export default function AddService() {
                 <MenuItem value="in-active">In-Active</MenuItem>
               </Select>
             </FormControl>
+
+            {serviceDescriptionInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Service Description can not be empty and can only contain
+                  maximum of 500 characters.
+                </span>
+              </div>
+            )}
             <TextField
-              value={description}
+              value={enteredServiceDescription}
               label="Description"
-              onChange={onServiceDescriptionChange}
+              onChange={serviceDescriptionChangeHandler}
+              onBlur={serviceDescriptionBlurHandler}
               multiline
               rows={2}
             />

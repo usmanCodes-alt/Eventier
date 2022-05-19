@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import Header from "../customerHeader/Header";
 
+import useInput from "../../../hooks/use-input";
+import {
+  validateFirstName,
+  validateCountry,
+} from "../../../utils/inputs-validators";
+import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
@@ -10,16 +16,79 @@ import avatar from "../../../profile_pic_avatar.png";
 import "./CustomerProfile.css";
 
 function CustomerProfile() {
+  let formIsValid = false;
   const [customerInformation, setCustomerInformation] = useState();
   const [updateMode, setUpdateMode] = useState(false);
   const hiddenFileInput = useRef();
 
-  const [customerFirstName, setCustomerFirstName] = useState("");
-  const [customerLastName, setCustomerLastNam] = useState("");
-  const [customerCountry, setCustomerCountry] = useState("");
-  const [customerCity, setCustomerCity] = useState("");
-  const [customerProvince, setCustomerProvince] = useState("");
-  const [customerStreet, setCustomerStreet] = useState("");
+  const [formRequiredFieldsError, setFormRequiredFieldsError] = useState(false);
+
+  const {
+    value: enteredFirstName,
+    isValid: firstNameValueIsValid,
+    inputFieldHasError: firstNameInputFieldHasError,
+    inputValueChangedHandler: firstNameChangeHandler,
+    setInputValueForUpdate: setFirstNameValue,
+    blurHandler: firstNameBlurHandler,
+  } = useInput(validateFirstName);
+
+  const {
+    value: enteredLastName,
+    isValid: lastNameValueIsValid,
+    inputFieldHasError: lastNameInputFieldHasError,
+    inputValueChangedHandler: lastNameChangeHandler,
+    setInputValueForUpdate: setLastNameValue,
+    blurHandler: lastNameBlurHandler,
+  } = useInput(validateFirstName);
+
+  const {
+    value: enteredCountry,
+    isValid: countryValueIsValid,
+    inputFieldHasError: countryInputFieldHasError,
+    inputValueChangedHandler: countryChangeHandler,
+    setInputValueForUpdate: setCountryValue,
+    blurHandler: countryBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredCity,
+    isValid: cityValueIsValid,
+    inputFieldHasError: cityInputFieldHasError,
+    inputValueChangedHandler: cityChangeHandler,
+    setInputValueForUpdate: setCityValue,
+    blurHandler: cityBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredProvince,
+    isValid: provinceValueIsValid,
+    inputFieldHasError: provinceInputFieldHasError,
+    inputValueChangedHandler: provinceChangeHandler,
+    setInputValueForUpdate: setProvinceValue,
+    blurHandler: provinceBlurHandler,
+  } = useInput(validateCountry);
+
+  const {
+    value: enteredStreet,
+    isValid: streetValueIsValid,
+    inputFieldHasError: streetInputFieldHasError,
+    inputValueChangedHandler: streetChangeHandler,
+    setInputValueForUpdate: setStreetValue,
+    blurHandler: streetBlurHandler,
+  } = useInput(validateCountry);
+
+  if (
+    firstNameValueIsValid &&
+    lastNameValueIsValid &&
+    countryValueIsValid &&
+    cityValueIsValid &&
+    provinceValueIsValid &&
+    streetValueIsValid
+  ) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
 
   const [showImageUploadSuccessAlert, setShowImageUploadSuccessAlert] =
     useState(false);
@@ -57,24 +126,20 @@ function CustomerProfile() {
     if (!customerInformation) {
       return;
     }
-    setCustomerFirstName(customerInformation.first_name);
-    setCustomerLastNam(customerInformation.last_name);
-    setCustomerCountry(customerInformation.country);
-    setCustomerProvince(customerInformation.province);
-    setCustomerCity(customerInformation.city);
-    setCustomerStreet(customerInformation.street);
+
+    // new values
+    setFirstNameValue(customerInformation.first_name);
+    setLastNameValue(customerInformation.last_name);
+    setCountryValue(customerInformation.country);
+    setCityValue(customerInformation.city);
+    setProvinceValue(customerInformation.province);
+    setStreetValue(customerInformation.street);
   }, [customerInformation]);
 
   const updateProfile = (e) => {
     e.preventDefault();
-    if (
-      !customerFirstName ||
-      !customerLastName ||
-      !customerCountry ||
-      !customerCity ||
-      !customerProvince ||
-      !customerStreet
-    ) {
+    if (!formIsValid) {
+      setFormRequiredFieldsError(true);
       return;
     }
 
@@ -82,12 +147,12 @@ function CustomerProfile() {
       .patch(
         "http://localhost:3000/customers/update-profile",
         {
-          firstName: customerFirstName,
-          lastName: customerLastName,
-          street: customerStreet,
-          city: customerCity,
-          country: customerCountry,
-          province: customerProvince,
+          firstName: enteredFirstName,
+          lastName: enteredLastName,
+          street: enteredStreet,
+          city: enteredCity,
+          country: enteredCountry,
+          province: enteredProvince,
         },
         {
           headers: {
@@ -163,6 +228,15 @@ function CustomerProfile() {
             try again later!
           </Alert>
         )}
+        {formRequiredFieldsError && (
+          <Alert
+            severity="error"
+            onClose={() => setFormRequiredFieldsError(false)}
+          >
+            <AlertTitle>Error</AlertTitle>
+            Please provide <strong>all</strong> fields properly.
+          </Alert>
+        )}
         <div className="profileDetail__profile-picture-wrapper">
           <img
             className="profileDetail__picture"
@@ -190,10 +264,18 @@ function CustomerProfile() {
             <div className="sub-entry">
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {firstNameInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        Name can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     label="First Name"
-                    value={customerFirstName}
-                    onChange={(e) => setCustomerFirstName(e.target.value)}
+                    value={enteredFirstName}
+                    onChange={firstNameChangeHandler}
+                    onBlur={firstNameBlurHandler}
                   />
                 </div>
               ) : (
@@ -203,11 +285,19 @@ function CustomerProfile() {
               )}
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {lastNameInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        Name can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     className="profileDetail__input"
                     label="Last Name"
-                    value={customerLastName}
-                    onChange={(e) => setCustomerLastNam(e.target.value)}
+                    value={enteredLastName}
+                    onChange={lastNameChangeHandler}
+                    onBlur={lastNameBlurHandler}
                   />
                 </div>
               ) : (
@@ -224,11 +314,19 @@ function CustomerProfile() {
             <div className="sub-entry">
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {countryInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        Country can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     className="profileDetail__input"
                     label="Country"
-                    value={customerCountry}
-                    onChange={(e) => setCustomerCountry(e.target.value)}
+                    value={enteredCountry}
+                    onChange={countryChangeHandler}
+                    onBlur={countryBlurHandler}
                   />
                 </div>
               ) : (
@@ -238,11 +336,19 @@ function CustomerProfile() {
               )}
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {cityInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        City can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     className="profileDetail__input"
                     label="City"
-                    value={customerCity}
-                    onChange={(e) => setCustomerCity(e.target.value)}
+                    value={enteredCity}
+                    onChange={cityChangeHandler}
+                    onBlur={cityBlurHandler}
                   />
                 </div>
               ) : (
@@ -252,11 +358,19 @@ function CustomerProfile() {
               )}
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {provinceInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        Province can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     className="profileDetail__input"
                     label="Province"
-                    value={customerProvince}
-                    onChange={(e) => setCustomerProvince(e.target.value)}
+                    value={enteredProvince}
+                    onChange={provinceChangeHandler}
+                    onBlur={provinceBlurHandler}
                   />
                 </div>
               ) : (
@@ -266,11 +380,19 @@ function CustomerProfile() {
               )}
               {updateMode ? (
                 <div className="profileDetail__input">
+                  {streetInputFieldHasError && (
+                    <div className="inputField__error-message-wrapper">
+                      <span className="inputField__error-message-span">
+                        Street can not be empty and only contain letters.
+                      </span>
+                    </div>
+                  )}
                   <TextField
                     className="profileDetail__input"
                     label="Street"
-                    value={customerStreet}
-                    onChange={(e) => setCustomerStreet(e.target.value)}
+                    value={enteredStreet}
+                    onChange={streetChangeHandler}
+                    onBlur={streetBlurHandler}
                   />
                 </div>
               ) : (

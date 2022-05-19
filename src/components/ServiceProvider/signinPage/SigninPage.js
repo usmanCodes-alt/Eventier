@@ -1,23 +1,37 @@
 import { useState, useContext } from "react";
 import UserContext from "../../../context/auth-context";
 
+import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import { validateEmail } from "../../../utils/inputs-validators";
 import logo from "../../../logo.png";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function SigninPage() {
+  let formIsValid = false;
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticationError, setAuthenticationError] = useState(false);
+  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const {
+    value: enteredEmail,
+    isValid: emailValueIsValid,
+    inputFieldHasError: emailInputFieldHasError,
+    inputValueChangedHandler: emailChangeHandler,
+    blurHandler: emailBlurHandler,
+  } = useInput(validateEmail);
+
+  if (emailValueIsValid) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
 
   const onPasswordChange = (e) => {
     setPassword(e.target.value);
@@ -25,12 +39,13 @@ export default function SigninPage() {
 
   const onLoginButtonClicked = (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!formIsValid || !password) {
+      setRequiredFieldsError(true);
       return;
     }
     axios
       .post("http://localhost:3000/eventier/login", {
-        email,
+        email: enteredEmail,
         password,
       })
       .then((res) => {
@@ -41,12 +56,12 @@ export default function SigninPage() {
           throw new Error("Logged in for sp");
         }
         const loggedInUser = {
-          email: email.trim(),
+          email: enteredEmail.trim(),
           roles: res.data.roles,
         };
         setUser(loggedInUser);
         localStorage.setItem("auth_token", res.data.token);
-        localStorage.setItem("email", email.trim());
+        localStorage.setItem("email", enteredEmail.trim());
         localStorage.setItem("roles", JSON.stringify(res.data.roles));
 
         navigate("/service-provider/dashboard");
@@ -55,24 +70,6 @@ export default function SigninPage() {
         setAuthenticationError(true);
         console.log(err);
       });
-  };
-
-  const validate = (values) => {
-    const errors = {};
-    var validator = require("email-validator");
-    if (!values.userEmail) {
-      errors.email = "Email is required!";
-    } else if (!validator.validate(values.userEmail)) {
-      errors.email = "Email is not valid!";
-    }
-
-    if (!values.userPassword) {
-      errors.password = "Password is required";
-    }
-
-    console.log(errors);
-
-    return errors;
   };
 
   return (
@@ -86,14 +83,27 @@ export default function SigninPage() {
               <div>Invalid username or password.</div>
             </div>
           )}
+          {requiredFieldsError && (
+            <div className="customerLogin__error-container">
+              <div>Please provide all required fields properly.</div>
+            </div>
+          )}
           <div className="customerLogin__input-container">
+            {emailInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Invalid Email.
+                </span>
+              </div>
+            )}
             <TextField
               id="outlined-basic"
               label="Email"
               variant="outlined"
               type="email"
-              value={email}
-              onChange={onEmailChange}
+              value={enteredEmail}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
               autoComplete="off"
               required
             />

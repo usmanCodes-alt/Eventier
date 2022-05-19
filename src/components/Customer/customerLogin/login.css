@@ -59,6 +59,11 @@
 
 .customerLogin__input-container {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  margin: auto;
 }
 
 .customerLogin__error-container {

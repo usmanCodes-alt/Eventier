@@ -1,37 +1,58 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 
+import useInput from "../../../hooks/use-input";
+import { validateEmail } from "../../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import logo from "../../../logo.png";
 import "./login.css";
-import { Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
-  const [email, setEmail] = useState("");
+
+  let formIsValid = false;
+
+  const {
+    value: enteredEmail,
+    isValid: emailValueIsValid,
+    inputFieldHasError: emailInputFieldHasError,
+    inputValueChangedHandler: emailChangedHandler,
+    blurHandler: emailBlurHandler,
+  } = useInput(validateEmail);
+
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticationError, setAuthenticationError] = useState(false);
+  const [requiredFieldsError, setRequiredFieldsError] = useState(false);
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value.trim());
-  };
+  // check overall form validity
+  if (emailValueIsValid) {
+    // form will be valid only if email will be valid
+    console.log("form is valid");
+    formIsValid = true;
+  } else {
+    console.log("form is invalid");
+  }
 
   const onPasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
   const onLoginButtonClicked = (e) => {
-    if (!email || !password) {
+    if (!formIsValid || !password) {
+      // if form is not valid or there is no value for the password, don't make the api call.
+      setRequiredFieldsError(true);
       return;
     }
 
     axios
       .post("http://localhost:3000/eventier/login", {
-        email,
+        email: enteredEmail,
         password,
       })
       .then((response) => {
@@ -43,13 +64,13 @@ export default function Login() {
           throw new Error("Invalid login");
         }
         const user = {
-          email,
+          email: enteredEmail,
           roles: response.data.roles,
         };
         setUser(user);
         console.log(response.data);
         localStorage.setItem("auth_token", response.data.token);
-        localStorage.setItem("email", email.trim());
+        localStorage.setItem("email", enteredEmail.trim());
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
         navigate("/customer-home");
       })
@@ -70,14 +91,27 @@ export default function Login() {
               <div>Invalid username or password.</div>
             </div>
           )}
+          {requiredFieldsError && (
+            <div className="customerLogin__error-container">
+              <div>Please provide all required fields.</div>
+            </div>
+          )}
           <div className="customerLogin__input-container">
+            {emailInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Invalid Email.
+                </span>
+              </div>
+            )}
             <TextField
               id="outlined-basic"
               label="Email"
               variant="outlined"
               type="email"
-              value={email}
-              onChange={onEmailChange}
+              value={enteredEmail}
+              onChange={emailChangedHandler}
+              onBlur={emailBlurHandler}
               autoComplete="off"
               required
             />
