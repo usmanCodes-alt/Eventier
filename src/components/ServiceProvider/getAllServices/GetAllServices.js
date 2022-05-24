@@ -11,10 +11,6 @@ export default function TotalOrders() {
   const [services, setServices] = useState([]);
   const { user, setUser } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
-    console.log("Submit");
-  };
-
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
       console.log("page refreshed while user was logged in");
@@ -34,7 +30,6 @@ export default function TotalOrders() {
         },
       })
       .then((response) => {
-        console.log(response.data.servicesRows);
         setServices(response.data.servicesRows);
       })
       .catch((err) => {
@@ -46,7 +41,9 @@ export default function TotalOrders() {
     return (
       <React.Fragment>
         <Header />
-        <h1>You don't have any services</h1>
+        <div className="sp__all-services-no-service-msg-wrapper">
+          <h1>You don't have any services</h1>
+        </div>
       </React.Fragment>
     );
   } else {

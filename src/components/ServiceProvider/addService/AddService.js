@@ -9,17 +9,19 @@ import {
   validateServiceType,
   validateServiceUnitPrice,
   validateDescription,
+  validateDiscount,
 } from "../../../utils/inputs-validators";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import Header from "../../ServiceProvider/Header/Header.js";
 import "react-dropdown/style.css";
-import AddButtonImage from "./img.png";
+import AddButtonImage from "../../../add-btn-img.png";
 import "./addservice.css";
 
 export default function AddService() {
@@ -27,6 +29,8 @@ export default function AddService() {
   const token = localStorage.getItem("auth_token");
   const { user, setUser } = useContext(UserContext);
   const hiddenFileInput = useRef();
+  const [serviceAlreadyExistsError, setServiceAlreadyExistsError] =
+    useState(false);
   let formIsValid = false;
 
   useEffect(() => {
@@ -39,7 +43,10 @@ export default function AddService() {
     }
   }, []);
 
-  const [serviceImages, setServiceImages] = useState([]);
+  const [serviceImagesSelected, setServiceImagesSelected] = useState([]);
+  const [serviceImagesObjectUrls, setServiceImagesObjectUrls] = useState([]);
+  const [serviceImagesLimitExceeded, setServiceImagesLimitExceeded] =
+    useState(false);
 
   const [status, setStatus] = useState("active");
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
@@ -74,7 +81,7 @@ export default function AddService() {
     inputFieldHasError: serviceDiscountInputFieldHasError,
     inputValueChangedHandler: serviceDiscountChangeHandler,
     blurHandler: serviceDiscountBlurHandler,
-  } = useInput(validateServiceUnitPrice);
+  } = useInput(validateDiscount);
 
   const {
     value: enteredServiceDescription,
@@ -102,6 +109,19 @@ export default function AddService() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+
+    formData.append("eventierUserEmail", user.email);
+    formData.append("serviceType", selectedServiceType);
+    Object.values(serviceImagesSelected).forEach((file) => {
+      formData.append("service-images", file);
+    });
+
+    formData.append("serviceName", enteredServiceName);
+    formData.append("serviceUnitPrice", enteredServicePrice);
+    formData.append("discount", enteredServiceDiscount);
+    formData.append("status", status);
+    formData.append("description", enteredServiceDescription);
 
     if (!formIsValid || !status) {
       setRequiredFieldsError(true);
@@ -109,18 +129,12 @@ export default function AddService() {
 
     axios
       .post(
-        "http://localhost:3000/service-providers/add-service",
-        {
-          serviceName: enteredServiceName,
-          serviceType: selectedServiceType,
-          serviceUnitPrice: enteredServicePrice,
-          discount: enteredServiceDiscount,
-          status,
-          description: enteredServiceDescription,
-        },
+        "http://localhost:3000/service-providers/add-service-with-images",
+        formData,
         {
           headers: {
             Authorization: "Bearer " + token,
+            "Content-Type": "multipart/form-data",
           },
         }
       )
@@ -131,7 +145,10 @@ export default function AddService() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 400) {
+          setServiceAlreadyExistsError(true);
+          return;
+        }
       });
   };
 
@@ -142,42 +159,42 @@ export default function AddService() {
     }
   };
 
-  const handleImageUpload = (e) => {
-    if (!e.target.files[0]) {
+  const handleMultipleImageUpload = (e) => {
+    if (!e.target.files) {
       return;
     }
-    const formData = new FormData();
-    formData.append("serviceType", selectedServiceType);
-    formData.append("eventierUserEmail", user.email);
-    formData.append("serviceImage", e.target.files[0]);
-    console.log(formData);
-    axios
-      .post(
-        "http://localhost:3000/service-provider/add-service/upload-image",
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((response) => {
-        setServiceImages((oldServiceImagesArray) => [
-          ...oldServiceImagesArray,
-          `http://localhost:3000/static/${user.email}/` +
-            response.data.filename,
-        ]);
-      })
-      .catch((err) => console.log(err));
+
+    if (e.target.files.length > 5 || serviceImagesSelected.length >= 5) {
+      setServiceImagesLimitExceeded(true);
+      return;
+    }
+
+    setServiceImagesSelected((oldServiceImagesSelectedArray) => {
+      return [...oldServiceImagesSelectedArray, ...e.target.files];
+    });
+    for (const file of e.target.files) {
+      setServiceImagesObjectUrls((oldObjectUrls) => [
+        ...oldObjectUrls,
+        URL.createObjectURL(file),
+      ]);
+    }
   };
 
   useEffect(() => {
-    console.log(serviceImages);
-  }, [serviceImages]);
+    console.log(serviceImagesSelected);
+  }, [serviceImagesSelected]);
 
   return (
     <div className="sp__add-service-container">
       <Header />
+      {serviceImagesLimitExceeded && (
+        <Alert
+          severity="error"
+          onClose={() => setServiceImagesLimitExceeded(false)}
+        >
+          You only not choose more than 5 images.
+        </Alert>
+      )}
       <div className="sp__add-service-form-container">
         <div className="sp__add-service-heading-container">
           <h4>Add New Service</h4>
@@ -186,6 +203,13 @@ export default function AddService() {
           <div>
             <div className="customerLogin__error-container">
               <div>Please provide all fields properly.</div>
+            </div>
+          </div>
+        )}
+        {serviceAlreadyExistsError && (
+          <div>
+            <div className="customerLogin__error-container">
+              <div>You already have a service with this same service type!</div>
             </div>
           </div>
         )}
@@ -249,8 +273,8 @@ export default function AddService() {
             {serviceDiscountInputFieldHasError && (
               <div className="inputField__error-message-wrapper">
                 <span className="inputField__error-message-span">
-                  Discount can not be empty or negative and should only contain
-                  numbers.
+                  Discount can not be empty or contain any special characters
+                  and should be between 0-100.
                 </span>
               </div>
             )}
@@ -303,15 +327,24 @@ export default function AddService() {
               type="file"
               onClick={onImageSelectClicked}
               accept="image/png, image/jpg, image/jpeg"
-              onChange={handleImageUpload}
+              onChange={handleMultipleImageUpload}
               ref={hiddenFileInput}
               style={{ display: "none" }}
+              multiple
             />
-            {serviceImages.length !== 0 && (
+            {serviceImagesObjectUrls.length !== 0 && (
               <div className="sp__add-service-uploaded-images">
-                {serviceImages.map((image) => (
-                  <img src={image} alt="Service" width="60" height="60" />
-                ))}
+                {serviceImagesObjectUrls.map((objectUrl) => {
+                  return (
+                    <img
+                      className="sp__add-service-img"
+                      src={objectUrl}
+                      alt="Service"
+                      width="60"
+                      height="60"
+                    />
+                  );
+                })}
               </div>
             )}
           </div>

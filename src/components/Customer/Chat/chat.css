@@ -1,5 +1,5 @@
 .chat__container {
-  height: calc(100vh - 80px);
+  height: calc(125vh - 80px);
   display: flex;
   padding-bottom: 260px;
 }

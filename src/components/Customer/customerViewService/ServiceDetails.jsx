@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
 import CartContext from "../../../context/Cart/cartContext";
+import useInput from "../../../hooks/use-input";
 
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -12,6 +13,7 @@ import DetailsCard from "../customerServiceDetailsCard/DetailsCard";
 import Header from "../customerHeader/Header";
 
 import "./service-details.css";
+import { validateDescription } from "../../../utils/inputs-validators";
 
 export default function ServiceDetails() {
   const { cartItems, addToCart } = useContext(CartContext);
@@ -20,10 +22,19 @@ export default function ServiceDetails() {
   const navigate = useNavigate();
 
   const [serviceDetails, setServiceDetails] = useState();
-  const [userReview, setUserReview] = useState("");
+  // const [userReview, setUserReview] = useState("");
   const [starRating, setStarRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [existingWishList, setExistingWishList] = useState([]);
+
+  const {
+    value: enteredDescription,
+    isValid: enteredDescriptionIsValid,
+    inputFieldHasError: descriptionInputFieldHasError,
+    inputValueChangedHandler: descriptionValueChangeHandler,
+    setInputValueForUpdate: setDescriptionValue,
+    blurHandler: descriptionBlurHandler,
+  } = useInput(validateDescription);
 
   const [showAddToWishListButton, setShowAddToWishListButton] = useState(true);
   const [wishListSuccessAlert, setWishListSuccessAlert] = useState(false);
@@ -189,13 +200,13 @@ export default function ServiceDetails() {
       });
   };
 
-  const userReviewChanged = (e) => {
-    setUserReview(e.target.value);
-  };
+  // const userReviewChanged = (e) => {
+  //   setUserReview(e.target.value);
+  // };
 
   const addUserReview = (e) => {
     e.preventDefault();
-    if (!userReview || starRating === 0) {
+    if (!enteredDescription || starRating === 0) {
       setShowInValidRequiredReviewFieldsAlert(true);
       return;
     }
@@ -203,7 +214,7 @@ export default function ServiceDetails() {
       .post(
         "http://localhost:3000/customers/review",
         {
-          reviewMessage: userReview,
+          reviewMessage: enteredDescription,
           starRating,
           serviceId: serviceDetails.serviceId,
         },
@@ -216,7 +227,7 @@ export default function ServiceDetails() {
       .then((res) => {
         if (res.status === 201) {
           setStarRating(0);
-          setUserReview("");
+          setDescriptionValue("");
           getReviewsOfService();
           setShowUserReviewRecordedAlert(true);
         }
@@ -320,16 +331,26 @@ export default function ServiceDetails() {
       </div>
       <div className="serviceDetails__comment-section">
         <div className="serviceDetails__commentInput">
-          <textarea
-            className="serviceDetails__commentTextArea"
-            placeholder="Please leave a review"
-            onChange={userReviewChanged}
-            value={userReview}
-          ></textarea>
-          <div className="serviceDetails__btnAndStarRating">
+          <div>
+            {descriptionInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Description should contain (1-500) characters.
+                </span>
+              </div>
+            )}
+            <textarea
+              className="serviceDetails__commentTextArea"
+              placeholder="Please leave a review"
+              onChange={descriptionValueChangeHandler}
+              value={enteredDescription}
+              onBlur={descriptionBlurHandler}
+            ></textarea>
             <Button variant="contained" onClick={addUserReview}>
               Add Comment
             </Button>
+          </div>
+          <div className="serviceDetails__btnAndStarRating">
             <StarRatings
               numberOfStars={5}
               changeRating={onRatingChanged}

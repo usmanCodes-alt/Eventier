@@ -1,0 +1,59 @@
+.sp__profile-container {
+  padding-bottom: 260px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+.sp__profile-profile-picture {
+  height: 200px;
+  width: 270px;
+  border-radius: 10px;
+}
+
+.sp__profile-image-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.sp__profile-picture-heading-container {
+  margin: 0px auto 10px auto;
+}
+
+.sp__profile-information-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.sp__profile-information {
+  border: 1px solid gainsboro;
+  padding: 10px;
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+}
+
+.sp__profile-info-heading {
+  padding: 10px;
+  margin: 0;
+}
+
+.sp__profile-user-info-heading {
+  margin: 0px auto 10px auto;
+}
+
+.sp__profile-button-container {
+  margin: 10px auto 0px auto;
+}
+
+.sp__profile-input-wrapper {
+  margin-bottom: 10px;
+}
+
+.sp__profile-update-mode-btn-wrapper {
+  margin: 10px;
+  display: inline;
+}

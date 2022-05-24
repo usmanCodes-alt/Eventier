@@ -1,0 +1,78 @@
+.sp__service-details-wrapper {
+  padding-bottom: 270px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.sp__service-details-information-container {
+  border: 1px solid gainsboro;
+  padding: 10px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sp__service-details-information-heading {
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.sp__service-details-information {
+  margin-top: 20px;
+}
+
+.sp__service-details-information-content {
+  margin-bottom: 25px;
+}
+
+.sp__service-details-all-images-container {
+  padding: 10px;
+  border: 1px solid gainsboro;
+  overflow-x: scroll;
+  width: 300px;
+  overflow-y: hidden;
+  position: relative;
+  height: 90px;
+  white-space: nowrap;
+}
+
+.sp__service-details-img {
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+}
+
+.sp__service-details-delete-img-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.sp__service-details-reviews-container {
+  padding: 10px;
+  border: 1px solid gainsboro;
+  overflow: auto;
+  height: 40%;
+}
+
+.sp__service-details-images-container {
+  display: flex;
+  align-items: center;
+}
+
+.sp__service-details-edit-btn {
+  width: 10%;
+  align-self: center;
+}
+
+.sp__service-details-update-input-wrapper {
+  margin-top: 10px;
+}
+
+.sp__service-details-update-cancel-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}

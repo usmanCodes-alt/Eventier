@@ -14,7 +14,6 @@ export default function SigninPage() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticationError, setAuthenticationError] = useState(false);
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
@@ -71,6 +70,13 @@ export default function SigninPage() {
         console.log(err);
       });
   };
+
+  // useEffect(() => {
+  //   console.log("sending request");
+  //   axios.post("http://127.0.0.1:5000//get-sentiments", {
+  //     reviews: ["This is a very good product", "This is a very poor product"],
+  //   });
+  // }, []);
 
   return (
     <div className="customerLogin__container">

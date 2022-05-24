@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-// import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./components/ServiceProvider/signupmainpage/Signup.js";
 import Footer from "./components/footer/Footer";
 import AddService from "./components/ServiceProvider/addService/AddService";
 import VendorSignup from "./components/ServiceProvider/signupmainpage/Signup";
-import ProfileDetail from "./components/ServiceProvider/profileDetail/ProfileDetail";
+import { default as ServiceProviderProfile } from "./components/ServiceProvider/serviceProviderProfile/Profile";
 import SigninPage from "./components/ServiceProvider/signinPage/SigninPage";
 import TotalOrders from "./components/ServiceProvider/totalOrders/TotalOrders";
 import GetAllServices from "./components/ServiceProvider/getAllServices/GetAllServices";
 import DashBoard from "./components/ServiceProvider/dashBoard/DashBoard";
 import UserContext from "./context/auth-context";
 // import OrderDetail from "./components/ServiceProvider/OrderDetail/OrderDetail";
-import ServiceDetail from "./components/ServiceProvider/ServiceDetail/ServiceDetail";
+import { default as ServiceDetails } from "./components/ServiceProvider/serviceProviderServiceDetails/Details.jsx";
 
 // customer components
 import Login from "./components/Customer/customerLogin/Login";
 import { default as CustomerSignUp } from "./components/Customer/customerSignUp/SignUp";
 import { default as CustomerHome } from "./components/Customer/customerHome/Home";
 import CustomerProfile from "./components/Customer/customerProfile/CustomerProfile.jsx";
-// import OrderDetailCustomer from "./components/Customer/OrderDetailCustomer/OrderDetailCustomer";
 import TotalOrdersCustomer from "./components/Customer/TotalOrdersCustomers/TotalOrdersCustomer";
 import { default as CustomerServiceDetailsView } from "./components/Customer/customerViewService/ServiceDetails";
 import Cart from "./components/Customer/customerCart/Cart";
@@ -71,7 +69,7 @@ function App() {
             />
             <Route
               path="/service-provider/profile"
-              element={<ProfileDetail />}
+              element={<ServiceProviderProfile />}
             />
             <Route
               path="/service-provider/add-service"
@@ -83,7 +81,7 @@ function App() {
             />
             <Route
               path="/service-provider/service-details"
-              element={<ServiceDetail />}
+              element={<ServiceDetails />}
             />
 
             <Route path="/chat" element={<Chat />} />

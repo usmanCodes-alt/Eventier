@@ -42,11 +42,15 @@
   padding: 10px;
   border: 1px solid gainsboro;
   overflow-x: scroll;
-  width: 300px;
+  width: 200px;
   overflow-y: hidden;
   position: relative;
   height: 90px;
   white-space: nowrap;
+}
+
+.sp__add-service-uploaded-images {
+  margin-right: 10px;
 }
 
 .sp__add-service-apply-margin {

@@ -53,6 +53,9 @@ export default function Header() {
             >
               <li className="sp__header-li">Add Service</li>
             </NavLink>
+            <NavLink className="sp__header-nav-link" to="/chat">
+              <li className="sp__header-li">Messages</li>
+            </NavLink>
           </ul>
         </nav>
       </div>

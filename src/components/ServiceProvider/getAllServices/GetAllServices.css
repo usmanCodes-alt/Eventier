@@ -3,6 +3,11 @@
   grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
   gap: 2rem;
   justify-content: center;
-  padding-bottom: 260px;
+  padding-bottom: 270px;
   margin-top: 10px;
+}
+
+.sp__all-services-no-service-msg-wrapper {
+  text-align: center;
+  margin-top: 20px;
 }

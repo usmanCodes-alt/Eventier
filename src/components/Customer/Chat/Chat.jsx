@@ -39,15 +39,22 @@ export default function Chat() {
   useEffect(() => {
     socketRef.current = io("ws://localhost:8900");
     socketRef.current.on("get-message", (data) => {
+      console.log("get-message event");
       setArrivingMessage({
         senderEmail: data.senderUserEmail,
         text: data.text,
         createdAt: Date.now(),
       });
     });
+
+    return () => {
+      console.log("disconnecting");
+      socketRef.current.disconnect();
+    };
   }, []);
 
   useEffect(() => {
+    console.log("Setting message");
     arrivingMessage &&
       currentChat?.members.includes(arrivingMessage.senderEmail) &&
       setMessages((previousState) => [...previousState, arrivingMessage]);
@@ -59,6 +66,7 @@ export default function Chat() {
 
   // get all conversations of this user when the page loads
   const getConversations = async () => {
+    console.log("Getting old conversations");
     try {
       const response = await axios.get(
         "http://localhost:5000/chat-api/conversation/" +
@@ -79,6 +87,7 @@ export default function Chat() {
     } = urlData;
 
     if (newConversation) {
+      console.log("Creating conversation");
       const createConversation = async () => {
         try {
           const response = await axios.post(
@@ -146,6 +155,7 @@ export default function Chat() {
       conversationId: currentChat._id,
     };
 
+    console.log("send-message event fired");
     socketRef.current.emit("send-message", {
       senderUserEmail: localStorage.getItem("email"),
       receiverUserEmail: currentChat.members.find(
