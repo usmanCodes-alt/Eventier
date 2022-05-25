@@ -145,6 +145,14 @@ export default function SigninPage() {
             Login as a Customer
           </Link>
         </div>
+        <div className="customerLogin__other-options-container">
+          <Link
+            to="/start-password-reset"
+            className="customerLogin__login-as-sp"
+          >
+            Forgot Password?
+          </Link>
+        </div>
       </div>
     </div>
   );

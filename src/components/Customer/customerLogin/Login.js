@@ -147,6 +147,14 @@ export default function Login() {
             Login as a Business
           </Link>
         </div>
+        <div className="customerLogin__other-options-container">
+          <Link
+            to="/start-password-reset"
+            className="customerLogin__login-as-sp"
+          >
+            Forgot Password?
+          </Link>
+        </div>
       </div>
     </div>
   );

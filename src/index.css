@@ -13,4 +13,7 @@
 
 .inputField__error-message-wrapper {
   margin-bottom: 10px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 50%;
 }

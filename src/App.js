@@ -24,6 +24,8 @@ import Chat from "./components/Customer/Chat/Chat";
 import WishList from "./components/Customer/WishList/WishList";
 
 import Protected from "./components/ProtectedRoute/Protected.js";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
+import { default as EmailInputForResetPassword } from "./components/EmailInput/EmailInput";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -157,6 +159,12 @@ function App() {
                   <Chat />
                 </Protected>
               }
+            />
+
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route
+              path="/start-password-reset"
+              element={<EmailInputForResetPassword />}
             />
           </Routes>
           <Footer />
