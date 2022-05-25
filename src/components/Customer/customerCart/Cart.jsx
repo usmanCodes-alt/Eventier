@@ -1,6 +1,6 @@
 import React from "react";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+// import { useNavigate } from "react-router-dom";
 import CartContext from "../../../context/Cart/cartContext";
 import Header from "../customerHeader/Header";
 
@@ -12,6 +12,8 @@ import "./Cart.css";
 
 function Cart() {
   const { cartItems, resetCart, removeFromCart } = useContext(CartContext);
+  const [emptyAddressErrorMessage, setEmptyAddressErrorMessage] =
+    useState(false);
 
   const onPlaceOrderClicked = (e) => {
     e.preventDefault();
@@ -40,7 +42,12 @@ function Cart() {
           window.location = res.data.STRIPE_URL;
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          setEmptyAddressErrorMessage(true);
+        }
+      });
   };
 
   const onDeletePresses = (serviceId) => {
@@ -50,6 +57,19 @@ function Cart() {
   return (
     <div className="cart__container">
       <Header />
+      {emptyAddressErrorMessage && (
+        <div
+          className="customerLogin__error-container"
+          style={{
+            width: "50%",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: "10px",
+          }}
+        >
+          <div>Please update your profile and provide your address first.</div>
+        </div>
+      )}
       <table className="cart__table">
         <thead>
           <tr className="totalOrders__thead">
