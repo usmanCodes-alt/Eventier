@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./components/ServiceProvider/signupmainpage/Signup.js";
 import Footer from "./components/footer/Footer";
 import AddService from "./components/ServiceProvider/addService/AddService";
 import VendorSignup from "./components/ServiceProvider/signupmainpage/Signup";
@@ -24,6 +23,8 @@ import Cart from "./components/Customer/customerCart/Cart";
 import Chat from "./components/Customer/Chat/Chat";
 import WishList from "./components/Customer/WishList/WishList";
 
+import Protected from "./components/ProtectedRoute/Protected.js";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -45,35 +46,96 @@ function App() {
             {/** Customer endpoints */}
             <Route path="/" element={<Login />} />
             <Route path="/customer-signup" element={<CustomerSignUp />} />
-            <Route path="/customer-home" element={<CustomerHome />} />
+            <Route
+              path="/customer-home"
+              element={
+                <Protected>
+                  <CustomerHome />
+                </Protected>
+              }
+            />
             <Route
               path="/customer/service-details"
-              element={<CustomerServiceDetailsView />}
+              element={
+                <Protected>
+                  <CustomerServiceDetailsView />
+                </Protected>
+              }
             />
-            <Route path="/customer-orders" element={<TotalOrdersCustomer />} />
-            <Route path="/customer/cart" element={<Cart />} />
-            <Route path="/customer/wish-list" element={<WishList />} />
-            <Route path="/customer/profile" element={<CustomerProfile />} />
+            <Route
+              path="/customer-orders"
+              element={
+                <Protected>
+                  <TotalOrdersCustomer />
+                </Protected>
+              }
+            />
+            <Route
+              path="/customer/cart"
+              element={
+                <Protected>
+                  <Cart />
+                </Protected>
+              }
+            />
+            <Route
+              path="/customer/wish-list"
+              element={
+                <Protected>
+                  <WishList />
+                </Protected>
+              }
+            />
+            <Route
+              path="/customer/profile"
+              element={
+                <Protected>
+                  <CustomerProfile />
+                </Protected>
+              }
+            />
 
             {/** SP endpoints */}
             <Route path="/service-provider-login" element={<SigninPage />} />
-            <Route path="/service-provider/dashboard" element={<DashBoard />} />
-            <Route path="/signupPage" element={<Signup />} />
+            <Route
+              path="/service-provider/dashboard"
+              element={
+                <Protected>
+                  <DashBoard />
+                </Protected>
+              }
+            />
             <Route
               path="/service-provider/my-services"
-              element={<GetAllServices />}
+              element={
+                <Protected>
+                  <GetAllServices />
+                </Protected>
+              }
             />
             <Route
               path="/service-provider/total-orders"
-              element={<TotalOrders />}
+              element={
+                <Protected>
+                  <TotalOrders />
+                </Protected>
+              }
             />
             <Route
               path="/service-provider/profile"
-              element={<ServiceProviderProfile />}
+              element={
+                <Protected>
+                  <ServiceProviderProfile />
+                </Protected>
+              }
             />
             <Route
               path="/service-provider/add-service"
-              element={<AddService />}
+              element={
+                <Protected>
+                  <AddService />
+                </Protected>
+              }
             />
             <Route
               path="/service-provider/sign-up"
@@ -81,10 +143,21 @@ function App() {
             />
             <Route
               path="/service-provider/service-details"
-              element={<ServiceDetails />}
+              element={
+                <Protected>
+                  <ServiceDetails />
+                </Protected>
+              }
             />
 
-            <Route path="/chat" element={<Chat />} />
+            <Route
+              path="/chat"
+              element={
+                <Protected>
+                  <Chat />
+                </Protected>
+              }
+            />
           </Routes>
           <Footer />
         </UserContext.Provider>
