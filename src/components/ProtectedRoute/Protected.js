@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Protected({ children }) {
-  //   const navigate = useNavigate();
+  const [validJwt, setValidJwt] = useState(false);
   const authToken = localStorage.getItem("auth_token");
   console.log(authToken);
 
@@ -10,5 +11,25 @@ export default function Protected({ children }) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  axios
+    .get("http://localhost:3000/validate-jwt", {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setValidJwt(true);
+    })
+    .catch((err) => {
+      if (err.response.status === 400) {
+        return <Navigate to="/" replace />;
+      }
+    });
+
+  if (validJwt) {
+    return children;
+  } else {
+    return <React.Fragment></React.Fragment>;
+  }
 }
