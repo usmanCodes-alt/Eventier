@@ -6,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { validateEmail } from "../../../utils/inputs-validators";
-import logo from "../../../logo.png";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function SigninPage() {
@@ -80,7 +79,11 @@ export default function SigninPage() {
 
   return (
     <div className="customerLogin__container">
-      <img className="customerLogin__logo" src={logo} alt="logo" />
+      <img
+        className="customerLogin__logo"
+        src={require("../../../images/loginIllustration.svg").default}
+        alt="logo"
+      />
       <div className="customerLogin__form-container">
         <h3>Grow your business with us!</h3>
         <form>

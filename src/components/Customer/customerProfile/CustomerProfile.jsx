@@ -11,7 +11,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
-import avatar from "../../../profile_pic_avatar.png";
+import avatar from "../../../images/profile_pic_avatar.png";
 
 import "./CustomerProfile.css";
 

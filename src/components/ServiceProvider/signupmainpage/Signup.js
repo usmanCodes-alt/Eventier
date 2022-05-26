@@ -13,7 +13,8 @@ import {
 import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import logo from "./logo.png";
+// import logo from "../../../images/logo.png";
+import SignUpImage from "../../../images/signupImage.webp";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -161,7 +162,12 @@ export default function Signup() {
   return (
     <React.Fragment>
       <div className="customerLogin__container">
-        <img className="customerLogin__logo" src={logo} alt="logo" />
+        <img
+          className="customerLogin__logo"
+          src={SignUpImage}
+          alt="logo"
+          style={{ width: "30%" }}
+        />
         <div className="customerLogin__form-container">
           <h3>Create a Business Account!</h3>
           <form>
@@ -242,28 +248,9 @@ export default function Signup() {
                   required
                 />
               </div>
+            </div>
 
-              <div className="customerLogin__input-container">
-                {phoneNumberInputFieldHasError && (
-                  <div className="inputField__error-message-wrapper">
-                    <span className="inputField__error-message-span">
-                      Phone number must be valid.
-                    </span>
-                  </div>
-                )}
-                <TextField
-                  id="outlined-basic"
-                  label="Phone Number"
-                  variant="outlined"
-                  type="number"
-                  value={enteredPhoneNumber}
-                  onChange={phoneNumberChangeHandler}
-                  onBlur={phoneNumberBlurHandler}
-                  autoComplete="off"
-                  required
-                />
-              </div>
-
+            <div className="sub-entry">
               <div className="customerLogin__input-container">
                 {emailInputFieldHasError && (
                   <div className="inputField__error-message-wrapper">
@@ -285,9 +272,7 @@ export default function Signup() {
                   required
                 />
               </div>
-            </div>
 
-            <div className="sub-entry">
               <div className="customerLogin__input-container">
                 {passwordInputFieldHasError && (
                   <div className="inputField__error-message-wrapper">
@@ -308,7 +293,6 @@ export default function Signup() {
                   required
                 />
               </div>
-
               <div className="customerLogin__input-container">
                 <TextField
                   id="outlined-basic"
@@ -317,6 +301,29 @@ export default function Signup() {
                   type="password"
                   value={confirmPassword}
                   onChange={onConfirmPasswordChanged}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="sub-entry">
+              <div className="customerLogin__input-container">
+                {phoneNumberInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Phone number must be valid.
+                    </span>
+                  </div>
+                )}
+                <TextField
+                  id="outlined-basic"
+                  label="Phone Number"
+                  variant="outlined"
+                  type="number"
+                  value={enteredPhoneNumber}
+                  onChange={phoneNumberChangeHandler}
+                  onBlur={phoneNumberBlurHandler}
+                  autoComplete="off"
                   required
                 />
               </div>
@@ -361,7 +368,9 @@ export default function Signup() {
                   required
                 />
               </div>
+            </div>
 
+            <div className="sub-entry">
               <div className="customerLogin__input-container">
                 {countryInputFieldHasError && (
                   <div className="inputField__error-message-wrapper">

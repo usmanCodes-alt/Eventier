@@ -8,7 +8,6 @@ import useInput from "../../../hooks/use-input";
 import { validateEmail } from "../../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import logo from "../../../logo.png";
 import "./login.css";
 
 export default function Login() {
@@ -82,7 +81,12 @@ export default function Login() {
 
   return (
     <div className="customerLogin__container">
-      <img className="customerLogin__logo" src={logo} alt="logo" />
+      <img
+        className="customerLogin__logo"
+        src={require("../../../images/loginIllustration.svg").default}
+        alt="logo"
+      />
+
       <div className="customerLogin__form-container">
         <h3>Explore different businesses around you!</h3>
         <form>

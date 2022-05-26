@@ -16,6 +16,9 @@ import "./email-input.css";
 export default function EmailInput() {
   const navigate = useNavigate();
   const [showMailSentAlert, setShowMailSentAlert] = useState(false);
+  const [emailNotFoundHeader, setEmailNotFoundHeader] = useState("");
+  const [emailNotFoundBodyText, setEmailNotFoundBodyText] = useState("");
+  const [emailNotFound, setEmailNotFound] = useState(false);
 
   const {
     value: enteredEmail,
@@ -40,11 +43,27 @@ export default function EmailInput() {
         console.log(res);
         setShowMailSentAlert(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 404) {
+          console.log("404");
+          setEmailNotFound(true);
+          setShowMailSentAlert(true);
+          setEmailNotFoundHeader("Email not found!");
+          setEmailNotFoundBodyText(
+            "No account was found associated with this email."
+          );
+        }
+      });
   };
 
   const handleMailSentAlertClosed = (e) => {
-    navigate("/");
+    setShowMailSentAlert(false);
+    if (!emailNotFound) {
+      navigate("/");
+    }
+    setEmailNotFoundHeader("");
+    setEmailNotFoundBodyText("");
+    setEmailNotFound(false);
   };
 
   return (
@@ -55,12 +74,16 @@ export default function EmailInput() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Mail Acknowledged!</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {emailNotFoundHeader ? emailNotFoundHeader : "Mail Acknowledged!"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            We have received your email and will send you a password recovery
+            {emailNotFoundBodyText
+              ? emailNotFoundBodyText
+              : `We have received your email and will send you a password recovery
             mail on this email. Please do check your email, this might take some
-            time.
+            time.`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

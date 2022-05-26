@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../../../context/auth-context";
+// import UserContext from "../../../context/auth-context";
 
 import {
   validateFirstName,
@@ -13,7 +13,7 @@ import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import logo from "../../../logo.png";
+import SignUpImage from "../../../images/signupImage.webp";
 import "./signup.css";
 
 export default function SignUp() {
@@ -119,7 +119,12 @@ export default function SignUp() {
   return (
     <React.Fragment>
       <div className="customerLogin__container">
-        <img className="customerLogin__logo" src={logo} alt="logo" />
+        <img
+          className="customerLogin__logo"
+          src={SignUpImage}
+          alt="logo"
+          style={{ width: "30%" }}
+        />
         <div className="customerLogin__form-container">
           <h3>Create a new Account.</h3>
 

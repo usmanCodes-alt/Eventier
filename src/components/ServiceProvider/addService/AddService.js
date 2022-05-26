@@ -21,7 +21,7 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import Header from "../../ServiceProvider/Header/Header.js";
 import "react-dropdown/style.css";
-import AddButtonImage from "../../../add-btn-img.png";
+import AddButtonImage from "../../../images/add-btn-img.png";
 import "./addservice.css";
 
 export default function AddService() {

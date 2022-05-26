@@ -19,7 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import AddButtonImage from "../../../add-btn-img.png";
+import AddButtonImage from "../../../images/add-btn-img.png";
 import "./details.css";
 
 export default function ServiceDetails() {

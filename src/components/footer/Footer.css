@@ -7,6 +7,7 @@
   flex-direction: column;
   text-align: center;
   color: white;
+  margin: auto;
 }
 
 .footer__content h3 {
@@ -41,12 +42,17 @@
   cursor: pointer;
 }
 
+.footer__content p {
+  margin-top: 0;
+  margin-bottom: 0rem;
+}
+
 footer {
   position: absolute;
   bottom: 0;
   background-color: black;
-  height: 150px;
+  height: 125px;
   width: 100vw;
-  padding-top: 40px;
   color: white;
+  display: flex;
 }

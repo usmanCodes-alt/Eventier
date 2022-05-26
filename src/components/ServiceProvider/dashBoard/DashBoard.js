@@ -4,9 +4,9 @@ import "./DashBoard.css";
 import axios from "axios";
 import { PieChart } from "react-minimal-pie-chart";
 import { Link } from "react-router-dom";
-import AddServiceImage from "../../../add_service_button.png";
+import AddServiceImage from "../../../images/add_service_button.png";
 
-import EmptyOrdersImage from "../../../no orders.webp";
+import EmptyOrdersImage from "../../../images/no orders.webp";
 import Header from "../Header/Header";
 
 import StarRatings from "react-star-ratings";

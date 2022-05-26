@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-evenly;
   height: auto;
-  padding-bottom: 260px;
+  padding-bottom: 180px;
+  margin-top: calc(11% - 90px);
 }
 
 .customerLogin__logo {

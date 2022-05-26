@@ -13,7 +13,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
 import "./reset-password.css";
-import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
 export default function ResetPassword() {
   let formIsValid = false;

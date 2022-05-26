@@ -15,7 +15,7 @@ import {
   validateProvince,
 } from "../../../utils/inputs-validators";
 
-import profilePicturePlaceHolder from "../../../profile_pic_avatar.png";
+import profilePicturePlaceHolder from "../../../images/profile_pic_avatar.png";
 import "./profile.css";
 
 export default function Profile() {

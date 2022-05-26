@@ -4,7 +4,7 @@ import axios from "axios";
 import CartContext from "../../../context/Cart/cartContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import logo from "../../../logo.png";
+import logo from "../../../images/logo.png";
 import "./header.css";
 
 export default function Header() {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import placeHolderImage from "../../service_image_placeholder.jpg";
+import placeHolderImage from "../../images/service_image_placeholder.jpg";
 import "./card.css";
 
 const Card = ({
