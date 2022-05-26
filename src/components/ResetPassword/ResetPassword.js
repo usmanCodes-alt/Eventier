@@ -76,7 +76,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="eventier__reset-form-container">
+    <React.Fragment>
       <Dialog
         open={showResponseModal}
         onClose={handleResponseModalClose}
@@ -95,58 +95,61 @@ export default function ResetPassword() {
           </Button>
         </DialogActions>
       </Dialog>
-      <h1>Reset password.</h1>
-      <div className="eventier__reset-password-form-wrapper">
-        <div className="customerLogin__input-container">
-          <TextField
-            id="outlined-basic"
-            label="OTP"
-            variant="outlined"
-            type="number"
-            value={otp}
-            onChange={(e) => setOtp(Number(e.target.value))}
-            required
-          />
+
+      <div className="eventier__reset-form-container">
+        <h1>Reset password.</h1>
+        <div className="eventier__reset-password-form-wrapper">
+          <div className="customerLogin__input-container">
+            <TextField
+              id="outlined-basic"
+              label="OTP"
+              variant="outlined"
+              type="number"
+              value={otp}
+              onChange={(e) => setOtp(Number(e.target.value))}
+              required
+            />
+          </div>
+          <div className="customerLogin__input-container">
+            {passwordInputFieldHasError && (
+              <div className="inputField__error-message-wrapper">
+                <span className="inputField__error-message-span">
+                  Password must be at least 8 characters long, contain one lower
+                  case, one upper case and one special character.
+                </span>
+              </div>
+            )}
+            <TextField
+              id="outlined-basic"
+              label="New Password"
+              variant="outlined"
+              type="password"
+              value={enteredPassword}
+              onChange={passwordChangeHandler}
+              onBlur={passwordBlurHandler}
+              required
+            />
+          </div>
+          <div className="customerLogin__input-container">
+            <TextField
+              id="outlined-basic"
+              label="Confirm New Password"
+              variant="outlined"
+              type="password"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+              required
+            />
+          </div>
         </div>
-        <div className="customerLogin__input-container">
-          {passwordInputFieldHasError && (
-            <div className="inputField__error-message-wrapper">
-              <span className="inputField__error-message-span">
-                Password must be at least 8 characters long, contain one lower
-                case, one upper case and one special character.
-              </span>
-            </div>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="New Password"
-            variant="outlined"
-            type="password"
-            value={enteredPassword}
-            onChange={passwordChangeHandler}
-            onBlur={passwordBlurHandler}
-            required
-          />
-        </div>
-        <div className="customerLogin__input-container">
-          <TextField
-            id="outlined-basic"
-            label="Confirm New Password"
-            variant="outlined"
-            type="password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            required
-          />
-        </div>
+        <Button
+          className="eventier__reset-password-btn"
+          variant="contained"
+          onClick={onResetPasswordButtonClicked}
+        >
+          Reset Password
+        </Button>
       </div>
-      <Button
-        className="eventier__reset-password-btn"
-        variant="contained"
-        onClick={onResetPasswordButtonClicked}
-      >
-        Reset Password
-      </Button>
-    </div>
+    </React.Fragment>
   );
 }

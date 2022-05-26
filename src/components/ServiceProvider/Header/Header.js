@@ -70,11 +70,7 @@ export default function Header() {
               <li className="sp__header-li">Profile</li>
             </NavLink>
 
-            <NavLink
-              className="sp__header-nav-link"
-              to="/service-provider-login"
-              onClick={logout}
-            >
+            <NavLink className="sp__header-nav-link" to="/" onClick={logout}>
               <li className="sp__header-li">Logout</li>
             </NavLink>
           </ul>

@@ -418,8 +418,7 @@ export default function Signup() {
             </Button>
           </div>
           <p>
-            Already have an account?{" "}
-            <Link to="/service-provider-login">Login</Link>
+            Already have an account? <Link to="/">Login</Link>
           </p>
         </div>
       </div>

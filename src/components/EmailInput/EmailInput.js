@@ -121,7 +121,7 @@ export default function EmailInput() {
         variant="contained"
         onClick={onSubmitEmailButtonClicked}
       >
-        Submit Email
+        Submit
       </Button>
     </div>
   );

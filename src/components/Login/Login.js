@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import UserContext from "../../../context/auth-context";
+import UserContext from "../../context/auth-context";
 
-import useInput from "../../../hooks/use-input";
-import { validateEmail } from "../../../utils/inputs-validators";
+import useInput from "../../hooks/use-input";
+import { validateEmail } from "../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "./login.css";
@@ -67,11 +67,19 @@ export default function Login() {
           roles: response.data.roles,
         };
         setUser(user);
-        console.log(response.data);
+        // console.log(response.data);
+        let navigateUrl = "";
+        if (response.data.roles[0] === "customer")
+          navigateUrl = "/customer-home";
+        else if (response.data.roles[0] === "service_provider")
+          navigateUrl = "/service-provider/dashboard";
+
+        console.log(navigateUrl);
+
         localStorage.setItem("auth_token", response.data.token);
         localStorage.setItem("email", enteredEmail.trim());
         localStorage.setItem("roles", JSON.stringify(response.data.roles));
-        navigate("/customer-home");
+        navigate(navigateUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -83,12 +91,12 @@ export default function Login() {
     <div className="customerLogin__container">
       <img
         className="customerLogin__logo"
-        src={require("../../../images/loginIllustration.svg").default}
+        src={require("../../images/loginIllustration.svg").default}
         alt="logo"
       />
 
       <div className="customerLogin__form-container">
-        <h3>Explore different businesses around you!</h3>
+        <h3>Login to your account!</h3>
         <form>
           {authenticationError && (
             <div className="customerLogin__error-container">
@@ -141,14 +149,14 @@ export default function Login() {
         </div>
         <div className="customerLogin__other-options-container">
           <Link className="customerLogin__signup" to="/customer-signup">
-            Create a New Account
+            Create a new Customer Account
           </Link>{" "}
           |{" "}
           <Link
-            to="/service-provider-login"
+            to="/service-provider/sign-up"
             className="customerLogin__login-as-sp"
           >
-            Login as a Business
+            Create a New Service Provider Account{" "}
           </Link>
         </div>
         <div className="customerLogin__other-options-container">
