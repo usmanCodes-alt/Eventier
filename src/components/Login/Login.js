@@ -59,9 +59,6 @@ export default function Login() {
         if (response.status !== 200) {
           return;
         }
-        if (response.data.roles[0] !== "customer") {
-          throw new Error("Invalid login");
-        }
         const user = {
           email: enteredEmail,
           roles: response.data.roles,

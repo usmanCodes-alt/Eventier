@@ -5,7 +5,6 @@ import axios from "axios";
 export default function Protected({ children }) {
   const [validJwt, setValidJwt] = useState(false);
   const authToken = localStorage.getItem("auth_token");
-  console.log(authToken);
 
   if (!authToken) {
     return <Navigate to="/" replace />;
@@ -18,7 +17,6 @@ export default function Protected({ children }) {
       },
     })
     .then((res) => {
-      console.log(res);
       setValidJwt(true);
     })
     .catch((err) => {
