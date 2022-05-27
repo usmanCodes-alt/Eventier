@@ -16,6 +16,7 @@ const useInput = (validateInputValue) => {
   };
 
   const blurHandler = () => setIsTouched(true);
+  const resetBlur = () => setIsTouched(false);
 
   const reset = () => {
     setInputValue("");
@@ -29,6 +30,7 @@ const useInput = (validateInputValue) => {
     inputValueChangedHandler,
     setInputValueForUpdate,
     blurHandler,
+    resetBlur,
     reset,
   };
 };

@@ -15,6 +15,7 @@
 .customer-header__logo {
   cursor: pointer;
   height: 100%;
+  width: 12%;
 }
 
 .customer-header__nav-links {

@@ -29,19 +29,31 @@ export default function Header() {
 
   return (
     <div className="customer-header__container">
-      <Link className="customer-header__logo-link" to="/customer-home">
-        <img className="customer-header__logo" src={logo} alt="logo" />
-      </Link>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "header__active-link customer-header__link home-link"
-            : "customer-header__link home-link"
-        }
-        to="/customer-home"
-      >
-        Home
-      </NavLink>
+      <div>
+        <Link className="customer-header__logo-link" to="/customer-home">
+          <img className="customer-header__logo" src={logo} alt="logo" />
+        </Link>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "header__active-link customer-header__link home-link"
+              : "customer-header__link home-link"
+          }
+          to="/customer-home"
+        >
+          Home
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "header__active-link customer-header__link home-link"
+              : "customer-header__link home-link"
+          }
+          to="/service-providers-rankings"
+        >
+          Rankings
+        </NavLink>
+      </div>
       <nav>
         <ul className="customer-header__nav-links">
           <li>

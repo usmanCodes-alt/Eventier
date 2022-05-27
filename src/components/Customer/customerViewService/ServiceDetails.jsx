@@ -34,6 +34,7 @@ export default function ServiceDetails() {
     inputValueChangedHandler: descriptionValueChangeHandler,
     setInputValueForUpdate: setDescriptionValue,
     blurHandler: descriptionBlurHandler,
+    resetBlur: resetDescriptionBlur,
   } = useInput(validateDescription);
 
   const [showAddToWishListButton, setShowAddToWishListButton] = useState(true);
@@ -228,6 +229,7 @@ export default function ServiceDetails() {
         if (res.status === 201) {
           setStarRating(0);
           setDescriptionValue("");
+          resetDescriptionBlur();
           getReviewsOfService();
           setShowUserReviewRecordedAlert(true);
         }
