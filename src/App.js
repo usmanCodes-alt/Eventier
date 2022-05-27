@@ -22,6 +22,7 @@ import { default as CustomerServiceDetailsView } from "./components/Customer/cus
 import Cart from "./components/Customer/customerCart/Cart";
 import Chat from "./components/Customer/Chat/Chat";
 import WishList from "./components/Customer/WishList/WishList";
+import { default as ServiceProvidersRankings } from "./components/Customer/Rankings/Rankings";
 
 import Protected from "./components/ProtectedRoute/Protected.js";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
@@ -96,9 +97,16 @@ function App() {
                 </Protected>
               }
             />
+            <Route
+              path="/customer/rankings"
+              element={
+                <Protected>
+                  <ServiceProvidersRankings />
+                </Protected>
+              }
+            />
 
             {/** SP endpoints */}
-            {/*<Route path="/service-provider-login" element={<SigninPage />} />*/}
             <Route
               path="/service-provider/dashboard"
               element={

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Protected({ children }) {
+  const navigate = useNavigate();
   const [validJwt, setValidJwt] = useState(false);
   const authToken = localStorage.getItem("auth_token");
 
@@ -20,8 +21,9 @@ export default function Protected({ children }) {
       setValidJwt(true);
     })
     .catch((err) => {
-      if (err.response.status === 400) {
-        return <Navigate to="/" replace />;
+      console.log(err);
+      if (err.response.status === 401) {
+        navigate("/");
       }
     });
 

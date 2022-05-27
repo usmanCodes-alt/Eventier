@@ -49,7 +49,7 @@ export default function Header() {
               ? "header__active-link customer-header__link home-link"
               : "customer-header__link home-link"
           }
-          to="/service-providers-rankings"
+          to="/customer/rankings"
         >
           Rankings
         </NavLink>
