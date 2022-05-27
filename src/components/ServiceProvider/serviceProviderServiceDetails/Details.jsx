@@ -291,7 +291,7 @@ export default function ServiceDetails() {
           severity="error"
           onClose={() => setServiceImagesLimitExceeded(false)}
         >
-          You only not choose more than 5 images.
+          You can only choose at most 5 images of format PNG, JPG or JPEG.
         </Alert>
       )}
 

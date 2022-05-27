@@ -139,7 +139,7 @@ export const validateServiceUnitPrice = (value) => {
 
   if (specialCharacterCheck(String(value))) return false;
 
-  if (Number(value) < 0) return false;
+  if (Number(value) <= 0) return false;
 
   return true;
 };

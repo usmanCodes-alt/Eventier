@@ -32,36 +32,88 @@ export default function Header() {
       <Link className="customer-header__logo-link" to="/customer-home">
         <img className="customer-header__logo" src={logo} alt="logo" />
       </Link>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "header__active-link customer-header__link home-link"
+            : "customer-header__link home-link"
+        }
+        to="/customer-home"
+      >
+        Home
+      </NavLink>
       <nav>
         <ul className="customer-header__nav-links">
           <li>
-            <NavLink className="customer-header__link" to="/customer/cart">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link customer-header__link"
+                  : "customer-header__link"
+              }
+              to="/customer/cart"
+            >
               <ShoppingCartIcon />
               {cartItems.length > 0 && (
-                <div className="customer-header__cart-items-count">
+                <div
+                  className={({ isActive }) =>
+                    isActive
+                      ? "header__active-link customer-header__link customer-header__cart-items-count"
+                      : "customer-header__link customer-header__cart-items-count"
+                  }
+                  style={{ display: "inline" }}
+                >
                   <span>({cartItems.length})</span>
                 </div>
               )}
             </NavLink>
           </li>
           <li>
-            <NavLink className="customer-header__link" to="/customer/wish-list">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link customer-header__link"
+                  : "customer-header__link"
+              }
+              to="/customer/wish-list"
+            >
               Wish List
             </NavLink>
           </li>
 
           <li>
-            <NavLink className="customer-header__link" to="/customer-orders">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link customer-header__link"
+                  : "customer-header__link"
+              }
+              to="/customer-orders"
+            >
               Orders
             </NavLink>
           </li>
           <li>
-            <NavLink className="customer-header__link" to="/chat">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link customer-header__link"
+                  : "customer-header__link"
+              }
+              to="/chat"
+            >
               Messages
             </NavLink>
           </li>
           <li>
-            <NavLink className="customer-header__link" to="/customer/profile">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link customer-header__link"
+                  : "customer-header__link"
+              }
+              to="/customer/profile"
+            >
               Profile
             </NavLink>
           </li>

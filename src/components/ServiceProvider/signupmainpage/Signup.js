@@ -151,7 +151,7 @@ export default function Signup() {
       })
       .then((response) => {
         if (response.status === 201) {
-          navigate("/service-provider-login");
+          navigate("/");
         }
       })
       .catch((err) => {

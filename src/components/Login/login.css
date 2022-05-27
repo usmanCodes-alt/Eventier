@@ -22,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
+  background-color: #f4f5f7;
 }
 
 .customerLogin__buttons-container {
@@ -82,13 +82,13 @@
 .customerLogin__login-as-sp {
   text-decoration: none;
   margin-left: 5px;
-  color: black;
+  color: hsl(0deg 0% 55%);
 }
 
 .customerLogin__signup {
   text-decoration: none;
   margin-right: 5px;
-  color: black;
+  color: hsl(0deg 0% 55%);
 }
 
 /* .customerLogin__login-as-sp:hover,

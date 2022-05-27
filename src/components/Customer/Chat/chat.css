@@ -1,7 +1,7 @@
 .chat__container {
-  height: calc(125vh - 80px);
+  height: calc(100vh - 70px);
   display: flex;
-  padding-bottom: 260px;
+  padding-bottom: 125px;
 }
 
 .chat__all-chats {

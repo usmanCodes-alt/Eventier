@@ -195,164 +195,168 @@ export default function AddService() {
           You only not choose more than 5 images.
         </Alert>
       )}
-      <div className="sp__add-service-form-container">
-        <div className="sp__add-service-heading-container">
-          <h4>Add New Service</h4>
-        </div>
-        {requiredFieldsError && (
-          <div>
-            <div className="customerLogin__error-container">
-              <div>Please provide all fields properly.</div>
-            </div>
+      <div className="sp__add-service-form-wrapper">
+        <div className="sp__add-service-form-container">
+          <div className="sp__add-service-heading-container">
+            <h4>Add New Service</h4>
           </div>
-        )}
-        {serviceAlreadyExistsError && (
-          <div>
-            <div className="customerLogin__error-container">
-              <div>You already have a service with this same service type!</div>
-            </div>
-          </div>
-        )}
-        <div className="sp__add-service-inputs-container">
-          <div className="sp__add-service-sub-entry">
-            {serviceNameInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Invalid Service Name.
-                </span>
+          {requiredFieldsError && (
+            <div>
+              <div className="customerLogin__error-container">
+                <div>Please provide all fields properly.</div>
               </div>
-            )}
-            <TextField
-              value={enteredServiceName}
-              label="Service Name"
-              onChange={serviceNameChangeHandler}
-              onBlur={serviceNameBlurHandler}
-              required
-            />
-
-            <FormControl>
-              {serviceTypeInputFieldHasError && (
+            </div>
+          )}
+          {serviceAlreadyExistsError && (
+            <div>
+              <div className="customerLogin__error-container">
+                <div>
+                  You already have a service with this same service type!
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="sp__add-service-inputs-container">
+            <div className="sp__add-service-sub-entry">
+              {serviceNameInputFieldHasError && (
                 <div className="inputField__error-message-wrapper">
                   <span className="inputField__error-message-span">
-                    Service Type can not be empty.
+                    Invalid Service Name.
                   </span>
                 </div>
               )}
-              <InputLabel>Service Type</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedServiceType}
-                label="Service Type"
-                onChange={serviceTypeChangeHandler}
-                onBlur={serviceTypeBlurHandler}
-              >
-                <MenuItem value="Rent a Car">Rent a Car</MenuItem>
-                <MenuItem value="Decoration">Decoration</MenuItem>
-                <MenuItem value="Food">Food</MenuItem>
-                <MenuItem value="Clothing">Clothing</MenuItem>
-              </Select>
-            </FormControl>
+              <TextField
+                value={enteredServiceName}
+                label="Service Name"
+                onChange={serviceNameChangeHandler}
+                onBlur={serviceNameBlurHandler}
+                required
+              />
 
-            {servicePriceInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Unit price can not be empty or negative and should only
-                  contain numbers.
-                </span>
-              </div>
-            )}
-            <TextField
-              value={enteredServicePrice}
-              label="Price"
-              type="number"
-              onChange={servicePriceChangeHandler}
-              onBlur={servicePriceBlurHandler}
-            />
+              <FormControl>
+                {serviceTypeInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Service Type can not be empty.
+                    </span>
+                  </div>
+                )}
+                <InputLabel>Service Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedServiceType}
+                  label="Service Type"
+                  onChange={serviceTypeChangeHandler}
+                  onBlur={serviceTypeBlurHandler}
+                >
+                  <MenuItem value="Rent a Car">Rent a Car</MenuItem>
+                  <MenuItem value="Decoration">Decoration</MenuItem>
+                  <MenuItem value="Food">Food</MenuItem>
+                  <MenuItem value="Clothing">Clothing</MenuItem>
+                </Select>
+              </FormControl>
 
-            {serviceDiscountInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Discount can not be empty or contain any special characters
-                  and should be between 0-100.
-                </span>
-              </div>
-            )}
-            <TextField
-              value={enteredServiceDiscount}
-              label="Discount %"
-              onChange={serviceDiscountChangeHandler}
-              onBlur={serviceDiscountBlurHandler}
-            />
+              {servicePriceInputFieldHasError && (
+                <div className="inputField__error-message-wrapper">
+                  <span className="inputField__error-message-span">
+                    Unit price can not be empty, nor it should be less than or
+                    equal to 0 and should only contain numbers.
+                  </span>
+                </div>
+              )}
+              <TextField
+                value={enteredServicePrice}
+                label="Price"
+                type="number"
+                onChange={servicePriceChangeHandler}
+                onBlur={servicePriceBlurHandler}
+              />
+
+              {serviceDiscountInputFieldHasError && (
+                <div className="inputField__error-message-wrapper">
+                  <span className="inputField__error-message-span">
+                    Discount can not be empty or contain any special characters
+                    and should be between 0-100.
+                  </span>
+                </div>
+              )}
+              <TextField
+                value={enteredServiceDiscount}
+                label="Discount %"
+                onChange={serviceDiscountChangeHandler}
+                onBlur={serviceDiscountBlurHandler}
+              />
+            </div>
+            <div className="sp__add-service-sub-entry">
+              <FormControl>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={status}
+                  label="Status"
+                  onChange={onServiceStatusChange}
+                >
+                  <MenuItem value="active">Active</MenuItem>
+                  <MenuItem value="in-active">In-Active</MenuItem>
+                </Select>
+              </FormControl>
+
+              {serviceDescriptionInputFieldHasError && (
+                <div className="inputField__error-message-wrapper">
+                  <span className="inputField__error-message-span">
+                    Service Description can not be empty and can only contain
+                    maximum of 500 characters.
+                  </span>
+                </div>
+              )}
+              <TextField
+                value={enteredServiceDescription}
+                label="Description"
+                onChange={serviceDescriptionChangeHandler}
+                onBlur={serviceDescriptionBlurHandler}
+                multiline
+                rows={2}
+              />
+              <img
+                width="70"
+                height="70"
+                src={AddButtonImage}
+                alt="Add Pictures"
+                onClick={() => hiddenFileInput.current.click()}
+              />
+              <input
+                type="file"
+                onClick={onImageSelectClicked}
+                accept="image/png, image/jpg, image/jpeg"
+                onChange={handleMultipleImageUpload}
+                ref={hiddenFileInput}
+                style={{ display: "none" }}
+                multiple
+              />
+              {serviceImagesObjectUrls.length !== 0 && (
+                <div className="sp__add-service-uploaded-images">
+                  {serviceImagesObjectUrls.map((objectUrl) => {
+                    return (
+                      <img
+                        className="sp__add-service-img"
+                        src={objectUrl}
+                        alt="Service"
+                        width="60"
+                        height="60"
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-          <div className="sp__add-service-sub-entry">
-            <FormControl>
-              <InputLabel>Status</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={status}
-                label="Status"
-                onChange={onServiceStatusChange}
-              >
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="in-active">In-Active</MenuItem>
-              </Select>
-            </FormControl>
-
-            {serviceDescriptionInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Service Description can not be empty and can only contain
-                  maximum of 500 characters.
-                </span>
-              </div>
-            )}
-            <TextField
-              value={enteredServiceDescription}
-              label="Description"
-              onChange={serviceDescriptionChangeHandler}
-              onBlur={serviceDescriptionBlurHandler}
-              multiline
-              rows={2}
-            />
-            <img
-              width="70"
-              height="70"
-              src={AddButtonImage}
-              alt="Add Pictures"
-              onClick={() => hiddenFileInput.current.click()}
-            />
-            <input
-              type="file"
-              onClick={onImageSelectClicked}
-              accept="image/png, image/jpg, image/jpeg"
-              onChange={handleMultipleImageUpload}
-              ref={hiddenFileInput}
-              style={{ display: "none" }}
-              multiple
-            />
-            {serviceImagesObjectUrls.length !== 0 && (
-              <div className="sp__add-service-uploaded-images">
-                {serviceImagesObjectUrls.map((objectUrl) => {
-                  return (
-                    <img
-                      className="sp__add-service-img"
-                      src={objectUrl}
-                      alt="Service"
-                      width="60"
-                      height="60"
-                    />
-                  );
-                })}
-              </div>
-            )}
+          <div className="sp__add-service-tn-container">
+            <Button variant="contained" onClick={handleSubmit}>
+              Add Service
+            </Button>
           </div>
-        </div>
-        <div className="sp__add-service-tn-container">
-          <Button variant="contained" onClick={handleSubmit}>
-            Add Service
-          </Button>
         </div>
       </div>
     </div>

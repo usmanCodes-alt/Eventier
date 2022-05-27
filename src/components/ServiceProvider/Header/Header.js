@@ -36,24 +36,43 @@ export default function Header() {
         <nav>
           <ul className="sp__header-ul">
             <NavLink
-              className="sp__header-nav-link"
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
               to="/service-provider/total-orders"
             >
               <li className="sp__header-li">My Orders</li>
             </NavLink>
             <NavLink
-              className="sp__header-nav-link"
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
               to="/service-provider/my-services"
             >
               <li className="sp__header-li">My Services</li>
             </NavLink>
             <NavLink
-              className="sp__header-nav-link"
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
               to="/service-provider/add-service"
             >
               <li className="sp__header-li">Add Service</li>
             </NavLink>
-            <NavLink className="sp__header-nav-link" to="/chat">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
+              to="/chat"
+            >
               <li className="sp__header-li">Messages</li>
             </NavLink>
           </ul>
@@ -64,7 +83,11 @@ export default function Header() {
         <nav>
           <ul className="sp__header-ul">
             <NavLink
-              className="sp__header-nav-link"
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
               to="/service-provider/profile"
             >
               <li className="sp__header-li">Profile</li>

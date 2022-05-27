@@ -1,5 +1,12 @@
+.sp__profile-main-wrapper {
+  height: calc(100vh - 195px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .sp__profile-container {
-  padding-bottom: 260px;
+  /* padding-bottom: 260px; */
   display: flex;
   justify-content: space-evenly;
   margin-top: 10px;
@@ -7,7 +14,7 @@
 
 .sp__profile-profile-picture {
   height: 200px;
-  width: 270px;
+  width: 200px;
   border-radius: 10px;
 }
 
@@ -30,10 +37,12 @@
 
 .sp__profile-information {
   border: 1px solid gainsboro;
-  padding: 10px;
+  padding: 26px;
   /* height: 100%; */
   display: flex;
   flex-direction: column;
+  height: 300px;
+  overflow-y: auto;
 }
 
 .sp__profile-info-heading {

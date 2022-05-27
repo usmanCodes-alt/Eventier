@@ -1,5 +1,5 @@
 .sp__add-service-container {
-  height: auto;
+  height: calc(100vh - 125px);
   padding-bottom: 260px;
 }
 
@@ -13,6 +13,8 @@
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  height: 400px;
 }
 
 .sp__add-service-sub-entry {
@@ -55,4 +57,10 @@
 
 .sp__add-service-apply-margin {
   margin-top: 2px;
+}
+
+.sp__add-service-form-wrapper {
+  height: calc(100vh - 195px);
+  display: flex;
+  align-items: center;
 }

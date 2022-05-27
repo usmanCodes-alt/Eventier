@@ -36,3 +36,12 @@
   display: inline;
   color: #36304a;
 }
+
+.header__active-link {
+  font-weight: bold;
+  font-family: system-ui;
+}
+
+.home-link {
+  margin-right: auto;
+}
