@@ -212,7 +212,8 @@ export const validateServiceStatus = (value) => {
 };
 
 export const validateDiscount = (value) => {
-  if (!value) return;
+  console.log(value);
+  if (!String(value)) return;
 
   if (value.length === 0) return false;
 
@@ -222,5 +223,6 @@ export const validateDiscount = (value) => {
 
   if (Number(value) < 0) return false;
 
+  console.log("returning true");
   return true;
 };

@@ -83,5 +83,8 @@
 .serviceDetails__btnAndStarRating {
   display: flex;
   flex-direction: column;
+  grid-gap: 40px;
   gap: 40px;
+  width: 100%;
+  align-self: baseline;
 }

@@ -5,11 +5,11 @@ import { useLocation } from "react-router-dom";
 import useInput from "../../../hooks/use-input";
 
 import {
-  validateFirstName,
   validateServiceUnitPrice,
   validateServiceStatus,
   validateDescription,
   validateDiscount,
+  validateServiceName,
 } from "../../../utils/inputs-validators.js";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -43,7 +43,7 @@ export default function ServiceDetails() {
     inputValueChangedHandler: serviceNameChangeHandler,
     setInputValueForUpdate: setServiceNameValue,
     blurHandler: serviceNameBlurHandler,
-  } = useInput(validateFirstName);
+  } = useInput(validateServiceName);
 
   const {
     value: enteredServiceUnitPrice,
@@ -176,6 +176,7 @@ export default function ServiceDetails() {
   useEffect(() => {
     if (!serviceInDatabase) return;
 
+    console.log(serviceInDatabase);
     // new values
     setServiceNameValue(serviceInDatabase.service_name);
     setServiceUnitPriceValue(serviceInDatabase.unit_price);
