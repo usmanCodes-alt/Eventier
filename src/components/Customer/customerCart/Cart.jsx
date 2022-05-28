@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useContext } from "react";
+// import stripe from "stripe";
+import StripeCheckout from "react-stripe-checkout";
 // import { useNavigate } from "react-router-dom";
 import CartContext from "../../../context/Cart/cartContext";
 import Header from "../customerHeader/Header";
@@ -15,11 +17,63 @@ function Cart() {
   const [emptyAddressErrorMessage, setEmptyAddressErrorMessage] =
     useState(false);
 
-  const onPlaceOrderClicked = (e) => {
-    e.preventDefault();
-    if (cartItems.length === 0) {
-      return alert("Cart Empty!");
-    }
+  const [paymentDone, setPaymentDone] = useState(false);
+
+  const placeOrder = () => {
+    axios
+      .post(
+        "http://localhost:3000/customers/process-payment",
+        {
+          cartItems,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("auth_token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          // empty cart and redirect to home
+          resetCart();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          setEmptyAddressErrorMessage(true);
+        }
+      });
+  };
+
+  const makePayment = async (token) => {
+    setPaymentDone(true);
+    console.log(token);
+    axios
+      .post(
+        "http://localhost:3000/customers/process-payment",
+        {
+          cartItems,
+          token,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("auth_token"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log("DONE");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    console.log(paymentDone);
+    if (paymentDone === false) return;
+
+    console.log("Calling api");
     axios
       .post(
         "http://localhost:3000/customers/place-order",
@@ -37,9 +91,6 @@ function Cart() {
         if (res.status === 201) {
           // empty cart and redirect to home
           resetCart();
-          //   navigate("/customer-home");
-          console.log(res);
-          window.location = res.data.STRIPE_URL;
         }
       })
       .catch((error) => {
@@ -48,7 +99,7 @@ function Cart() {
           setEmptyAddressErrorMessage(true);
         }
       });
-  };
+  }, [paymentDone]);
 
   const onDeletePresses = (serviceId) => {
     removeFromCart(serviceId);
@@ -109,13 +160,21 @@ function Cart() {
               Rs.
             </td>
           </tr>
-          <tr>
-            <td className="cart__tfoot-cell place-order-button-container">
-              <Button variant="contained" onClick={onPlaceOrderClicked}>
-                Place order
-              </Button>
-            </td>
-          </tr>
+          {cartItems.length !== 0 && (
+            <tr>
+              <td className="cart__tfoot-cell place-order-button-container">
+                <StripeCheckout
+                  stripeKey={process.env.REACT_APP_KEY}
+                  token={makePayment}
+                  name="Payment"
+                  amount={1000 * 100}
+                  closed={() => console.log("close")}
+                >
+                  <Button variant="contained">Place order</Button>
+                </StripeCheckout>
+              </td>
+            </tr>
+          )}
         </tfoot>
       </table>
     </div>
