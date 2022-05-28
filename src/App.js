@@ -28,7 +28,10 @@ import Protected from "./components/ProtectedRoute/Protected.js";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { default as EmailInputForResetPassword } from "./components/EmailInput/EmailInput";
 
+import NotFound from "./components/404-page/404";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import PaymentFailed from "./components/Payment Failure Page/PaymentFailed";
 
 const theme = createTheme({
   palette: {
@@ -105,6 +108,14 @@ function App() {
                 </Protected>
               }
             />
+            <Route
+              path="/customer/payment-failure"
+              element={
+                <Protected>
+                  <PaymentFailed />
+                </Protected>
+              }
+            />
 
             {/** SP endpoints */}
             <Route
@@ -174,6 +185,7 @@ function App() {
               path="/start-password-reset"
               element={<EmailInputForResetPassword />}
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
         </UserContext.Provider>
