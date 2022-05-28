@@ -38,6 +38,10 @@ export default function Rankings() {
     return information.numberOfNegativeReviews;
   };
 
+  if (!serviceProviders || !individualSpReviewsInfo) {
+    return <h1>Please wait</h1>;
+  }
+
   return (
     <React.Fragment>
       <Header />

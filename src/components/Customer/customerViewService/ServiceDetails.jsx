@@ -26,6 +26,8 @@ export default function ServiceDetails() {
   const [starRating, setStarRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [existingWishList, setExistingWishList] = useState([]);
+  const [allowUserToAddDescription, setAllowUserToAddDescription] =
+    useState(false);
 
   const {
     value: enteredDescription,
@@ -78,6 +80,9 @@ export default function ServiceDetails() {
       })
       .then((response) => {
         console.log({ ...response.data.service, serviceId });
+        if (response.data.service.allowDescription) {
+          setAllowUserToAddDescription(true);
+        }
         setServiceDetails({ ...response.data.service, serviceId, quantity: 1 });
       })
       .catch((err) => {
@@ -333,34 +338,38 @@ export default function ServiceDetails() {
       </div>
       <div className="serviceDetails__comment-section">
         <div className="serviceDetails__commentInput">
-          <div>
-            {descriptionInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Description should contain (1-500) characters.
-                </span>
+          {allowUserToAddDescription && (
+            <React.Fragment>
+              <div>
+                {descriptionInputFieldHasError && (
+                  <div className="inputField__error-message-wrapper">
+                    <span className="inputField__error-message-span">
+                      Description should contain (1-500) characters.
+                    </span>
+                  </div>
+                )}
+                <textarea
+                  className="serviceDetails__commentTextArea"
+                  placeholder="Please leave a review"
+                  onChange={descriptionValueChangeHandler}
+                  value={enteredDescription}
+                  onBlur={descriptionBlurHandler}
+                ></textarea>
+                <Button variant="contained" onClick={addUserReview}>
+                  Add Comment
+                </Button>
               </div>
-            )}
-            <textarea
-              className="serviceDetails__commentTextArea"
-              placeholder="Please leave a review"
-              onChange={descriptionValueChangeHandler}
-              value={enteredDescription}
-              onBlur={descriptionBlurHandler}
-            ></textarea>
-            <Button variant="contained" onClick={addUserReview}>
-              Add Comment
-            </Button>
-          </div>
-          <div className="serviceDetails__btnAndStarRating">
-            <StarRatings
-              numberOfStars={5}
-              changeRating={onRatingChanged}
-              rating={starRating}
-              starRatedColor="orange"
-              starDimension="25px"
-            />
-          </div>
+              <div className="serviceDetails__btnAndStarRating">
+                <StarRatings
+                  numberOfStars={5}
+                  changeRating={onRatingChanged}
+                  rating={starRating}
+                  starRatedColor="orange"
+                  starDimension="25px"
+                />
+              </div>
+            </React.Fragment>
+          )}
         </div>
         <div className="serviceDetails__allReviewsContainer">
           {reviews.map((review) => {
