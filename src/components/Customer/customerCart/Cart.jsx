@@ -14,6 +14,7 @@ import "./Cart.css";
 
 function Cart() {
   const { cartItems, resetCart, removeFromCart } = useContext(CartContext);
+  const actualPricesAfterDiscountCalculations = [];
   const [emptyAddressErrorMessage, setEmptyAddressErrorMessage] =
     useState(false);
 
@@ -105,6 +106,13 @@ function Cart() {
     removeFromCart(serviceId);
   };
 
+  const calculateDiscount = (price, discount) => {
+    const actualPrice =
+      Number(price) - (Number(price) * Number(discount)) / 100;
+    actualPricesAfterDiscountCalculations.push(actualPrice);
+    return actualPrice;
+  };
+
   return (
     <div className="cart__container">
       <Header />
@@ -128,6 +136,7 @@ function Cart() {
             <th className="cart__thead-cells">Service Type</th>
             <th className="cart__thead-cells">Unit price</th>
             <th className="cart__thead-cells">Discount</th>
+            <th className="cart__thead-cells">Price After Discount</th>
             <th className="cart__thead-cells">Service Provider Email</th>
             <th className="cart__thead-cells last">Remove from Cart</th>
           </tr>
@@ -141,6 +150,9 @@ function Cart() {
                 <td className="cart__tbody-cells">{item.service_type}</td>
                 <td className="cart__tbody-cells">{item.unit_price}</td>
                 <td className="cart__tbody-cells">{item.discount}</td>
+                <td className="cart__tbody-cells">
+                  {calculateDiscount(item.unit_price, item.discount)}
+                </td>
                 <td className="cart__tbody-cells">{item.email}</td>
                 <td className="cart__tbody-cells">
                   <DeleteIcon
@@ -156,7 +168,11 @@ function Cart() {
         <tfoot align="left">
           <tr>
             <td className="cart__tfoot-cell">
-              Sum: {cartItems.reduce((acc, item) => acc + item.unit_price, 0)}{" "}
+              Sum:{" "}
+              {actualPricesAfterDiscountCalculations.reduce(
+                (acc, price) => acc + price,
+                0
+              )}{" "}
               Rs.
             </td>
           </tr>
@@ -167,7 +183,12 @@ function Cart() {
                   stripeKey={process.env.REACT_APP_KEY}
                   token={makePayment}
                   name="Payment"
-                  amount={1000 * 100}
+                  amount={
+                    actualPricesAfterDiscountCalculations.reduce(
+                      (acc, price) => acc + price,
+                      0
+                    ) * 100
+                  }
                   closed={() => console.log("close")}
                 >
                   <Button variant="contained">Place order</Button>

@@ -38,6 +38,16 @@ export default function Rankings() {
     return information.numberOfNegativeReviews;
   };
 
+  const getFirstName = (email) => {
+    const sp = serviceProviders.find((currentSp) => currentSp.email === email);
+    return sp.first_name;
+  };
+
+  const getLastName = (email) => {
+    const sp = serviceProviders.find((currentSp) => currentSp.email === email);
+    return sp.last_name;
+  };
+
   if (!serviceProviders || !individualSpReviewsInfo) {
     return <h1>Please wait</h1>;
   }
@@ -45,41 +55,47 @@ export default function Rankings() {
   return (
     <React.Fragment>
       <Header />
-      <table className="totalOrders__orderTable">
-        <thead className="totalOrders__thead">
-          <tr>
-            <th className="totalOrders__theadCells first">
-              Service Provider Email
-            </th>
-            <th className="totalOrders__theadCells">First Name</th>
-            <th className="totalOrders__theadCells">Last Name</th>
-            <th className="totalOrders__theadCells">
-              Number of positive reviews
-            </th>
-            <th className="totalOrders__theadCells last">
-              Number of negative reviews
-            </th>
-          </tr>
-        </thead>
+      <div>
+        <table className="totalOrders__orderTable">
+          <thead className="totalOrders__thead">
+            <tr>
+              <th className="totalOrders__theadCells first">
+                Service Provider Email
+              </th>
+              <th className="totalOrders__theadCells">First Name</th>
+              <th className="totalOrders__theadCells">Last Name</th>
+              <th className="totalOrders__theadCells">
+                Number of positive reviews
+              </th>
+              <th className="totalOrders__theadCells last">
+                Number of negative reviews
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {serviceProviders.map((sp) => {
-            return (
-              <tr className="totalOrder_tbodyRow">
-                <td className="totalOrders__tbodyRowCell">{sp.email}</td>
-                <td className="totalOrders__tbodyRowCell">{sp.first_name}</td>
-                <td className="totalOrders__tbodyRowCell">{sp.last_name}</td>
-                <td className="totalOrders__tbodyRowCell">
-                  {getPositiveCount(sp.email)}
-                </td>
-                <td className="totalOrders__tbodyRowCell">
-                  {getNegativeCount(sp.email)}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          <tbody>
+            {individualSpReviewsInfo.map((sp) => {
+              return (
+                <tr className="totalOrder_tbodyRow">
+                  <td className="totalOrders__tbodyRowCell">{sp.email}</td>
+                  <td className="totalOrders__tbodyRowCell">
+                    {getFirstName(sp.email)}
+                  </td>
+                  <td className="totalOrders__tbodyRowCell">
+                    {getLastName(sp.email)}
+                  </td>
+                  <td className="totalOrders__tbodyRowCell">
+                    {getPositiveCount(sp.email)}
+                  </td>
+                  <td className="totalOrders__tbodyRowCell">
+                    {getNegativeCount(sp.email)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </React.Fragment>
   );
 }
