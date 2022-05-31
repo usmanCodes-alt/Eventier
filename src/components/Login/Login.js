@@ -146,9 +146,9 @@ export default function Login() {
         </div>
         <div className="customerLogin__other-options-container">
           <Link className="customerLogin__signup" to="/customer-signup">
-            Create a new Customer Account
-          </Link>{" "}
-          |{" "}
+            Create a new Customer Account{" "}
+          </Link>
+          <span className="customerLogin__signup">|</span>
           <Link
             to="/service-provider/sign-up"
             className="customerLogin__login-as-sp"

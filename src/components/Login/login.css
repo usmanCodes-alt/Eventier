@@ -81,7 +81,7 @@
 
 .customerLogin__login-as-sp {
   text-decoration: none;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   color: hsl(0deg 0% 55%);
 }
 

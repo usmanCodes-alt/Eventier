@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/footer/Footer";
+
+// Admin components
+import { default as AdminLogin } from "./components/Admin/admin-login/AdminLogin";
+import AdminServiceProvidersList from "./components/Admin/admin-block-account/AdminServiceProviders";
+
+// Service provider components
 import AddService from "./components/ServiceProvider/addService/AddService";
 import VendorSignup from "./components/ServiceProvider/signupmainpage/Signup";
 import { default as ServiceProviderProfile } from "./components/ServiceProvider/serviceProviderProfile/Profile";
-// import SigninPage from "./components/ServiceProvider/signinPage/SigninPage";
 import TotalOrders from "./components/ServiceProvider/totalOrders/TotalOrders";
 import GetAllServices from "./components/ServiceProvider/getAllServices/GetAllServices";
 import DashBoard from "./components/ServiceProvider/dashBoard/DashBoard";
@@ -179,6 +184,10 @@ function App() {
                 </Protected>
               }
             />
+
+            {/** Admin endpoints */}
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admin-sps" element={<AdminServiceProvidersList />} />
 
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route
