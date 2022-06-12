@@ -10,6 +10,8 @@ import EmptyOrdersImage from "../../../images/no orders.webp";
 import Header from "../Header/Header";
 
 import StarRatings from "react-star-ratings";
+import NoOrderImage from "../../../images/no-orders.webp";
+import NoReviewsImage from "../../../images/no-reviews.png";
 
 export default function DashBoard() {
   const [orders, setOrders] = useState([]);
@@ -177,7 +179,12 @@ export default function DashBoard() {
                   ))}
               </ul>
             ) : (
-              <h5>No recent orders.</h5>
+              // <h5>No recent orders.</h5>
+              <img
+                className="sp__dashboard-no-recent-orders-img"
+                src={NoOrderImage}
+                alt="No Orders"
+              />
             )}
           </div>
           <div className="sp__dashboard-reviews-container">
@@ -207,7 +214,11 @@ export default function DashBoard() {
                   );
                 })
             ) : (
-              <h5>No reviews.</h5>
+              <img
+                className="sp__dashboard-no-recent-reviews-img"
+                src={NoReviewsImage}
+                alt="No Reviews"
+              />
             )}
           </div>
           <div className="sp__dashboard-add-service-container">

@@ -19,6 +19,7 @@ export default function Login() {
     inputValueChangedHandler: emailChangedHandler,
     blurHandler: emailBlurHandler,
   } = useInput(validateEmail);
+
   const [password, setPassword] = useState("");
   const [showRequiredFieldsAlert, setShowRequiredFieldsAlert] = useState(false);
   const [
@@ -49,11 +50,10 @@ export default function Login() {
         password,
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("auth_token", res.data.token);
         localStorage.setItem("roles", JSON.stringify(res.data.role));
 
-        navigate("/admin-sps");
+        navigate("/admin/home");
       })
       .catch((err) => {
         console.log(err);

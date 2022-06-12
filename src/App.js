@@ -5,6 +5,7 @@ import Footer from "./components/footer/Footer";
 // Admin components
 import { default as AdminLogin } from "./components/Admin/admin-login/AdminLogin";
 import AdminServiceProvidersList from "./components/Admin/admin-block-account/AdminServiceProviders";
+import { default as AdminHome } from "./components/Admin/admin-home/Home";
 
 // Service provider components
 import AddService from "./components/ServiceProvider/addService/AddService";
@@ -187,6 +188,7 @@ function App() {
 
             {/** Admin endpoints */}
             <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admin/home" element={<AdminHome />} />
             <Route path="/admin-sps" element={<AdminServiceProvidersList />} />
 
             <Route path="/reset-password" element={<ResetPassword />} />

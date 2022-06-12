@@ -132,7 +132,7 @@ export default function ServiceDetails() {
       )
       .then((res) => {
         console.log(res);
-        setReviews(res.data.REVIEWS);
+        setReviews(res.data.reviews);
       })
       .catch((err) => {
         console.log(err);
@@ -503,7 +503,7 @@ export default function ServiceDetails() {
               style={{ display: "none" }}
             />
           </div>
-          <div>
+          <div className="sp__service-details-reviews-wrapper">
             <h4>Reviews</h4>
             {reviews && reviews.length !== 0 ? (
               <div className="sp__service-details-reviews-container">
