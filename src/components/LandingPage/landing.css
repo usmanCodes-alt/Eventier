@@ -1,0 +1,65 @@
+.landing-page__hero-banner-container {
+  background-color: #e9ecef;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page__intro-container {
+  height: 250px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page__app-name {
+  font-family: "Joan", serif;
+  font-weight: 500;
+}
+
+.landing-page__welcome-text {
+  font-family: "Joan", serif;
+  font-weight: 500;
+}
+
+.landing-page__most-sold-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
+  grid-gap: 2rem;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 20px;
+  /* padding-bottom: 275px; */
+}
+
+.landing-page__most-ordered-text {
+  font-family: "Joan", serif;
+  text-align: center;
+}
+
+.landing-page__most-ordered-container {
+  margin-top: 10px;
+}
+
+.landing-page__container {
+  padding-bottom: 200px;
+}
+
+.landing-page__about-us-container {
+  margin-top: 50px;
+}
+
+.landing-page__about-us {
+  font-family: "Joan", serif;
+  text-align: center;
+  width: 50%;
+  margin: auto;
+}
+
+.landing-page__about-us-text {
+  font-family: "Joan", serif;
+  text-align: center;
+}

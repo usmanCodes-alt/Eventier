@@ -28,6 +28,7 @@ export default function ServiceDetails() {
   const [existingWishList, setExistingWishList] = useState([]);
   const [allowUserToAddDescription, setAllowUserToAddDescription] =
     useState(false);
+  const [userHasAddress, setUserHasAddress] = useState(false);
 
   const {
     value: enteredDescription,
@@ -145,6 +146,7 @@ export default function ServiceDetails() {
       return;
     }
     getReviewsOfService();
+    getLoggedInUser();
   }, [serviceDetails]);
 
   const onContactClicked = (e) => {
@@ -244,8 +246,47 @@ export default function ServiceDetails() {
       });
   };
 
+  const getLoggedInUser = () => {
+    axios
+      .get("http://localhost:3000/customers/get-details", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+        },
+      })
+      .then((res) => {
+        if (
+          res.data.hasOwnProperty("street") &&
+          res.data.hasOwnProperty("city") &&
+          res.data.hasOwnProperty("country") &&
+          res.data.hasOwnProperty("province")
+        ) {
+          setUserHasAddress(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const onRatingChanged = (newRating) => {
     setStarRating(newRating);
+  };
+
+  const renderAddToCartButton = () => {
+    if (userHasAddress) {
+      return (
+        <Button variant="outlined" onClick={addServiceToCart}>
+          Add to Cart
+        </Button>
+      );
+    } else {
+      return (
+        <div>
+          <span className="inputField__error-message-span">
+            Please update your profile and add an appropriate address to make an
+            order.
+          </span>
+        </div>
+      );
+    }
   };
 
   if (!serviceDetails) {
@@ -313,9 +354,7 @@ export default function ServiceDetails() {
             Add to my Wish List
           </Button>
         )}
-        <Button variant="outlined" onClick={addServiceToCart}>
-          Add to Cart
-        </Button>
+        {renderAddToCartButton()}
       </div>
       <div className="serviceDetails__information-container">
         <div className="serviceDetails__information-heading">

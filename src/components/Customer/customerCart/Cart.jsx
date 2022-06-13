@@ -17,36 +17,9 @@ function Cart() {
   const actualPricesAfterDiscountCalculations = [];
   const [emptyAddressErrorMessage, setEmptyAddressErrorMessage] =
     useState(false);
+  // console.log(cartItems);
 
   const [paymentDone, setPaymentDone] = useState(false);
-
-  const placeOrder = () => {
-    axios
-      .post(
-        "http://localhost:3000/customers/process-payment",
-        {
-          cartItems,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("auth_token"),
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          // empty cart and redirect to home
-          resetCart();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          setEmptyAddressErrorMessage(true);
-        }
-      });
-  };
 
   const makePayment = async (token) => {
     setPaymentDone(true);
@@ -190,6 +163,7 @@ function Cart() {
                     ) * 100
                   }
                   closed={() => console.log("close")}
+                  currency="PKR"
                 >
                   <Button variant="contained">Place order</Button>
                 </StripeCheckout>

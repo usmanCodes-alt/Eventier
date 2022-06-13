@@ -8,6 +8,7 @@ import useInput from "../../hooks/use-input";
 import { validateEmail } from "../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./login.css";
 
 export default function Login() {
@@ -85,84 +86,93 @@ export default function Login() {
   };
 
   return (
-    <div className="customerLogin__container">
-      <img
-        className="customerLogin__logo"
-        src={require("../../images/loginIllustration.svg").default}
-        alt="logo"
-      />
+    <div className="customerLogin__main-wrapper">
+      <div className="customerLogin__back-arrow-container">
+        <ArrowBackIcon
+          className="customerLogin__back-arrow"
+          onClick={() => navigate("/")}
+        />
+        <p className="customerLogin__go-back-text">(Go Back)</p>
+      </div>
+      <div className="customerLogin__container">
+        <img
+          className="customerLogin__logo"
+          src={require("../../images/loginIllustration.svg").default}
+          alt="logo"
+        />
 
-      <div className="customerLogin__form-container">
-        <h3>Login to your account!</h3>
-        <form>
-          {authenticationError && (
-            <div className="customerLogin__error-container">
-              <div>Invalid username or password.</div>
-            </div>
-          )}
-          {requiredFieldsError && (
-            <div className="customerLogin__error-container">
-              <div>Please provide all required fields.</div>
-            </div>
-          )}
-          <div className="customerLogin__input-container">
-            {emailInputFieldHasError && (
-              <div className="inputField__error-message-wrapper">
-                <span className="inputField__error-message-span">
-                  Invalid Email.
-                </span>
+        <div className="customerLogin__form-container">
+          <h3>Login to your account!</h3>
+          <form>
+            {authenticationError && (
+              <div className="customerLogin__error-container">
+                <div>Invalid username or password.</div>
               </div>
             )}
-            <TextField
-              id="outlined-basic"
-              label="Email"
-              variant="outlined"
-              type="email"
-              value={enteredEmail}
-              onChange={emailChangedHandler}
-              onBlur={emailBlurHandler}
-              autoComplete="off"
-              required
-            />
-          </div>
+            {requiredFieldsError && (
+              <div className="customerLogin__error-container">
+                <div>Please provide all required fields.</div>
+              </div>
+            )}
+            <div className="customerLogin__input-container">
+              {emailInputFieldHasError && (
+                <div className="inputField__error-message-wrapper">
+                  <span className="inputField__error-message-span">
+                    Invalid Email.
+                  </span>
+                </div>
+              )}
+              <TextField
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                type="email"
+                value={enteredEmail}
+                onChange={emailChangedHandler}
+                onBlur={emailBlurHandler}
+                autoComplete="off"
+                required
+              />
+            </div>
 
-          <div className="customerLogin__input-container">
-            <TextField
-              id="outlined-basic"
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={onPasswordChange}
-              required
-            />
-          </div>
-        </form>
+            <div className="customerLogin__input-container">
+              <TextField
+                id="outlined-basic"
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={onPasswordChange}
+                required
+              />
+            </div>
+          </form>
 
-        <div className="customerLogin__buttons-container">
-          <Button variant="contained" onClick={onLoginButtonClicked}>
-            Login
-          </Button>
-        </div>
-        <div className="customerLogin__other-options-container">
-          <Link className="customerLogin__signup" to="/customer-signup">
-            Create a new Customer Account{" "}
-          </Link>
-          <span className="customerLogin__signup">|</span>
-          <Link
-            to="/service-provider/sign-up"
-            className="customerLogin__login-as-sp"
-          >
-            Create a New Service Provider Account{" "}
-          </Link>
-        </div>
-        <div className="customerLogin__other-options-container">
-          <Link
-            to="/start-password-reset"
-            className="customerLogin__login-as-sp"
-          >
-            Forgot Password?
-          </Link>
+          <div className="customerLogin__buttons-container">
+            <Button variant="contained" onClick={onLoginButtonClicked}>
+              Login
+            </Button>
+          </div>
+          {/*<div className="customerLogin__other-options-container">
+            <Link className="customerLogin__signup" to="/customer-signup">
+              Create a new Customer Account{" "}
+            </Link>
+            <span className="customerLogin__signup">|</span>
+            <Link
+              to="/service-provider/sign-up"
+              className="customerLogin__login-as-sp"
+            >
+              Create a New Service Provider Account{" "}
+            </Link>
+              </div>*/}
+          <div className="customerLogin__other-options-container">
+            <Link
+              to="/start-password-reset"
+              className="customerLogin__login-as-sp"
+            >
+              Forgot Password?
+            </Link>
+          </div>
         </div>
       </div>
     </div>

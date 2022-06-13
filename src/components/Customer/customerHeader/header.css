@@ -46,3 +46,11 @@
 .home-link {
   margin-right: auto;
 }
+
+.link-style {
+  cursor: pointer;
+}
+
+.link-style:hover {
+  color: #387adc;
+}

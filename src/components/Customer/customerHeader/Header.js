@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CartContext from "../../../context/Cart/cartContext";
 import UserContext from "../../../context/auth-context";
@@ -9,6 +9,7 @@ import logo from "../../../images/logo.png";
 import "./header.css";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { cartItems } = useContext(CartContext);
   const { setUser } = useContext(UserContext);
 
@@ -23,6 +24,7 @@ export default function Header() {
         if (res.status === 200) {
           localStorage.clear();
           setUser(null);
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -33,7 +35,7 @@ export default function Header() {
   return (
     <div className="customer-header__container">
       <div>
-        <Link className="customer-header__logo-link" to="/customer-home">
+        <Link className="customer-header__logo-link" to="/">
           <img className="customer-header__logo" src={logo} alt="logo" />
         </Link>
         <NavLink
@@ -132,10 +134,13 @@ export default function Header() {
               Profile
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/" className="customer-header__link" onClick={logout}>
+          {/*<li>
+            <NavLink to="#" className="customer-header__link" onClick={logout}>
               Logout
             </NavLink>
+            </li>*/}
+          <li className="customer-header__link link-style" onClick={logout}>
+            Logout
           </li>
         </ul>
       </nav>

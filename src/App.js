@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 
+// landing page
+import { default as SiteLandingPage } from "./components/LandingPage/Landing.jsx";
+
 // Admin components
 import { default as AdminLogin } from "./components/Admin/admin-login/AdminLogin";
 import AdminServiceProvidersList from "./components/Admin/admin-block-account/AdminServiceProviders";
@@ -37,7 +40,6 @@ import { default as EmailInputForResetPassword } from "./components/EmailInput/E
 import NotFound from "./components/404-page/404";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import PaymentFailed from "./components/Payment Failure Page/PaymentFailed";
 
 const theme = createTheme({
   palette: {
@@ -49,6 +51,7 @@ const theme = createTheme({
 
 function App() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
       console.log("page refreshed while user was logged in");
@@ -58,6 +61,7 @@ function App() {
       });
     }
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -65,8 +69,9 @@ function App() {
           {/*<Header />*/}
 
           <Routes>
+            <Route path="/" element={<SiteLandingPage />} />
             {/** Customer endpoints */}
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/customer-signup" element={<CustomerSignUp />} />
             <Route
               path="/customer-home"
@@ -121,14 +126,6 @@ function App() {
               element={
                 <Protected>
                   <ServiceProvidersRankings />
-                </Protected>
-              }
-            />
-            <Route
-              path="/customer/payment-failure"
-              element={
-                <Protected>
-                  <PaymentFailed />
                 </Protected>
               }
             />

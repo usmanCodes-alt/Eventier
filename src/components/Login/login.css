@@ -97,6 +97,25 @@
 } */
 
 .customerLogin__other-options-container {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
+}
+
+.customerLogin__main-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.customerLogin__back-arrow {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.customerLogin__back-arrow-container {
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.customerLogin__go-back-text {
+  display: inline;
 }

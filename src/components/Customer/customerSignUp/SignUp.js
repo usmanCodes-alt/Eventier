@@ -12,6 +12,7 @@ import {
 import useInput from "../../../hooks/use-input";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import SignUpImage from "../../../images/signupImage.webp";
 import "./signup.css";
@@ -117,7 +118,14 @@ export default function SignUp() {
   };
 
   return (
-    <React.Fragment>
+    <div className="customerLogin__main-wrapper">
+      <div className="customerLogin__back-arrow-container">
+        <ArrowBackIcon
+          className="customerLogin__back-arrow"
+          onClick={() => navigate("/")}
+        />
+        <p className="customerLogin__go-back-text">(Go Back)</p>
+      </div>
       <div className="customerLogin__container">
         <img
           className="customerLogin__logo"
@@ -272,10 +280,10 @@ export default function SignUp() {
             </Button>
           </div>
           <p>
-            Already have an account? <Link to="/">Login</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </p>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
