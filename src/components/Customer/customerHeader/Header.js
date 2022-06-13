@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 import CartContext from "../../../context/Cart/cartContext";
+import UserContext from "../../../context/auth-context";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import logo from "../../../images/logo.png";
@@ -9,6 +10,7 @@ import "./header.css";
 
 export default function Header() {
   const { cartItems } = useContext(CartContext);
+  const { setUser } = useContext(UserContext);
 
   const logout = () => {
     axios
@@ -20,6 +22,7 @@ export default function Header() {
       .then((res) => {
         if (res.status === 200) {
           localStorage.clear();
+          setUser(null);
         }
       })
       .catch((err) => {

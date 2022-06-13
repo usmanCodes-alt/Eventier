@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 
@@ -49,11 +49,21 @@ const theme = createTheme({
 
 function App() {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    if (localStorage.getItem("auth_token") && !user) {
+      console.log("page refreshed while user was logged in");
+      setUser({
+        email: localStorage.getItem("email"),
+        roles: JSON.parse(localStorage.getItem("roles")),
+      });
+    }
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <UserContext.Provider value={{ user, setUser }}>
           {/*<Header />*/}
+
           <Routes>
             {/** Customer endpoints */}
             <Route path="/" element={<Login />} />

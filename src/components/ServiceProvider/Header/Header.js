@@ -1,11 +1,15 @@
 import React from "react";
 import logo from "./logo.png";
 import { NavLink } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import UserContext from "../../../context/auth-context.js";
 
 import "./Header.css";
 import axios from "axios";
 
 export default function Header() {
+  const { user, setUser } = useContext(UserContext);
+
   const logout = () => {
     axios
       .delete("http://localhost:3000/service-providers/logout", {
@@ -17,6 +21,7 @@ export default function Header() {
         console.log(res);
         if (res.status === 200) {
           localStorage.clear();
+          setUser(null);
         }
       })
       .catch((err) => {
