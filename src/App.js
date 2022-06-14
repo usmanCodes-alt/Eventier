@@ -8,7 +8,7 @@ import { default as SiteLandingPage } from "./components/LandingPage/Landing.jsx
 // Admin components
 import { default as AdminLogin } from "./components/Admin/admin-login/AdminLogin";
 import AdminServiceProvidersList from "./components/Admin/admin-block-account/AdminServiceProviders";
-import { default as AdminHome } from "./components/Admin/admin-home/Home";
+import AdminServiceList from "./components/Admin/admin-block-service/BlockService.jsx";
 
 // Service provider components
 import AddService from "./components/ServiceProvider/addService/AddService";
@@ -214,8 +214,11 @@ function App() {
 
             {/** Admin endpoints */}
             <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/admin/home" element={<AdminHome />} />
-            <Route path="/admin-sps" element={<AdminServiceProvidersList />} />
+            <Route
+              path="/admin/block/sp"
+              element={<AdminServiceProvidersList />}
+            />
+            <Route path="/admin/block/service" element={<AdminServiceList />} />
 
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route

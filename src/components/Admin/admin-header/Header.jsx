@@ -1,13 +1,24 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import UserContext from "../../../context/auth-context";
 
 import logo from "../../../images/logo.png";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
+
+  const logout = () => {
+    localStorage.clear();
+    setUser(null);
+    navigate("/");
+  };
+
   return (
     <div className="customer-header__container">
       <div>
-        <Link className="customer-header__logo-link" to="/admin/home">
+        <Link className="customer-header__logo-link" to="/admin/block/sp">
           <img className="customer-header__logo" src={logo} alt="logo" />
         </Link>
         <NavLink
@@ -16,7 +27,7 @@ export default function Header() {
               ? "header__active-link customer-header__link home-link"
               : "customer-header__link home-link"
           }
-          to="/admin/home"
+          to="/admin/block/sp"
         >
           Block Service Provider
         </NavLink>
@@ -31,6 +42,14 @@ export default function Header() {
           Block Service
         </NavLink>
       </div>
+
+      <nav>
+        <ul className="customer-header__nav-links">
+          <li className="customer-header__link link-style" onClick={logout}>
+            Logout
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

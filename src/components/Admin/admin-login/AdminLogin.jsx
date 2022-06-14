@@ -53,7 +53,7 @@ export default function Login() {
         localStorage.setItem("auth_token", res.data.token);
         localStorage.setItem("roles", JSON.stringify(res.data.role));
 
-        navigate("/admin/home");
+        navigate("/admin/block/sp");
       })
       .catch((err) => {
         console.log(err);
