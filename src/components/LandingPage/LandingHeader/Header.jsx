@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NavLink, Link } from "react-router-dom";
 
 import { default as CustomerHeader } from "../../Customer/customerHeader/Header";
@@ -12,7 +12,7 @@ export default function Header() {
     if (JSON.parse(localStorage.getItem("roles"))[0] === "customer") {
       return <CustomerHeader />;
     } else {
-      <ServiceProviderHeader />;
+      return <ServiceProviderHeader />;
     }
   } else {
     return (

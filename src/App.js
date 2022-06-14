@@ -34,6 +34,7 @@ import WishList from "./components/Customer/WishList/WishList";
 import { default as ServiceProvidersRankings } from "./components/Customer/Rankings/Rankings";
 
 import Protected from "./components/ProtectedRoute/Protected.js";
+import NotAllowOnLogin from "./components/NotAllowOnLogin/NotAllowOnLogin";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { default as EmailInputForResetPassword } from "./components/EmailInput/EmailInput";
 
@@ -71,8 +72,22 @@ function App() {
           <Routes>
             <Route path="/" element={<SiteLandingPage />} />
             {/** Customer endpoints */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/customer-signup" element={<CustomerSignUp />} />
+            <Route
+              path="/login"
+              element={
+                <NotAllowOnLogin>
+                  <Login />
+                </NotAllowOnLogin>
+              }
+            />
+            <Route
+              path="/customer-signup"
+              element={
+                <NotAllowOnLogin>
+                  <CustomerSignUp />
+                </NotAllowOnLogin>
+              }
+            />
             <Route
               path="/customer-home"
               element={
@@ -173,7 +188,11 @@ function App() {
             />
             <Route
               path="/service-provider/sign-up"
-              element={<VendorSignup />}
+              element={
+                <NotAllowOnLogin>
+                  <VendorSignup />
+                </NotAllowOnLogin>
+              }
             />
             <Route
               path="/service-provider/service-details"

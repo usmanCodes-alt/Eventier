@@ -26,6 +26,7 @@ export default function LandingPage() {
         serviceName={service.service_name}
         description={service.description}
         serviceId={service.service_database_id}
+        showNoViewButton={true}
       />
     ));
 

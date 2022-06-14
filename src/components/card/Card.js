@@ -10,6 +10,7 @@ const Card = ({
   description,
   serviceId,
   forServiceProvider,
+  showNoViewButton = false,
 }) => {
   // console.log(serviceId);
   const navigate = useNavigate();
@@ -37,9 +38,11 @@ const Card = ({
         <h2 className="card__title">{serviceName}</h2>
         <p className="card__description">{description}</p>
       </div>
-      <button className="card__button" onClick={onViewButtonClicked}>
-        View
-      </button>
+      {!showNoViewButton && (
+        <button className="card__button" onClick={onViewButtonClicked}>
+          View
+        </button>
+      )}
     </div>
   );
 };

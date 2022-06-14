@@ -27,6 +27,7 @@ export default function Login() {
 
   // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [accountBlockedError, setAccountBlockedError] = useState(false);
   const [authenticationError, setAuthenticationError] = useState(false);
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
 
@@ -80,8 +81,12 @@ export default function Login() {
         navigate(navigateUrl);
       })
       .catch((error) => {
-        console.log(error);
-        setAuthenticationError(true);
+        // console.log(error.response.status);
+        if (error.response.status === 403) {
+          setAccountBlockedError(true);
+        } else {
+          setAuthenticationError(true);
+        }
       });
   };
 
@@ -107,6 +112,11 @@ export default function Login() {
             {authenticationError && (
               <div className="customerLogin__error-container">
                 <div>Invalid username or password.</div>
+              </div>
+            )}
+            {accountBlockedError && (
+              <div className="customerLogin__error-container">
+                <div>Your account has been blocked by our admin.</div>
               </div>
             )}
             {requiredFieldsError && (

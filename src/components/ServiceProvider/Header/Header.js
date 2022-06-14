@@ -1,13 +1,14 @@
 import React from "react";
 import logo from "./logo.png";
-import { NavLink } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import UserContext from "../../../context/auth-context.js";
 
 import "./Header.css";
 import axios from "axios";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
   const logout = () => {
@@ -22,6 +23,7 @@ export default function Header() {
         if (res.status === 200) {
           localStorage.clear();
           setUser(null);
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -33,13 +35,23 @@ export default function Header() {
     <div className="sp__header-container">
       <div className="sp__header-left">
         <div className="sp__header-img-container">
-          <NavLink to="/service-provider/dashboard">
+          <NavLink to="/">
             <img className="sp__header-logo" src={logo} alt="Eventier" />
           </NavLink>
         </div>
 
         <nav>
           <ul className="sp__header-ul">
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "header__active-link sp__header-nav-link"
+                  : "sp__header-nav-link"
+              }
+              to="/service-provider/dashboard"
+            >
+              <li className="sp__header-li">Dashboard</li>
+            </NavLink>
             <NavLink
               className={({ isActive }) =>
                 isActive
@@ -98,9 +110,9 @@ export default function Header() {
               <li className="sp__header-li">Profile</li>
             </NavLink>
 
-            <NavLink className="sp__header-nav-link" to="/" onClick={logout}>
-              <li className="sp__header-li">Logout</li>
-            </NavLink>
+            <li className="sp__header-li link-style" onClick={logout}>
+              Logout
+            </li>
           </ul>
         </nav>
       </div>

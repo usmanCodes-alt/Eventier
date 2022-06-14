@@ -22,6 +22,7 @@ export default function Protected({ children }) {
     })
     .catch((err) => {
       console.log(err);
+      localStorage.clear();
       if (err.response.status === 401) {
         navigate("/");
       }
