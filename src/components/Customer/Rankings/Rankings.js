@@ -76,7 +76,10 @@ export default function Rankings() {
           <tbody>
             {individualSpReviewsInfo.map((sp) => {
               return (
-                <tr className="totalOrder_tbodyRow">
+                <tr
+                  className="totalOrder_tbodyRow"
+                  key={individualSpReviewsInfo.email}
+                >
                   <td className="totalOrders__tbodyRowCell">{sp.email}</td>
                   <td className="totalOrders__tbodyRowCell">
                     {getFirstName(sp.email)}

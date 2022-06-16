@@ -10,7 +10,7 @@ import "./header.css";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, resetCart } = useContext(CartContext);
   const { setUser } = useContext(UserContext);
 
   const logout = () => {
@@ -21,8 +21,10 @@ export default function Header() {
         },
       })
       .then((res) => {
+        console.log("HERE!!");
         if (res.status === 200) {
           localStorage.clear();
+          resetCart();
           setUser(null);
           navigate("/");
         }

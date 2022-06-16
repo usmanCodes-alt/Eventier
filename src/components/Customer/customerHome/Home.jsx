@@ -32,7 +32,6 @@ export default function Home() {
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
-    console.log(token);
     axios
       .get("http://localhost:3000/customers/get-services", {
         headers: {
@@ -57,6 +56,7 @@ export default function Home() {
   const mapServicesOnHome = (services) =>
     services.map((service) => (
       <Card
+        key={services.service_database_id}
         url={service.static_url}
         serviceName={service.service_name}
         description={service.description}
