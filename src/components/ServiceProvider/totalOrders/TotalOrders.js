@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../../context/auth-context";
-import "./TotalOrders.css";
+
 import Header from "../Header/Header";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,9 +10,11 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 
+import "./TotalOrders.css";
 import "react-dropdown/style.css";
 
 export default function TotalOrders() {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [specificOrders, setSpecificOrders] = useState([]);
@@ -110,20 +113,12 @@ export default function TotalOrders() {
     return [year, month, day].join("-");
   }
 
+  const showOrderDetailsPage = (orderId) => {
+    console.log(orderId);
+    navigate("/service-provider/order-details", { state: { orderId } });
+  };
+
   const renderSelectOptions = (order) => {
-    // return (
-    //   <select
-    //     name="status"
-    //     onChange={(e) => changeOrderStatus(e.target.value, order.order_id)}
-    //     value={order.status}
-    //   >
-    //     <option>--</option>
-    //     <option value="accepted">Accept</option>
-    //     <option value="in-progress">In-Progress</option>
-    //     <option value="delivered">Delivered</option>
-    //     <option value="rejected">Reject</option>
-    //   </select>
-    // );
     return (
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
         <InputLabel>Status</InputLabel>
@@ -146,7 +141,11 @@ export default function TotalOrders() {
 
   const renderRow = (order) => {
     return (
-      <tr className="totalOrder_tbodyRow">
+      <tr
+        className="totalOrder_tbodyRow"
+        onClick={showOrderDetailsPage.bind(this, order.order_id)}
+        style={{ cursor: "pointer;" }}
+      >
         <td className="totalOrders__tbodyRowCell">{order.order_name}</td>
         <td className="totalOrders__tbodyRowCell">{order.customer_name}</td>
         <td className="totalOrders__tbodyRowCell">
@@ -154,7 +153,10 @@ export default function TotalOrders() {
         </td>
         <td className="totalOrders__tbodyRowCell">{order.service_type}</td>
         <td className="totalOrders__tbodyRowCell">{order.payment_status}</td>
-        <td className="totalOrders__tbodyRowCell">
+        <td
+          className="totalOrders__tbodyRowCell"
+          onClick={(e) => e.stopPropagation()}
+        >
           {renderSelectOptions(order)}
         </td>
       </tr>
@@ -209,7 +211,7 @@ export default function TotalOrders() {
           </tr>
         </thead>
 
-        <tbody>
+        <tbody style={{ cursor: "pointer;" }}>
           {orderStatus === "Total Orders"
             ? orders.map((order) => {
                 return renderRow(order);

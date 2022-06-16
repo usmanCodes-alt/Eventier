@@ -18,7 +18,7 @@ import TotalOrders from "./components/ServiceProvider/totalOrders/TotalOrders";
 import GetAllServices from "./components/ServiceProvider/getAllServices/GetAllServices";
 import DashBoard from "./components/ServiceProvider/dashBoard/DashBoard";
 import UserContext from "./context/auth-context";
-// import OrderDetail from "./components/ServiceProvider/OrderDetail/OrderDetail";
+import OrderDetails from "./components/ServiceProvider/OrderDetail/OrderDetails.jsx";
 import { default as ServiceDetails } from "./components/ServiceProvider/serviceProviderServiceDetails/Details.jsx";
 
 // customer components
@@ -167,6 +167,14 @@ function App() {
               element={
                 <Protected>
                   <TotalOrders />
+                </Protected>
+              }
+            />
+            <Route
+              path="/service-provider/order-details"
+              element={
+                <Protected>
+                  <OrderDetails />
                 </Protected>
               }
             />

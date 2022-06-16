@@ -188,7 +188,7 @@ export default function DashBoard() {
             )}
           </div>
           <div className="sp__dashboard-reviews-container">
-            <h4>Reviews</h4>
+            <h4 className="sp__dashboard-reviews-heading">Reviews</h4>
             {ratingsAndReviews.length !== 0 ? (
               ratingsAndReviews
                 .slice(-5)
