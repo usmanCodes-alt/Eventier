@@ -151,7 +151,7 @@ export default function Signup() {
       })
       .then((response) => {
         if (response.status === 201) {
-          navigate("/");
+          navigate("/login", { state: { newUserCreated: true } });
         }
       })
       .catch((err) => {

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import UserContext from "../../../context/auth-context";
 
 import logo from "../../../images/logo.png";

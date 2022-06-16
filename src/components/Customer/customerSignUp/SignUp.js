@@ -109,8 +109,7 @@ export default function SignUp() {
         //   email,
         //   roles: response.data.roles,
         // };
-        navigate("/");
-        alert("Account created");
+        navigate("/login", { state: { newUserCreated: true } });
       })
       .catch((err) => {
         console.log(err);

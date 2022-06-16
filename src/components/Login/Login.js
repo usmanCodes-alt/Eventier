@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/auth-context";
 
+import Alert from "@mui/material/Alert";
 import useInput from "../../hooks/use-input";
 import { validateEmail } from "../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
@@ -13,6 +14,8 @@ import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.state);
   const { setUser } = useContext(UserContext);
 
   let formIsValid = false;
@@ -92,6 +95,14 @@ export default function Login() {
 
   return (
     <div className="customerLogin__main-wrapper">
+      {location.state?.newUserCreated === true && (
+        <Alert
+          severity="success"
+          onClose={() => (location.state.newUserCreated = false)}
+        >
+          Your account has been created, please login.
+        </Alert>
+      )}
       <div className="customerLogin__back-arrow-container">
         <ArrowBackIcon
           className="customerLogin__back-arrow"
