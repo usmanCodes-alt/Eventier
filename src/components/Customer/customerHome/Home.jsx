@@ -65,7 +65,12 @@ export default function Home() {
     ));
 
   if (services.length === 0) {
-    return <h1>NO Service providers active at the moment!</h1>;
+    return (
+      <React.Fragment>
+        <Header />
+        <p>Please wait..</p>
+      </React.Fragment>
+    );
   } else {
     return (
       <React.Fragment>

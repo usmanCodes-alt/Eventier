@@ -47,7 +47,8 @@
 
 .sp__dashboard-orders-reviews-add_service-container {
   display: flex;
-  width: 95%;
+  width: 90%;
+  gap: 10px;
   justify-content: space-evenly;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -95,32 +96,26 @@
 .sp__dashboard-reviews-container {
   border: 1px solid gainsboro;
   padding: 10px;
-  min-width: 25%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-start;
   overflow-x: auto;
 }
 
 .sp__dashboard-single-rating-review-wrapper {
   display: flex;
+  grid-gap: 20px;
   gap: 20px;
   margin: 5px;
-  min-width: 130%;
+  width: 101%;
 }
 
 .sp__dashboard-user-review {
-  text-overflow: ellipsis;
   font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 50%;
 }
 
 .sp__dashboard-user-rating {
   margin-left: auto;
-  width: 30%;
 }
 
 .sp__dashboard-no-recent-orders-img {
@@ -131,6 +126,9 @@
   width: 80px;
 }
 
-.sp__dashboard-reviews-heading {
-  margin: auto;
+.sp__dashboard-user-review-text {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

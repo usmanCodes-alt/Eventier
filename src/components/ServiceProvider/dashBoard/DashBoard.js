@@ -197,10 +197,12 @@ export default function DashBoard() {
                   return (
                     <div className="sp__dashboard-single-rating-review-wrapper">
                       <div className="sp__dashboard-user-name">
-                        {ratingAndReview.first_name}
+                        <p>{ratingAndReview.first_name}</p>
                       </div>
                       <div className="sp__dashboard-user-review">
-                        "{ratingAndReview.review_message}"
+                        <p className="sp__dashboard-user-review-text">
+                          "{ratingAndReview.review_message}"
+                        </p>
                       </div>
                       <div className="sp__dashboard-user-rating">
                         <StarRatings
