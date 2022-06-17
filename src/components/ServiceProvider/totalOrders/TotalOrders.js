@@ -10,7 +10,6 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 
-import "./TotalOrders.css";
 import "react-dropdown/style.css";
 
 export default function TotalOrders() {
@@ -142,6 +141,7 @@ export default function TotalOrders() {
   const renderRow = (order) => {
     return (
       <tr
+        key={order.order_id}
         className="totalOrder_tbodyRow"
         onClick={showOrderDetailsPage.bind(this, order.order_id)}
         style={{ cursor: "pointer;" }}
@@ -211,7 +211,7 @@ export default function TotalOrders() {
           </tr>
         </thead>
 
-        <tbody style={{ cursor: "pointer;" }}>
+        <tbody>
           {orderStatus === "Total Orders"
             ? orders.map((order) => {
                 return renderRow(order);

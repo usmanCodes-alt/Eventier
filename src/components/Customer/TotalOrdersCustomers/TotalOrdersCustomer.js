@@ -71,7 +71,7 @@ export default function TotalOrdersCustomer() {
 
   const renderRow = (order) => {
     return (
-      <tr className="totalOrder_tbodyRow">
+      <tr className="totalOrder_tbodyRow" style={{ cursor: "pointer" }}>
         <td className="totalOrders__tbodyRowCell">{order.orderName}</td>
         <td className="totalOrders__tbodyRowCell">
           {order.serviceProviderStoreName}

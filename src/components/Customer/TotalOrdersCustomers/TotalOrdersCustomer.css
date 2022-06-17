@@ -65,3 +65,7 @@ tbody tr:nth-child(odd) td {
 tbody tr:nth-child(even) td {
   background-color: #e1e1e1;
 }
+
+/* td {
+  cursor: pointer;
+} */
