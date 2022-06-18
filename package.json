@@ -30,6 +30,7 @@
     "react-star-ratings": "^2.3.0",
     "react-stripe-checkout": "^2.6.3",
     "socket.io-client": "^4.4.1",
+    "sweetalert": "^2.1.2",
     "timeago.js": "^4.0.2",
     "uuid": "^8.3.2",
     "validator": "^13.7.0",

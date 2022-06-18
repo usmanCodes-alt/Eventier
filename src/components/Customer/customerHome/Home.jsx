@@ -6,6 +6,8 @@ import UserContext from "../../../context/auth-context";
 import Search from "../searchServiceBar/Search";
 import Card from "../../card/Card";
 import Header from "../customerHeader/Header";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import "./home.css";
 
@@ -14,6 +16,7 @@ export default function Home() {
   const { user, setUser } = useContext(UserContext);
   const [services, setServices] = useState([]);
   const [showSelectedServices, setShowSelectedServices] = useState();
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("auth_token")) {
@@ -32,6 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/customers/get-services", {
         headers: {
@@ -39,11 +43,13 @@ export default function Home() {
         },
       })
       .then((response) => {
+        setShowLoading(false);
         const { services } = response.data;
         console.log(services);
         setServices(services);
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   }, []);
@@ -64,28 +70,25 @@ export default function Home() {
       />
     ));
 
-  if (services.length === 0) {
-    return (
-      <React.Fragment>
-        <Header />
-        <p>Please wait..</p>
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment>
-        <Header />
-        <Search showSelectedServicesOnHome={onSearchSelected} />
-        <div className="home__services-wrapper">
-          {showSelectedServices
-            ? mapServicesOnHome(
-                services.filter(
-                  (service) => service.service_type === showSelectedServices
-                )
+  return (
+    <React.Fragment>
+      <Header />
+      <Search showSelectedServicesOnHome={onSearchSelected} />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
+      <div className="home__services-wrapper">
+        {showSelectedServices
+          ? mapServicesOnHome(
+              services.filter(
+                (service) => service.service_type === showSelectedServices
               )
-            : mapServicesOnHome(services)}
-        </div>
-      </React.Fragment>
-    );
-  }
+            )
+          : mapServicesOnHome(services)}
+      </div>
+    </React.Fragment>
+  );
 }

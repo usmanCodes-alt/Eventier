@@ -10,6 +10,8 @@ import Conversation from "./Conversations/Conversation";
 import Message from "./Message/Message";
 import Header from "../customerHeader/Header";
 import { default as ServiceProviderHeader } from "../../ServiceProvider/Header/Header";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./chat.css";
 
 export default function Chat() {
@@ -17,6 +19,7 @@ export default function Chat() {
   const { user, setUser } = useContext(UserContext);
   const urlData = queryString.parse(location.search);
 
+  const [showLoading, setShowLoading] = useState(false);
   const [conversations, setConversations] = useState();
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -37,7 +40,8 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    socketRef.current = io("ws://localhost:8900");
+    // socketRef.current = io("ws://localhost:8900");
+    socketRef.current = io("https://shielded-inlet-56201.herokuapp.com/");
     socketRef.current.on("get-message", (data) => {
       console.log("get-message event");
       setArrivingMessage({
@@ -67,12 +71,15 @@ export default function Chat() {
   // get all conversations of this user when the page loads
   const getConversations = async () => {
     console.log("Getting old conversations");
+    setShowLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5001/chat-api/conversation/" +
+        process.env.REACT_APP_CHAT_APP_MONGO_URL +
+          "/chat-api/conversation/" +
           localStorage.getItem("email")
       );
       console.log("user conversations", response.data);
+      setShowLoading(false);
       setConversations(response.data);
     } catch (error) {
       console.log(error);
@@ -90,14 +97,16 @@ export default function Chat() {
       console.log("Creating conversation");
       const createConversation = async () => {
         try {
+          setShowLoading(true);
           const response = await axios.post(
-            "http://localhost:5001/chat-api/conversation",
+            process.env.REACT_APP_CHAT_APP_MONGO_URL + "/chat-api/conversation",
             {
               customerEmail: localStorage.getItem("email"),
               serviceProviderEmail: serviceProviderEmail,
             }
           );
 
+          setShowLoading(false);
           console.log(response);
           setCurrentChat(response.data);
           setNewConversationCreated(true);
@@ -123,7 +132,7 @@ export default function Chat() {
       }
       try {
         const response = await axios.get(
-          `http://localhost:5001/chat-api/messages/${currentChat._id}`
+          `${process.env.REACT_APP_CHAT_APP_MONGO_URL}/chat-api/messages/${currentChat._id}`
         );
         setMessages(response.data.messages);
       } catch (error) {
@@ -166,7 +175,7 @@ export default function Chat() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5001/chat-api/messages",
+        process.env.REACT_APP_CHAT_APP_MONGO_URL + "/chat-api/messages",
         message
       );
       setMessages([...messages, response.data.message]);
@@ -204,6 +213,12 @@ export default function Chat() {
               ))}
           </div>
         </div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={showLoading}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
         <div className="chat__current-chat">
           <div className="chat__current-chat-wrapper">
             {currentChat ? (

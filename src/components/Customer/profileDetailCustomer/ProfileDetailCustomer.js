@@ -4,6 +4,9 @@ import { useState, useEffect, useContext, useRef } from "react";
 import UserContext from "../../../context/auth-context";
 import axios from "axios";
 
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function ProfileDetailCustomer() {
   const navigate = useNavigate();
   const passwordValues = {
@@ -16,6 +19,7 @@ export default function ProfileDetailCustomer() {
   const { user, setUser } = useContext(UserContext);
   const [userInformation, setUserInformation] = useState({});
   const [staticProfilePictureUrl, setStaticProfilePictureUrl] = useState();
+  const [showLoading, setShowLoading] = useState(false);
   // profilePicturePlaceHolder
   const [updateMode, setUpdateMode] = useState(false);
   // const [formValues, setFormValues] = useState(initialValues);
@@ -34,6 +38,7 @@ export default function ProfileDetailCustomer() {
 
   const getUserInformationByEmail = () => {
     const userEmail = user?.email || localStorage.getItem("email");
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/service-provider/get-by-email/" + userEmail, {
         headers: {
@@ -41,6 +46,7 @@ export default function ProfileDetailCustomer() {
         },
       })
       .then((response) => {
+        setShowLoading(false);
         if (response.status !== 200) {
           return console.log("error loading information");
         }
@@ -129,6 +135,7 @@ export default function ProfileDetailCustomer() {
       return;
     }
 
+    setShowLoading(true);
     axios
       .patch(
         "http://localhost:3000/service-providers/update-profile",
@@ -149,11 +156,13 @@ export default function ProfileDetailCustomer() {
         }
       )
       .then((response) => {
+        setShowLoading(false);
         console.log(response);
         getUserInformationByEmail();
         setUpdateMode(false);
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   };
@@ -165,6 +174,7 @@ export default function ProfileDetailCustomer() {
     const formData = new FormData();
     formData.append("eventierUserEmail", userInformation.email);
     formData.append("sp-profile-picture", e.target.files[0]);
+    setShowLoading(true);
     axios
       .post(
         "http://localhost:3000/service-provider/profile-picture/add",
@@ -176,6 +186,7 @@ export default function ProfileDetailCustomer() {
         }
       )
       .then((response) => {
+        setShowLoading(false);
         console.log(response);
         setStaticProfilePictureUrl(
           "http://localhost:3000/profile-pictures/" +
@@ -185,6 +196,7 @@ export default function ProfileDetailCustomer() {
         );
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   };

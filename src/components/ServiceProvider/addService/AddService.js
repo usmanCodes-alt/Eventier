@@ -12,6 +12,7 @@ import {
   validateDiscount,
 } from "../../../utils/inputs-validators";
 import axios from "axios";
+import swal from "sweetalert";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
@@ -20,6 +21,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import Header from "../../ServiceProvider/Header/Header.js";
+import PopUp from "../../popup/Dialog";
+
 import "react-dropdown/style.css";
 import AddButtonImage from "../../../images/add-btn-img.png";
 import "./addservice.css";
@@ -47,6 +50,8 @@ export default function AddService() {
   const [serviceImagesObjectUrls, setServiceImagesObjectUrls] = useState([]);
   const [serviceImagesLimitExceeded, setServiceImagesLimitExceeded] =
     useState(false);
+
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const [status, setStatus] = useState("active");
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
@@ -141,7 +146,10 @@ export default function AddService() {
       .then((response) => {
         console.log(response);
         if (response.status === 201) {
-          navigate("/service-provider/my-services");
+          // swal("Service Created!", "Your service has been saved.", "success", {
+          //   buttons: ["Ok"],
+          // }).then(() => navigate("/service-provider/my-services"));
+          setShowPopUp(true);
         }
       })
       .catch((err) => {
@@ -232,6 +240,15 @@ export default function AddService() {
                 onBlur={serviceNameBlurHandler}
                 required
               />
+
+              {showPopUp && (
+                <PopUp
+                  open={showPopUp}
+                  handleClose={() => navigate("/service-provider/my-services")}
+                  message="Your service has been saved."
+                  title="Service Added!"
+                />
+              )}
 
               <FormControl>
                 {serviceTypeInputFieldHasError && (

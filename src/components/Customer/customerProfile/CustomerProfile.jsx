@@ -11,6 +11,8 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import avatar from "../../../images/profile_pic_avatar.png";
 
 import "./CustomerProfile.css";
@@ -20,6 +22,7 @@ function CustomerProfile() {
   const [customerInformation, setCustomerInformation] = useState();
   const [updateMode, setUpdateMode] = useState(false);
   const hiddenFileInput = useRef();
+  const [showLoading, setShowLoading] = useState(false);
 
   const [formRequiredFieldsError, setFormRequiredFieldsError] = useState(false);
 
@@ -96,6 +99,7 @@ function CustomerProfile() {
     useState(false);
 
   const getDetails = () => {
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/customers/get-details", {
         headers: {
@@ -103,6 +107,7 @@ function CustomerProfile() {
         },
       })
       .then((res) => {
+        setShowLoading(false);
         if (res.data.static_urls) {
           res.data.static_urls[0] =
             "http://localhost:3000/profile-pictures/" +
@@ -143,6 +148,8 @@ function CustomerProfile() {
       return;
     }
 
+    setShowLoading(true);
+
     axios
       .patch(
         "http://localhost:3000/customers/update-profile",
@@ -161,6 +168,7 @@ function CustomerProfile() {
         }
       )
       .then((res) => {
+        setShowLoading(false);
         console.log(res);
         if (res.status === 200) {
           getDetails();
@@ -168,6 +176,7 @@ function CustomerProfile() {
         }
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   };
@@ -176,6 +185,7 @@ function CustomerProfile() {
     if (!e.target.files[0]) {
       return;
     }
+    setShowLoading(true);
     const formData = new FormData();
     formData.append("eventierUserEmail", customerInformation.email);
     formData.append("cu-profile-picture", e.target.files[0]);
@@ -186,6 +196,7 @@ function CustomerProfile() {
         },
       })
       .then((res) => {
+        setShowLoading(false);
         if (res.status === 200) {
           const fileNameOnServer = res.data.filename;
           setCustomerInformation((oldCustomerInformation) => ({
@@ -200,6 +211,7 @@ function CustomerProfile() {
         }
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
         setShowImageUploadFailureAlert(true);
       });
@@ -425,6 +437,12 @@ function CustomerProfile() {
                 </Button>
               </React.Fragment>
             )}
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={showLoading}
+            >
+              <CircularProgress color="primary" />
+            </Backdrop>
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@ import { validateEmail } from "../../utils/inputs-validators";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./login.css";
 
 export default function Login() {
@@ -33,6 +35,7 @@ export default function Login() {
   const [accountBlockedError, setAccountBlockedError] = useState(false);
   const [authenticationError, setAuthenticationError] = useState(false);
   const [requiredFieldsError, setRequiredFieldsError] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   // check overall form validity
   if (emailValueIsValid) {
@@ -54,12 +57,15 @@ export default function Login() {
       return;
     }
 
+    setShowLoading(true);
+
     axios
       .post("http://localhost:3000/eventier/login", {
         email: enteredEmail,
         password,
       })
       .then((response) => {
+        setShowLoading(false);
         setAuthenticationError(false);
         if (response.status !== 200) {
           return;
@@ -85,6 +91,7 @@ export default function Login() {
       })
       .catch((error) => {
         // console.log(error.response.status);
+        setShowLoading(false);
         if (error.response.status === 403) {
           setAccountBlockedError(true);
         } else {
@@ -116,6 +123,13 @@ export default function Login() {
           src={require("../../images/loginIllustration.svg").default}
           alt="logo"
         />
+
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={showLoading}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
 
         <div className="customerLogin__form-container">
           <h3>Login to your account!</h3>

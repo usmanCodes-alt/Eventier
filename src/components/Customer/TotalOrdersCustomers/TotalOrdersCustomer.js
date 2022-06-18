@@ -7,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "../customerHeader/Header";
 
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function TotalOrdersCustomer() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [specificOrders, setSpecificOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState("Total Orders");
+  const [showLoading, setShowLoading] = useState(false);
 
   function formatDate(date) {
     var d = new Date(date),
@@ -54,6 +58,7 @@ export default function TotalOrdersCustomer() {
   useEffect(() => {
     // let apiUrl = "";
     const bearerToken = localStorage.getItem("auth_token");
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/customers/get-orders", {
         headers: {
@@ -62,9 +67,11 @@ export default function TotalOrdersCustomer() {
       })
       .then((response) => {
         console.log(response);
+        setShowLoading(false);
         setOrders(response.data.CUSTOMER_ORDERS);
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   }, []);
@@ -142,6 +149,12 @@ export default function TotalOrdersCustomer() {
               })}
         </tbody>
       </table>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </div>
   );
 }

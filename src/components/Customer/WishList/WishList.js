@@ -5,10 +5,14 @@ import Header from "../customerHeader/Header";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import "./WishList.css";
 
 export default function WishList() {
   const [wishList, setWishList] = useState([]);
+  const [showLoading, setShowLoading] = useState(false);
 
   const getItemsFromWishList = () => {
     axios
@@ -31,6 +35,7 @@ export default function WishList() {
   }, []);
 
   const onRemoveButtonClicked = (wishListId) => {
+    setShowLoading(true);
     axios
       .delete(
         "http://localhost:3000/customers/wish-list/remove/" + wishListId,
@@ -41,11 +46,13 @@ export default function WishList() {
         }
       )
       .then((res) => {
+        setShowLoading(false);
         if (res.status === 200) {
           getItemsFromWishList();
         }
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   };
@@ -88,6 +95,12 @@ export default function WishList() {
           })}
         </tbody>
       </table>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </div>
   );
 }

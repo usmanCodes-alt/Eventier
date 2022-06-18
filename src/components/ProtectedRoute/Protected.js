@@ -11,16 +11,20 @@ export default function Protected({ children }) {
     return <Navigate to="/" replace />;
   }
 
+  console.log("Running validate JWT!");
   axios
-    .get("http://localhost:3000/validate-jwt", {
+    .get(`http://localhost:3000/validate-jwt?`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     })
     .then((res) => {
+      console.log(res);
+      console.log("valid jwt");
       setValidJwt(true);
     })
     .catch((err) => {
+      console.log("invalid jwt");
       console.log(err);
       localStorage.clear();
       if (err.response.status === 401) {

@@ -1,13 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+
 import Header from "../customerHeader/Header";
+
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
+import "./rankings.css";
 
 export default function Rankings() {
   const [serviceProviders, setServiceProviders] = useState();
   const [individualSpReviewsInfo, setIndividualSpReviewsInfo] = useState();
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    console.log("api call");
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/rankings", {
         headers: {
@@ -15,13 +22,17 @@ export default function Rankings() {
         },
       })
       .then((res) => {
+        setShowLoading(false);
         console.log(res);
         setServiceProviders(res.data.sentiments);
         setIndividualSpReviewsInfo(
           res.data.individualServiceProviderReviewsInformation
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setShowLoading(false);
+        console.log(err);
+      });
   }, []);
 
   const getPositiveCount = (email) => {
@@ -88,16 +99,26 @@ export default function Rankings() {
                     {getLastName(sp.email)}
                   </td>
                   <td className="totalOrders__tbodyRowCell">
-                    {getPositiveCount(sp.email)}
+                    <span className="rankings__positive">
+                      {getPositiveCount(sp.email)}
+                    </span>
                   </td>
                   <td className="totalOrders__tbodyRowCell">
-                    {getNegativeCount(sp.email)}
+                    <span className="rankings__negative">
+                      {getNegativeCount(sp.email)}
+                    </span>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={showLoading}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
       </div>
     </React.Fragment>
   );

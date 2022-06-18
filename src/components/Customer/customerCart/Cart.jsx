@@ -5,6 +5,7 @@ import StripeCheckout from "react-stripe-checkout";
 // import { useNavigate } from "react-router-dom";
 import CartContext from "../../../context/Cart/cartContext";
 import Header from "../customerHeader/Header";
+import PopUp from "../../popup/Dialog";
 
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,6 +21,7 @@ function Cart() {
   // console.log(cartItems);
 
   const [paymentDone, setPaymentDone] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const makePayment = async (token) => {
     setPaymentDone(true);
@@ -65,6 +67,7 @@ function Cart() {
         if (res.status === 201) {
           // empty cart and redirect to home
           resetCart();
+          setShowPopUp(true);
         }
       })
       .catch((error) => {
@@ -172,6 +175,16 @@ function Cart() {
           )}
         </tfoot>
       </table>
+      {showPopUp && (
+        <PopUp
+          open={showPopUp}
+          handleClose={() => setShowPopUp(false)}
+          title={"Order Saved!"}
+          message={
+            "Your order has been created. You should be receiving an order confirmation email shortly."
+          }
+        />
+      )}
     </div>
   );
 }
