@@ -69,7 +69,7 @@ export default function Chat() {
     console.log("Getting old conversations");
     try {
       const response = await axios.get(
-        "http://localhost:5000/chat-api/conversation/" +
+        "http://localhost:5001/chat-api/conversation/" +
           localStorage.getItem("email")
       );
       console.log("user conversations", response.data);
@@ -91,7 +91,7 @@ export default function Chat() {
       const createConversation = async () => {
         try {
           const response = await axios.post(
-            "http://localhost:5000/chat-api/conversation",
+            "http://localhost:5001/chat-api/conversation",
             {
               customerEmail: localStorage.getItem("email"),
               serviceProviderEmail: serviceProviderEmail,
@@ -123,7 +123,7 @@ export default function Chat() {
       }
       try {
         const response = await axios.get(
-          `http://localhost:5000/chat-api/messages/${currentChat._id}`
+          `http://localhost:5001/chat-api/messages/${currentChat._id}`
         );
         setMessages(response.data.messages);
       } catch (error) {
@@ -166,7 +166,7 @@ export default function Chat() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/chat-api/messages",
+        "http://localhost:5001/chat-api/messages",
         message
       );
       setMessages([...messages, response.data.message]);
