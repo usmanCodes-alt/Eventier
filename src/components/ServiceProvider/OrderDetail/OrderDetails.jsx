@@ -38,6 +38,9 @@ export default function OrderDetails() {
           onClick={() => navigate("/service-provider/total-orders")}
         />
         <p>All Orders</p>
+        <div className="orderDetails__details-heading">
+          <h3 className="orderDetails__heading-text">Order Details</h3>
+        </div>
       </div>
       <div className="orderDetails__order-details-container">
         <h5 className="orderDetails__order-details-section-heading">

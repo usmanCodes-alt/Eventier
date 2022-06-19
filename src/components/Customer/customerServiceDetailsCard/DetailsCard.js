@@ -5,6 +5,8 @@ import "./DetailsCard.css";
 const DetailsCard = ({
   serviceName,
   serviceType,
+  unitPrice,
+  discount,
   serviceProviderEmail,
   phoneNumber,
   serviceStatus,
@@ -17,6 +19,8 @@ const DetailsCard = ({
       <div className="card__body">
         <h4 className="card__title">{serviceName}</h4>
         <p className="card__description">Type: {serviceType}</p>
+        <p className="card__description">Price: {unitPrice}</p>
+        <p className="card__description">Discount: {discount}</p>
         <p className="card__description">
           Provider Email: {serviceProviderEmail}
         </p>

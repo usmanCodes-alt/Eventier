@@ -2,9 +2,9 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "../customerHeader/Header";
+import { useNavigate } from "react-router-dom";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -13,6 +13,7 @@ import "./WishList.css";
 export default function WishList() {
   const [wishList, setWishList] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getItemsFromWishList = () => {
     axios
@@ -57,6 +58,14 @@ export default function WishList() {
       });
   };
 
+  const navigateToServiceDetails = (serviceId) => {
+    navigate("/customer/service-details", {
+      state: {
+        serviceId,
+      },
+    });
+  };
+
   return (
     <div className="cart__container">
       <Header />
@@ -74,7 +83,11 @@ export default function WishList() {
         <tbody>
           {wishList.map((item) => {
             return (
-              <tr className="cart__tbodyRow" key={item.wish_list_id}>
+              <tr
+                className="cart__tbodyRow"
+                key={item.wish_list_id}
+                onClick={navigateToServiceDetails.bind(this, item.service_id)}
+              >
                 <td className="cart__tbody-cells">{item.service_name}</td>
                 <td className="cart__tbody-cells">{item.service_type}</td>
                 <td className="cart__tbody-cells">{item.unit_price}</td>
@@ -84,10 +97,10 @@ export default function WishList() {
                 <td className="cart__tbody-cells">
                   <DeleteIcon
                     className="cart__delete-icon"
-                    onClick={onRemoveButtonClicked.bind(
-                      this,
-                      item.wish_list_id
-                    )}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveButtonClicked(item.wish_list_id);
+                    }}
                   />
                 </td>
               </tr>

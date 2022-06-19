@@ -366,6 +366,8 @@ export default function ServiceDetails() {
           <DetailsCard
             serviceName={serviceDetails.service_name}
             serviceType={serviceDetails.service_type}
+            unitPrice={serviceDetails.unit_price}
+            discount={serviceDetails.discount}
             serviceProviderEmail={serviceDetails.email}
             phoneNumber={serviceDetails.phone_number}
             serviceStatus={serviceDetails.status}

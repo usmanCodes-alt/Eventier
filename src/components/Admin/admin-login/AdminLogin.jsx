@@ -44,6 +44,9 @@ export default function Login() {
       setShowRequiredFieldsAlert(true);
     }
 
+    console.log(enteredEmail);
+    console.log(password);
+
     axios
       .post("http://localhost:3000/eventier/admin/login-admin", {
         email: enteredEmail,

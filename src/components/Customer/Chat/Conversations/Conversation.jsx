@@ -28,7 +28,7 @@ export default function Conversation({ conversation, currentUserEmail }) {
   }, [user]);
 
   if (!user) {
-    return <h4>Please wait..</h4>;
+    return <React.Fragment></React.Fragment>;
   }
   return (
     <div className="conversation__wrapper">

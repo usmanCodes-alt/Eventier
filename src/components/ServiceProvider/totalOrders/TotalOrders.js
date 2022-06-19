@@ -8,6 +8,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 import "react-dropdown/style.css";
@@ -18,6 +20,7 @@ export default function TotalOrders() {
   const [orders, setOrders] = useState([]);
   const [specificOrders, setSpecificOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState("Total Orders");
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("auth_token") && !user) {
@@ -38,6 +41,7 @@ export default function TotalOrders() {
 
   useEffect(() => {
     const bearerToken = localStorage.getItem("auth_token");
+    setShowLoading(true);
     axios
       .get("http://localhost:3000/service-providers/get-orders", {
         headers: {
@@ -45,10 +49,12 @@ export default function TotalOrders() {
         },
       })
       .then((response) => {
+        setShowLoading(false);
         console.log(response);
         setOrders(response.data.serviceProviderOrders);
       })
       .catch((err) => {
+        setShowLoading(true);
         console.log(err);
       });
   }, []);
@@ -118,6 +124,7 @@ export default function TotalOrders() {
   };
 
   const renderSelectOptions = (order) => {
+    if (order.status === "delivered") return order.status;
     return (
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
         <InputLabel>Status</InputLabel>

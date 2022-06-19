@@ -119,6 +119,7 @@ function CustomerProfile() {
         setCustomerInformation(res.data);
       })
       .catch((err) => {
+        setShowLoading(false);
         console.log(err);
       });
   };

@@ -470,7 +470,6 @@ export default function ServiceDetails() {
         <div className="sp__service-details-images-and-reviews-container">
           <div className="sp__service-details-images-container">
             <div>
-              <h4>Images</h4>
               <div className="sp__service-details-all-images-container">
                 {serviceInDatabase.static_urls ? (
                   serviceInDatabase.static_urls.map((image) => (
@@ -508,7 +507,9 @@ export default function ServiceDetails() {
             {reviews && reviews.length !== 0 ? (
               <div className="sp__service-details-reviews-container">
                 {reviews.map((review) => (
-                  <p>{review.review_message}</p>
+                  <p className="sp__service-details-review-text">
+                    {review.review_message}
+                  </p>
                 ))}
               </div>
             ) : (

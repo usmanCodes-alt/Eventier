@@ -197,10 +197,6 @@ export default function Chat() {
       <div className="chat__container">
         <div className="chat__all-chats">
           <div className="chat__menu-wrapper">
-            <input
-              placeholder="Search for chats"
-              className="chat__search-box"
-            />
             {conversations &&
               conversations.map((conversation) => (
                 <div onClick={onConversationClicked.bind(this, conversation)}>

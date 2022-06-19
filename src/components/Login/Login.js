@@ -103,10 +103,7 @@ export default function Login() {
   return (
     <div className="customerLogin__main-wrapper">
       {location.state?.newUserCreated === true && (
-        <Alert
-          severity="success"
-          onClose={() => (location.state.newUserCreated = false)}
-        >
+        <Alert severity="success">
           Your account has been created, please login.
         </Alert>
       )}

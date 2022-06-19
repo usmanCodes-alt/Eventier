@@ -6,3 +6,9 @@
   margin-top: 10px;
   padding-bottom: 275px;
 }
+
+.home__price-filter-wrapper {
+  margin: auto;
+  display: flex;
+  align-items: center;
+}

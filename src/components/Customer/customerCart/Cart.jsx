@@ -9,6 +9,8 @@ import PopUp from "../../popup/Dialog";
 
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
 import "./Cart.css";
@@ -22,6 +24,7 @@ function Cart() {
 
   const [paymentDone, setPaymentDone] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const makePayment = async (token) => {
     setPaymentDone(true);
@@ -50,6 +53,7 @@ function Cart() {
     if (paymentDone === false) return;
 
     console.log("Calling api");
+    setShowLoading(true);
     axios
       .post(
         "http://localhost:3000/customers/place-order",
@@ -63,6 +67,7 @@ function Cart() {
         }
       )
       .then((res) => {
+        setShowLoading(false);
         console.log(res);
         if (res.status === 201) {
           // empty cart and redirect to home
@@ -71,6 +76,7 @@ function Cart() {
         }
       })
       .catch((error) => {
+        setShowLoading(false);
         console.log(error);
         if (error.response.status === 400) {
           setEmptyAddressErrorMessage(true);
@@ -185,6 +191,12 @@ function Cart() {
           }
         />
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showLoading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </div>
   );
 }
